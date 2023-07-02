@@ -1,0 +1,13 @@
+*
+!.gitignore
+!configs
+
+!gamedata
+!gamedata/tf2.roguelike.txt
+
+!scripting
+!scripting/TF2_Roguelike.sp
+!scripting/Roguelike
+!scripting/Roguelike/*
+
+!translations

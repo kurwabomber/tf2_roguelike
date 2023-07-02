@@ -1,0 +1,31 @@
+"Games"
+{
+	"tf"
+	{
+		"Functions"
+		{
+			"CUpgrades::UpgradeTouch()"
+			{
+				"signature"		"CUpgrades::UpgradeTouch()"
+				"callconv"		"thiscall"
+				"return"		"void"
+				"this"			"entity"
+				"arguments"
+				{
+					"ammo"
+					{
+						"type"	"int"
+					}
+				}
+			}
+		}
+		"Signatures"
+		{
+			"CUpgrades::UpgradeTouch()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN9CUpgrades12UpgradeTouchEP11CBaseEntity"
+			}
+		}
+	}
+}
