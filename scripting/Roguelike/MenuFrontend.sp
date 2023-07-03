@@ -34,18 +34,18 @@ public Action Menu_WaveShop(client, wave, item){
 	return Plugin_Handled;
 }
 
-public Action Menu_PowerupSelection(client){
+public Action Menu_PowerupSelection(client, item){
 	if(IsValidClient(client) && IsPlayerAlive(client)){
 		Handle menu = CreateMenu(MenuHandler_PowerupSelection);
 		char displayString[64];
 		SetMenuTitle(menu, "Roguelike - Select Starting Powerup");
 		
-		for(int i = 0;i < 5; ++i){
-			Format(displayString, sizeof(displayString), "randomShit");
+		for(int i = 0;i <= POWERUPS_COUNT; ++i){
+			Format(displayString, sizeof(displayString), "%s%s Powerup", i == powerupSelected[client] ? "[X] " : "", GetPowerupName(i));
 			AddMenuItem(menu, "", displayString);
 		}
 
-		DisplayMenuAtItem(menu, client, 0, MENU_TIME_FOREVER)
+		DisplayMenuAtItem(menu, client, item, MENU_TIME_FOREVER)
 	}
 	return Plugin_Handled;
 }

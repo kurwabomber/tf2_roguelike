@@ -17,6 +17,7 @@
 #define TICKINTERVAL 0.015
 #define TICKRATE 66.67
 #define MAXBUFFS 12
+#define POWERUPS_COUNT 11
 #define PLUGIN_VERSION "INDEV-1.0"
 
 // Plugin Info

@@ -130,3 +130,92 @@ public void ManagePlayerBuffs(int i){
 
 	SendItemInfo(i, details);
 }
+char[] GetPowerupName(int id){
+	char output[16];
+	switch(id){
+		case 0:{
+			output = "Strength";
+		}
+		case 1:{
+			output = "Haste";
+		}
+		case 2:{
+			output = "Regeneration";
+		}
+		case 3:{
+			output = "Resistance";
+		}
+		case 4:{
+			output = "Vampire";
+		}
+		case 5:{
+			output = "Reflect";
+		}
+		case 6:{
+			output = "Precision";
+		}
+		case 7:{
+			output = "Agility";
+		}
+		case 8:{
+			output = "Knockout";
+		}
+		case 9:{
+			output = "King";
+		}
+		case 10:{
+			output = "Plague";
+		}
+		case 11:{
+			output = "Supernova";
+		}
+	}
+	return output;
+}
+void ClearAllPowerups(int client){
+	for(int i = 0; i<= POWERUPS_COUNT;++i){
+		TFCond id = GetPowerupCondFromID(i);
+		TF2_RemoveCondition(client, id)
+	}
+}
+TFCond GetPowerupCondFromID(int id){
+	switch(id){
+		case 0:{
+			return TFCond_RuneStrength;
+		}
+		case 1:{
+			return TFCond_RuneHaste;
+		}
+		case 2:{
+			return TFCond_RuneRegen;
+		}
+		case 3:{
+			return TFCond_RuneResist;
+		}
+		case 4:{
+			return TFCond_RuneVampire;
+		}
+		case 5:{
+			return TFCond_RuneWarlock;
+		}
+		case 6:{
+			return TFCond_RunePrecision;
+		}
+		case 7:{
+			return TFCond_RuneAgility;
+		}
+		case 8:{
+			return TFCond_RuneKnockout;
+		}
+		case 9:{
+			return TFCond_KingRune;
+		}
+		case 10:{
+			return TFCond_PlagueRune;
+		}
+		case 11:{
+			return TFCond_SupernovaRune;
+		}
+	}
+	return TFCond_RuneStrength;
+}

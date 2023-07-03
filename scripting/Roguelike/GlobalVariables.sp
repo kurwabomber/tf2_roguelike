@@ -53,3 +53,4 @@ bool buffChange[MAXPLAYERS+1] = {false,...};
 bool isHooked[MAXPLAYERS+1];
 float currentGameTime = 0.0;
 int wavesCleared = 0;
+int powerupSelected[MAXPLAYERS+1] = {-1,...};

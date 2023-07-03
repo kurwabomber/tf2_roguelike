@@ -11,4 +11,5 @@ public OnClientDisconnect(client){
 		SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 		SDKUnhook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
 	}
+	powerupSelected[client] = -1
 }
