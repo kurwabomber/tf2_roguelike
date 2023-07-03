@@ -1,12 +1,21 @@
 public void OnPluginStart(){
+	//Gamedata
     Handle hConf = LoadGameConfigFile("tf2.roguelike");
 
-	Handle replaceUpgradeTouchHook = DHookCreateFromConf(hConf, "CUpgrades::UpgradeTouch()");
-	
-	if(!replaceUpgradeTouchHook)
-		PrintToServer("Roguelike | Failed to get address for upgrade station hook.");
-	DHookEnableDetour(replaceUpgradeTouchHook, false, OnEnterUpgradeStation);
+	Handle PowerupDropHook = DHookCreateFromConf(hConf, "CTFPlayer::DropRune()");
+	if(!PowerupDropHook)
+		PrintToServer("Roguelike | Error with \"CTFPlayer::DropRune()\" gamedata.");
+	DHookEnableDetour(PowerupDropHook, false, OnDropPowerup);
 
+	//Timers
+	CreateTimer(0.1, Timer_100MS, _, TIMER_REPEAT);
+
+	//Event Hooks
+	HookEvent("mvm_wave_complete", Event_WaveComplete);
+	HookEvent("mvm_begin_wave", Event_WaveBegin);
+	HookEvent("mvm_reset_stats", Event_ResetStats);
+
+	//Refresh Players
 	for (int i = 1; i <= MaxClients; ++i)
 		if(IsValidClient(i))
 			OnClientPutInServer(i);
@@ -14,9 +23,10 @@ public void OnPluginStart(){
 
 //Do all of precaching in here
 public void OnMapStart(){
-	int entity = FindEntityByClassname(-1, "func_upgradestation");
-	if (entity > -1)
-		RemoveEntity(entity);
+	int entity = -1;
+	while( (entity = FindEntityByClassname(entity, "func_upgradestation")) != -1){
+		SDKHook(entity, SDKHook_StartTouch, OnCollideUpgrade);
+	}
 }
 
 public OnPluginEnd(){

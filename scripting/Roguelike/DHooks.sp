@@ -1,8 +1,9 @@
-public MRESReturn OnEnterUpgradeStation(int entity)
-{
-	if(!IsValidClient(entity))
+public MRESReturn OnDropPowerup(int client, Handle hParams){
+	if(!IsValidClient(client))
 		return MRES_Ignored;
 
-    PrintToChat(entity, "test");
+	if(!DHookGetParam(hParams, 1)){
+		return MRES_Supercede;
+	}
 	return MRES_Ignored;
 }

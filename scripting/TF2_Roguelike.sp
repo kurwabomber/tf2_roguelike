@@ -38,3 +38,6 @@ public Plugin:myinfo =
 #include "Roguelike/CollisionOverrides.sp"
 #include "Roguelike/DHooks.sp"
 #include "Roguelike/Events.sp"
+#include "Roguelike/Timers.sp"
+#include "Roguelike/MenuFrontend.sp"
+#include "Roguelike/MenuBackend.sp"

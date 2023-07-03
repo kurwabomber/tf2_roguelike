@@ -4,15 +4,19 @@
 	{
 		"Functions"
 		{
-			"CUpgrades::UpgradeTouch()"
+			"CTFPlayer::DropRune()"
 			{
-				"signature"		"CUpgrades::UpgradeTouch()"
+				"signature"		"CTFPlayer::DropRune()"
 				"callconv"		"thiscall"
 				"return"		"void"
 				"this"			"entity"
 				"arguments"
 				{
-					"ammo"
+					"applyForce"
+					{
+						"type"	"bool"
+					}
+					"team"
 					{
 						"type"	"int"
 					}
@@ -21,10 +25,10 @@
 		}
 		"Signatures"
 		{
-			"CUpgrades::UpgradeTouch()"
+			"CTFPlayer::DropRune()"
 			{
 				"library"	"server"
-				"linux"		"@_ZN9CUpgrades12UpgradeTouchEP11CBaseEntity"
+				"linux"		"@_ZN9CTFPlayer8DropRuneEbi"
 			}
 		}
 	}
