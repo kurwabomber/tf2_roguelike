@@ -47,6 +47,20 @@ enum struct Buff{
 enum {
 	Buff_Empty=0,
 };
+enum {
+	Powerup_Strength=0,
+	Powerup_Haste,
+	Powerup_Regeneration,
+	Powerup_Resistance,
+	Powerup_Vampire,
+	Powerup_Reflect,
+	Powerup_Precision,
+	Powerup_Agility,
+	Powerup_Knockout,
+	Powerup_King,
+	Powerup_Plague,
+	Powerup_Supernova,
+};
 
 Buff playerBuffs[MAXPLAYERS+1][MAXBUFFS+1];
 bool buffChange[MAXPLAYERS+1] = {false,...};

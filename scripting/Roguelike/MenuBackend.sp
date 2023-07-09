@@ -20,6 +20,7 @@ public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
 
 public MenuHandler_PowerupSelection(Handle menu, MenuAction:action, client, param2){
 	if (action == MenuAction_Select){
+		float hpRatio = float(GetClientHealth(client))/TF2Util_GetEntityMaxHealth(client);
 		if(param2 == powerupSelected[client]){
 			powerupSelected[client] = -1;
 			ClearAllPowerups(client);
@@ -29,6 +30,7 @@ public MenuHandler_PowerupSelection(Handle menu, MenuAction:action, client, para
 			TF2_AddCondition(client, GetPowerupCondFromID(param2), TFCondDuration_Infinite);
 		}
 		TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.01); //Refreshes speed calc
+		SetEntityHealth(client, RoundToNearest(hpRatio*TF2Util_GetEntityMaxHealth(client)));
 		Menu_PowerupSelection(client, GetMenuPagination(menu)*(param2/GetMenuPagination(menu)));
 	}
     if (action == MenuAction_End)

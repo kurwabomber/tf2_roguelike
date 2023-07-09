@@ -9,6 +9,7 @@ public void OnPluginStart(){
 
 	//Timers
 	CreateTimer(0.1, Timer_100MS, _, TIMER_REPEAT);
+	CreateTimer(10.0, Timer_10S, _, TIMER_REPEAT);
 
 	//Event Hooks
 	HookEvent("mvm_wave_complete", Event_WaveComplete);
@@ -26,6 +27,8 @@ public void OnMapStart(){
 	int entity = -1;
 	while( (entity = FindEntityByClassname(entity, "func_upgradestation")) != -1){
 		SDKHook(entity, SDKHook_StartTouch, OnCollideUpgrade);
+		SDKHook(entity, SDKHook_EndTouch, OnStopCollideUpgrade);
+		SDKHook(entity, SDKHook_Touch, FullStopCollision);
 	}
 }
 

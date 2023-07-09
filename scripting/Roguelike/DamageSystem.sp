@@ -5,7 +5,6 @@
 
 //Only thing calculated is damage & "mult_dmg" attribute
 public Action:OnTakeDamage(victim, &attacker, &inflictor, float &damage, &damagetype, &weapon, float damageForce[3], float damagePosition[3], damagecustom){
-    PrintToServer("yup");
     return Plugin_Continue;
 }
 
