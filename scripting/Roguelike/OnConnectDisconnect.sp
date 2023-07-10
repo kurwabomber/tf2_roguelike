@@ -4,6 +4,10 @@ public OnClientPutInServer(int client){
         SDKHook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 		SDKHook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
     }
+	for(int i = 0; i<MAX_HELD_ITEMS;++i){
+		playerItems[client][i].clear();
+		savedPlayerItems[client][i].clear();
+	}
 }
 public OnClientDisconnect(client){
 	if(isHooked[client]){

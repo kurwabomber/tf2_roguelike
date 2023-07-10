@@ -23,10 +23,14 @@ public Action Menu_WaveShop(client, wave, item){
 		char displayString[64];
 		Format(displayString, sizeof(displayString), "Roguelike - Wave #%i Rewards Shop", wave);
 		SetMenuTitle(menu, displayString);
-		
-		for(int i = 0;i < 5; ++i){
-			Format(displayString, sizeof(displayString), "randomShit");
-			AddMenuItem(menu, "", displayString);
+
+		for(int i = 0;i < MAX_ITEMS_PER_WAVE; ++i){
+			if(generatedPlayerItems[client][wave][i].id == ItemID_None)
+				continue;
+
+			Format(displayString, sizeof(displayString), "%s - $%i\n\t%s", generatedPlayerItems[client][wave][i].name, generatedPlayerItems[client][wave][i].cost,
+					generatedPlayerItems[client][wave][i].description);
+			AddMenuItem(menu, "item", displayString, generatedPlayerItems[client][wave][i].isBought ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
 		}
 
 		DisplayMenuAtItem(menu, client, item, MENU_TIME_FOREVER)

@@ -4,6 +4,7 @@ public MenuHandler_FrontPage(Handle menu, MenuAction:action, client, param2){
 			Menu_PowerupSelection(client, 0);
 		}else{
 		Menu_WaveShop(client, param2-1, 0);
+		currentWaveViewed[client] = param2-1;
 		}
 	}
     if (action == MenuAction_End)
@@ -12,7 +13,18 @@ public MenuHandler_FrontPage(Handle menu, MenuAction:action, client, param2){
 
 public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
 	if (action == MenuAction_Select){
+		int current = GetEntProp(client, Prop_Send, "m_nCurrency");
+		if(current >= generatedPlayerItems[client][currentWaveViewed[client]][param2].cost){
+			PrintToChat(client, "You bought %s for $%i.", generatedPlayerItems[client][currentWaveViewed[client]][param2].name, generatedPlayerItems[client][currentWaveViewed[client]][param2].cost);
+			generatedPlayerItems[client][currentWaveViewed[client]][param2].isBought = true;
+			playerItems[client][getFirstEmptyItemSlot(client)] = generatedPlayerItems[client][currentWaveViewed[client]][param2];
+			SetEntProp(client, Prop_Send, "m_nCurrency", current-generatedPlayerItems[client][currentWaveViewed[client]][param2].cost);
 
+			buffChange[client] = true;
+		}else{
+			PrintToChat(client, "You cannot afford %s.", generatedPlayerItems[client][currentWaveViewed[client]][param2].name);
+		}
+		Menu_WaveShop(client, currentWaveViewed[client], GetMenuPagination(menu)*(param2/GetMenuPagination(menu)));
 	}
     if (action == MenuAction_End)
         CloseHandle(menu);

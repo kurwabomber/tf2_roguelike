@@ -93,6 +93,26 @@ public void ManagePlayerBuffs(int i){
 	if(TF2_IsPlayerInCondition(i, TFCond_AfterburnImmune))
 		Format(details, sizeof(details), "%s\n%s - %.1fs", details, "Afterburn Immunity", TF2Util_GetPlayerConditionDuration(i, TFCond_AfterburnImmune));
 
+	int amountOfItem[MAX_ITEMS];
+	for(int item=0;item<MAX_HELD_ITEMS;++item){
+		if(playerItems[i][item].id == ItemID_None)
+			continue;
+		amountOfItem[_:playerItems[i][item].id]++;
+	}
+	for(int item=0;item<MAX_ITEMS;++item){
+		if(amountOfItem[item] <= 0)
+			continue;
+		
+		switch(item){
+			case (_:ItemID_MoreGun):{
+				multiplicativeDamageBuff *= Pow(1.25, float(amountOfItem[item]));
+			}
+			case (_:ItemID_FireRate):{
+				multiplicativeAttackSpeedMultBuff *= Pow(1.25, float(amountOfItem[item]));
+			}
+		}
+	}
+
 	if(buffChange[i])
 	{
 		TF2Attrib_SetByName(i, "additive damage bonus", additiveDamageRawBuff);
@@ -218,4 +238,60 @@ TFCond GetPowerupCondFromID(int id){
 		}
 	}
 	return TFCond_RuneStrength;
+}
+void ManagePlayerItemHUD(int client){
+	char textBuild[512] = "- Items -\n";
+	bool success = false;
+	int amountOfItem[MAX_ITEMS];
+	for(int i=0;i<MAX_HELD_ITEMS;++i){
+		if(playerItems[client][i].id == ItemID_None)
+			continue;
+		amountOfItem[_:playerItems[client][i].id]++;
+	}
+	for(int i=0;i<MAX_ITEMS;++i){
+		if(amountOfItem[i] <= 0)
+			continue;
+		
+		Format(textBuild, sizeof(textBuild), "%s%s%s x%i",textBuild, success ? " | " : "", availableItems[i-1].name, amountOfItem[i]);
+
+		if(i != 0 && i % 4 == 0)
+			Format(textBuild, sizeof(textBuild), "%s\n",textBuild);
+
+		success = true;
+	}
+
+
+	SetHudTextParams(0.02, 0.08, 0.2, 69, 245, 66, 255, 0, 0.0, 0.0, 0.0);
+	ShowSyncHudText(client, itemDisplayHUD, textBuild);
+}
+void ParseAllItems(){
+	Item testItem;
+	testItem.init("More Gun", "1.25x damage", "", ItemID_MoreGun, 300, ItemRarity_Normal, 300);
+	Item testItem2;
+	testItem2.init("Fire Rate", "1.25x fire rate", "", ItemID_FireRate, 50, ItemRarity_Normal, 200);
+
+	availableItems[0] = testItem;
+	availableItems[1] = testItem2;
+}
+int getFirstEmptyItemSlot(int client){
+	for(int i=0;i<MAX_HELD_ITEMS;++i){
+		if(playerItems[client][i].id == ItemID_None)
+			return i;
+	}
+	return 0;
+}
+int ChooseWeighted(int[] weights, int size){
+	int total = 0;
+	for(int i=0;i<size;++i){
+		total+=weights[i];
+	}
+	int chosen = GetRandomInt(0, total);
+	int runningsum = 0;
+
+	for(int i=0;i<size;++i){
+		runningsum+=weights[i];
+		if(chosen<runningsum)
+			return i;
+	}
+	return 0;
 }

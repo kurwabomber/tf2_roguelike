@@ -44,6 +44,53 @@ enum struct Buff{
 		this.duration = fDuration+GetGameTime();
 	}
 }
+enum ItemID{
+	ItemID_None=0,
+	ItemID_MoreGun,
+	ItemID_FireRate,
+};
+enum ItemRarity{
+	ItemRarity_Normal=0,
+	ItemRarity_Unique,
+	ItemRarity_Strange,
+	ItemRarity_Genuine,
+	ItemRarity_Collectors,
+	ItemRarity_Unusual,
+	ItemRarity_SelfMade,
+	ItemRarity_Valve,
+}
+enum struct Item{
+	//All values start at 0
+	char name[32];
+	char description[64];
+	char tags[64];
+	ItemID id;
+	int weight;
+	ItemRarity rarity;
+	int cost;
+	bool isBought;
+
+	void clear(){
+		this.name = "";
+		this.description = "";
+		this.tags = "";
+		this.id = ItemID_None;
+		this.weight = 0;
+		this.rarity = ItemRarity_Normal;
+		this.cost = 0;
+		this.isBought = false;
+	}
+	void init(const char sName[32], const char sDescription[64], const char sTags[64], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
+	{
+		this.name = sName;
+		this.description = sDescription;
+		this.tags = sTags;
+		this.id = iID;
+		this.weight = iWeight;
+		this.rarity = iRarity;
+		this.cost = iCost;
+	}
+}
 enum {
 	Buff_Empty=0,
 };
@@ -68,3 +115,11 @@ bool isHooked[MAXPLAYERS+1];
 float currentGameTime = 0.0;
 int wavesCleared = 0;
 int powerupSelected[MAXPLAYERS+1] = {-1,...};
+int currentWaveViewed[MAXPLAYERS+1] = {0,...};
+Item playerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
+Item savedPlayerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
+Item generatedPlayerItems[MAXPLAYERS+1][MAX_WAVES][MAX_ITEMS_PER_WAVE];
+Item availableItems[MAX_ITEMS];
+
+//Huds
+Handle itemDisplayHUD;

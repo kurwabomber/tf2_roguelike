@@ -22,6 +22,27 @@
 					}
 				}
 			}
+			"CTFPowerupBottle::Use()"
+			{
+				"signature"		"CTFPowerupBottle::Use()"
+				"callconv"		"thiscall"
+				"return"		"bool"
+				"this"			"entity"
+			}
+			"CTFPlayer::AddCurrency()"
+			{
+				"signature"		"CTFPlayer::AddCurrency()"
+				"callconv"		"thiscall"
+				"return"		"void"
+				"this"			"entity"
+				"arguments"
+				{
+					"amount"
+					{
+						"type"	"int"
+					}
+				}
+			}
 		}
 		"Signatures"
 		{
@@ -29,6 +50,16 @@
 			{
 				"library"	"server"
 				"linux"		"@_ZN9CTFPlayer8DropRuneEbi"
+			}
+			"CTFPowerupBottle::Use()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN16CTFPowerupBottle3UseEv"
+			}
+			"CTFPlayer::AddCurrency()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN9CTFPlayer11AddCurrencyEi"
 			}
 		}
 	}

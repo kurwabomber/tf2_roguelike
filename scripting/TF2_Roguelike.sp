@@ -18,6 +18,10 @@
 #define TICKRATE 66.67
 #define MAXBUFFS 12
 #define POWERUPS_COUNT 11
+#define MAX_HELD_ITEMS 30
+#define MAX_ITEMS 3
+#define MAX_ITEMS_PER_WAVE 21
+#define MAX_WAVES 30
 #define PLUGIN_VERSION "INDEV-1.0"
 
 // Plugin Info

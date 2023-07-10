@@ -8,6 +8,7 @@ public Action Timer_100MS(Handle timer)
 			continue;
 
 		ManagePlayerBuffs(i);
+		ManagePlayerItemHUD(i);
 
 		if(powerupSelected[i] != -1)
 			TF2_AddCondition(i, GetPowerupCondFromID(powerupSelected[i]), 0.3);
@@ -56,4 +57,13 @@ public Action Timer_10S(Handle timer)
 		}
 	}
 	return Plugin_Continue;
+}
+
+public Action ReEnableBuilding(Handle timer, int entity)
+{
+	entity = EntRefToEntIndex(entity);
+	if(IsValidEdict(entity))
+		SetEntProp(entity, Prop_Send, "m_bDisabled", 0);
+	
+	return Plugin_Stop;
 }
