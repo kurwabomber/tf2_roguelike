@@ -46,7 +46,9 @@ public Action Timer_10S(Handle timer)
 					int id = TF2Util_GetPlayerLoadoutEntity(i, slot);
 					if(!IsValidWeapon(id))
 						continue;
-
+					if(!HasEntProp(id, Prop_Send, "m_iPrimaryAmmoType"))
+						continue;
+						
 					int type = GetEntProp(id, Prop_Send, "m_iPrimaryAmmoType"); 
 					if (type < 0 || type > 31)
 						continue;

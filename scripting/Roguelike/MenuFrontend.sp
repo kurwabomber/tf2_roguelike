@@ -2,7 +2,7 @@ public Action Menu_FrontPage(client, item){
 	if(IsValidClient(client) && IsPlayerAlive(client)){
 		Handle menu = CreateMenu(MenuHandler_FrontPage);
 
-		SetMenuTitle(menu, "Roguelike - Wave View");
+		SetMenuTitle(menu, "Roguelike - Shop");
 		
 		char displayString[32];
 		AddMenuItem(menu, "", "Powerup Selection");

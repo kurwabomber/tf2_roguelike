@@ -48,6 +48,18 @@ enum ItemID{
 	ItemID_None=0,
 	ItemID_MoreGun,
 	ItemID_FireRate,
+	ItemID_RocketSpecialist,
+	ItemID_ExtendedMagazine,
+	ItemID_Scavenger,
+	ItemID_PlayingWithDanger,
+	ItemID_ExplosiveSpecialist,
+	ItemID_TheQuickestFix,
+	ItemID_Kurwabomber,
+	ItemID_TankBuster,
+	ItemID_ExtraMunitions,
+	ItemID_PocketDispenser,
+	ItemID_BigBaboonHeart,
+	ItemID_ProjectileSpeed,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,

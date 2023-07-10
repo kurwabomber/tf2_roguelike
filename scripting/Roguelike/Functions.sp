@@ -128,11 +128,11 @@ public void ManagePlayerBuffs(int i){
 				continue;
 			
 			switch(item){
-				case (_:ItemID_MoreGun):{
-					multiplicativeDamageBuff *= Pow(1.25, float(amountOfItem[item]));
+				case (_:ItemID_RocketSpecialist):{
+					TF2Attrib_SetByName(i, "rocket specialist", 1.0*amountOfItem[item]);
 				}
-				case (_:ItemID_FireRate):{
-					multiplicativeAttackSpeedMultBuff *= Pow(1.25, float(amountOfItem[item]));
+				case (_:ItemID_ExtendedMagazine):{
+					TF2Attrib_SetByName(i, "clip size bonus", Pow(1.5,1.0*amountOfItem[item]));
 				}
 			}
 		}
@@ -360,4 +360,16 @@ int ChooseWeighted(int[] weights, int size){
 			return i;
 	}
 	return 0;
+}
+void ChooseGeneratedItems(int client, int wave, int amount){
+	int weights[MAX_ITEMS];
+	for(int i = 0;i<loadedItems;++i){
+		weights[i] = availableItems[i].weight;
+	}
+
+	//7 items for when a player joins
+	for(int i = 0;i < amount; ++i){
+		int element = ChooseWeighted(weights, loadedItems);
+		generatedPlayerItems[client][wave][i] = availableItems[element];
+	}
 }

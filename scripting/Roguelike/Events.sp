@@ -2,16 +2,7 @@ public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
     wavesCleared++;
 
 	for(int client = 1;client<MaxClients;++client){
-		//Weights will be dependent on player (such as disabling items when unique)
-		int weights[MAX_ITEMS];
-		for(int i = 0;i<loadedItems;++i){
-			weights[i] = availableItems[i].weight;
-		}
-
-		for(int i = 0;i < 4+wavesCleared; ++i){
-			int element = ChooseWeighted(weights, loadedItems);
-			generatedPlayerItems[client][wavesCleared][i] = availableItems[element];
-		}
+		ChooseGeneratedItems(client, wavesCleared, 4+wavesCleared);
 	}
 }
 public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
@@ -47,20 +38,8 @@ public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 		}
 	}
 
-	//Only generate on new join.
-	if(generatedPlayerItems[client][0][0].id != ItemID_None)
-		return;
-
-	int weights[MAX_ITEMS];
-	for(int i = 0;i<loadedItems;++i){
-		weights[i] = availableItems[i].weight;
-	}
-
-	//7 items for when a player joins
-	for(int i = 0;i < 7; ++i){
-		int element = ChooseWeighted(weights, loadedItems);
-		generatedPlayerItems[client][0][i] = availableItems[element];
-	}
+	//Choose 7 items before game start.
+	ChooseGeneratedItems(client, 0, 7);
 }
 
 
