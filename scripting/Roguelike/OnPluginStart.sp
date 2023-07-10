@@ -32,6 +32,7 @@ public void OnPluginStart(){
 	HookEvent("player_changeclass", Event_ChangeClass);
 	HookEvent("player_spawn", Event_PlayerRespawn);
 
+
 	//Hud
 	itemDisplayHUD = CreateHudSynchronizer();
 

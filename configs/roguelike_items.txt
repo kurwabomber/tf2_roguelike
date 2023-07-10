@@ -1,0 +1,19 @@
+"roguelike_items_v1"
+{		
+	"More Gun"
+	{
+        "description"   "1.25x damage"
+        "tags"          ""
+        "weight"        "200"
+        "rarity"        "0"
+        "cost"          "400"
+    }
+	"Fire Rate"
+	{
+        "description"   "1.25x fire rate"
+        "tags"          ""
+        "weight"        "100"
+        "rarity"        "0"
+        "cost"          "400"
+    }
+}

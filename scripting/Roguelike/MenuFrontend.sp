@@ -28,9 +28,10 @@ public Action Menu_WaveShop(client, wave, item){
 			if(generatedPlayerItems[client][wave][i].id == ItemID_None)
 				continue;
 
-			Format(displayString, sizeof(displayString), "%s - $%i\n\t%s", generatedPlayerItems[client][wave][i].name, generatedPlayerItems[client][wave][i].cost,
+			Format(displayString, sizeof(displayString), "%s%s - $%i\n\t%s", generatedPlayerItems[client][wave][i].isBought ? "[x] " : "",
+					generatedPlayerItems[client][wave][i].name, generatedPlayerItems[client][wave][i].cost,
 					generatedPlayerItems[client][wave][i].description);
-			AddMenuItem(menu, "item", displayString, generatedPlayerItems[client][wave][i].isBought ? ITEMDRAW_DISABLED : ITEMDRAW_DEFAULT);
+			AddMenuItem(menu, "item", displayString);
 		}
 
 		DisplayMenuAtItem(menu, client, item, MENU_TIME_FOREVER)

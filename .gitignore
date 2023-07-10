@@ -1,6 +1,7 @@
 *
 !.gitignore
 !configs
+!configs/roguelike_items.txt
 
 !gamedata
 !gamedata/tf2.roguelike.txt

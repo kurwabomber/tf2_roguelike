@@ -99,7 +99,7 @@ public void ManagePlayerBuffs(int i){
 			continue;
 		amountOfItem[_:playerItems[i][item].id]++;
 	}
-	for(int item=0;item<MAX_ITEMS;++item){
+	for(int item=0;item<loadedItems;++item){
 		if(amountOfItem[item] <= 0)
 			continue;
 		
@@ -122,6 +122,21 @@ public void ManagePlayerBuffs(int i){
 		TF2Attrib_SetByName(i, "Reload time decreased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "movespeed player buff", additiveMoveSpeedMultBuff);
 		TF2Attrib_SetByName(i, "damage taken mult 4", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
+
+		for(int item=0;item<loadedItems;++item){
+			if(amountOfItem[item] <= 0)
+				continue;
+			
+			switch(item){
+				case (_:ItemID_MoreGun):{
+					multiplicativeDamageBuff *= Pow(1.25, float(amountOfItem[item]));
+				}
+				case (_:ItemID_FireRate):{
+					multiplicativeAttackSpeedMultBuff *= Pow(1.25, float(amountOfItem[item]));
+				}
+			}
+		}
+
 		buffChange[i] = false;
 	}
 
@@ -248,7 +263,7 @@ void ManagePlayerItemHUD(int client){
 			continue;
 		amountOfItem[_:playerItems[client][i].id]++;
 	}
-	for(int i=0;i<MAX_ITEMS;++i){
+	for(int i=0;i<loadedItems;++i){
 		if(amountOfItem[i] <= 0)
 			continue;
 		
@@ -265,17 +280,68 @@ void ManagePlayerItemHUD(int client){
 	ShowSyncHudText(client, itemDisplayHUD, textBuild);
 }
 void ParseAllItems(){
-	Item testItem;
-	testItem.init("More Gun", "1.25x damage", "", ItemID_MoreGun, 300, ItemRarity_Normal, 300);
-	Item testItem2;
-	testItem2.init("Fire Rate", "1.25x fire rate", "", ItemID_FireRate, 50, ItemRarity_Normal, 200);
+	Handle keyvalue = CreateKeyValues("items")
+	FileToKeyValues(keyvalue, "addons/sourcemod/configs/roguelike_items.txt");
+	if(!KvGotoFirstSubKey(keyvalue))
+		return;
+	
+	ParseItemConfig(keyvalue);
+	//for loops and stuff
+	loadedItems+=2;
 
-	availableItems[0] = testItem;
-	availableItems[1] = testItem2;
+	delete keyvalue;
+}
+void ParseItemConfig(Handle keyvalue){
+	char buffer[64];
+	Item sizes;
+	do{
+		if (KvGotoFirstSubKey(keyvalue, false)){
+			ParseItemConfig(keyvalue);
+			KvGoBack(keyvalue);
+
+			KvGetSectionName(keyvalue, buffer, sizeof(buffer));
+			strcopy(availableItems[loadedItems].name, sizeof(sizes.name), buffer);
+			availableItems[loadedItems].id = view_as<ItemID>(loadedItems+1);
+
+			loadedItems++;
+		}
+		else{
+			if (KvGetDataType(keyvalue, NULL_STRING) != KvData_None){
+				KvGetSectionName(keyvalue, buffer, sizeof(buffer));
+
+				if(StrEqual(buffer, "description")){
+					KvGetString(keyvalue, "", availableItems[loadedItems].description, sizeof(sizes.description));
+				}
+				else if(StrEqual(buffer, "tags")){
+					KvGetString(keyvalue, "", availableItems[loadedItems].tags, sizeof(sizes.tags));
+				}
+				else if(StrEqual(buffer, "weight")){
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					availableItems[loadedItems].weight = StringToInt(buffer);
+				}
+				else if(StrEqual(buffer, "rarity")){
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					availableItems[loadedItems].rarity = view_as<ItemRarity>(StringToInt(buffer));
+				}
+				else if(StrEqual(buffer, "cost")){
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					availableItems[loadedItems].cost = StringToInt(buffer);
+				}
+			}
+		}
+	}
+	while (KvGotoNextKey(keyvalue, false));
 }
 int getFirstEmptyItemSlot(int client){
 	for(int i=0;i<MAX_HELD_ITEMS;++i){
 		if(playerItems[client][i].id == ItemID_None)
+			return i;
+	}
+	return 0;
+}
+int getFirstIDItemSlot(int client, ItemID id){
+	for(int i=0;i<MAX_HELD_ITEMS;++i){
+		if(playerItems[client][i].id == id)
 			return i;
 	}
 	return 0;
