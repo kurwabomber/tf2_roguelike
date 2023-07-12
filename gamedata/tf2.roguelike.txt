@@ -61,6 +61,11 @@
 				"library"	"server"
 				"linux"		"@_ZN9CTFPlayer11AddCurrencyEi"
 			}
+			"CTFRocketLauncher::GetWeaponProjectileType()"
+			{
+				"library"	"server"
+				"linux"		"@_ZNK17CTFRocketLauncher23GetWeaponProjectileTypeEv"
+			}
 		}
 	}
 }

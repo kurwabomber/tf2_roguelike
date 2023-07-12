@@ -4,23 +4,63 @@
 */
 
 //Only thing calculated is damage & "mult_dmg" attribute
-public Action:OnTakeDamage(victim, &attacker, &inflictor, float &damage, &damagetype, &weapon, float damageForce[3], float damagePosition[3], damagecustom){
+public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
+    if(IsValidClient(attacker) && IsValidWeapon(weapon)){
+        int amountOfItem[MAX_ITEMS];
+        for(int item=0;item<MAX_HELD_ITEMS;++item){
+            if(playerItems[attacker][item].id == ItemID_None)
+                continue;
+            amountOfItem[_:playerItems[attacker][item].id]++;
+        }
+        for(int item=0;item<loadedItems;++item){
+            if(amountOfItem[item] <= 0)
+                continue;
+            
+            switch(item){
+                case (_:ItemID_Kurwabomber):{
+                    if(victim == attacker && !TF2Attrib_HookValueFloat(0.0, "no_self_blast_dmg", weapon)){
+                        isKurwabombered[attacker][victim] = true;
+                    }
+                }
+            }
+        }
+    }
     return Plugin_Continue;
 }
 
 //Crit stuff
-public Action:TF2_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3],int damagecustom, CritType &critType){
+public Action TF2_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3],int damagecustom, CritType &critType){
     return Plugin_Continue;
 }
 
 //Crit stuff but crit damage has already been modified
-public Action:TF2_OnTakeDamageModifyRules(int victim, int &attacker, int &inflictor, float &damage,
+public Action TF2_OnTakeDamageModifyRules(int victim, int &attacker, int &inflictor, float &damage,
 int &damagetype, int &weapon, float damageForce[3], float damagePosition[3],
 int damagecustom, CritType &critType){
     return Plugin_Continue;
 }
 
 //Final
-public Action:OnTakeDamageAlive(victim, &attacker, &inflictor, float &damage, &damagetype, &weapon, float damageForce[3], float damagePosition[3], damagecustom){
+public Action OnTakeDamageAlive(victim, &attacker, &inflictor, float &damage, &damagetype, &weapon, float damageForce[3], float damagePosition[3], damagecustom){
+    if(IsValidClient(attacker)){
+        int amountOfItem[MAX_ITEMS];
+        for(int item=0;item<MAX_HELD_ITEMS;++item){
+            if(playerItems[attacker][item].id == ItemID_None)
+                continue;
+            amountOfItem[_:playerItems[attacker][item].id]++;
+        }
+        for(int item=0;item<loadedItems;++item){
+            if(amountOfItem[item] <= 0)
+                continue;
+            
+            switch(item){
+                case (_:ItemID_Kurwabomber):{
+                    if(isKurwabombered[attacker][attacker]){
+                        isKurwabombered[attacker][victim] = true;
+                    }
+                }
+            }
+        }
+    }
     return Plugin_Continue;
 }

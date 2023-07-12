@@ -42,7 +42,7 @@
     }
 	"Playing with Danger"
 	{
-        "description"   "+66 HU blast radius (including self damage)"
+        "description"   "+40% blast radius"
         "tags"          "explosive"
         "weight"        "20"
         "rarity"        "1"
@@ -58,7 +58,7 @@
     }
 	"The Quickest-Fix"
 	{
-        "description"   "2x revival rate"
+        "description"   "+1 healing mastery"
         "tags"          "medic"
         "weight"        "15"
         "rarity"        "3"
@@ -66,7 +66,7 @@
     }
     "Kurwabomber"
     {
-        "description"   "Explosions that deal self damage also deal +500 damage.\n(Applies to self as well)"
+        "description"   "Explosions that deal self damage also deal +1500 damage.\n(Applies to self as well)"
         "tags"          "explosive"
         "weight"        "5"
         "rarity"        "5"
@@ -107,9 +107,17 @@
     "Projectile Speed"
     {
         "description"   "+35% projectile speed"
-        "tags"          ""
-        "weight"        "10"
+        "tags"          "projectile"
+        "weight"        "15"
         "rarity"        "0"
         "cost"          "50"
+    }
+    "More Bullet per Bullet"
+    {
+        "description"   "+65% bullets per shot"
+        "tags"          "bullet"
+        "weight"        "15"
+        "rarity"        "0"
+        "cost"          "600"
     }
 }

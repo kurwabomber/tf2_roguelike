@@ -20,6 +20,13 @@ public void OnPluginStart(){
 		PrintToServer("Roguelike | Error with \"CTFPlayer::AddCurrency()\" gamedata.");
 	DHookEnableDetour(CurrencyAddHook, false, OnAddCurrency);
 
+	//Get Weapon Projectile
+	StartPrepSDKCall(SDKCall_Entity);
+	PrepSDKCall_SetFromConf(hConf, SDKConf_Signature, "CTFRocketLauncher::GetWeaponProjectileType()");
+	PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_ByValue);
+	SDKCall_GetWeaponProjectile = EndPrepSDKCall();
+	if(!SDKCall_GetWeaponProjectile)
+		PrintToServer("Roguelike | Error with \"CTFRocketLauncher::GetWeaponProjectileType()\" gamedata.");
 
 	//Timers
 	CreateTimer(0.1, Timer_100MS, _, TIMER_REPEAT);
@@ -31,7 +38,11 @@ public void OnPluginStart(){
 	HookEvent("mvm_reset_stats", Event_ResetStats);
 	HookEvent("player_changeclass", Event_ChangeClass);
 	HookEvent("player_spawn", Event_PlayerRespawn);
+	HookEvent("player_hurt", Event_PlayerHurt);
+	HookEvent("player_death", Event_PlayerDeath);
 
+	//Commands
+	RegAdminCmd("sm_roguelike_giveitem", Command_GiveItem, ADMFLAG_ROOT, "Using specified name, gives an item + quantity.");
 
 	//Hud
 	itemDisplayHUD = CreateHudSynchronizer();

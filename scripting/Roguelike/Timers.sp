@@ -69,3 +69,10 @@ public Action ReEnableBuilding(Handle timer, int entity)
 	
 	return Plugin_Stop;
 }
+
+public Action Timer_ChooseBeginnerItems(Handle timer, int client){
+	client = EntRefToEntIndex(client)
+	if(IsValidClient(client))
+		ChooseGeneratedItems(client, 0, 7);
+	return Plugin_Stop;
+}

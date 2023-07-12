@@ -60,6 +60,7 @@ enum ItemID{
 	ItemID_PocketDispenser,
 	ItemID_BigBaboonHeart,
 	ItemID_ProjectileSpeed,
+	ItemID_MoreBulletperBullet,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -71,32 +72,44 @@ enum ItemRarity{
 	ItemRarity_SelfMade,
 	ItemRarity_Valve,
 }
+enum struct Tags{
+	bool reqExplosive;
+	bool reqProjectile;
+	bool reqBullet;
+	int classReq;
+	
+	void clear(){
+		this.reqExplosive = false;
+		this.reqProjectile = false;
+		this.reqBullet = false;
+		this.classReq = 0;
+	}
+}
 enum struct Item{
 	//All values start at 0
 	char name[32];
 	char description[64];
-	char tags[64];
 	ItemID id;
 	int weight;
 	ItemRarity rarity;
 	int cost;
 	bool isBought;
+	Tags tagInfo;
 
 	void clear(){
 		this.name = "";
 		this.description = "";
-		this.tags = "";
 		this.id = ItemID_None;
 		this.weight = 0;
 		this.rarity = ItemRarity_Normal;
 		this.cost = 0;
 		this.isBought = false;
+		this.tagInfo.clear();
 	}
-	void init(const char sName[32], const char sDescription[64], const char sTags[64], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
+	void init(const char sName[32], const char sDescription[64], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
 	{
 		this.name = sName;
 		this.description = sDescription;
-		this.tags = sTags;
 		this.id = iID;
 		this.weight = iWeight;
 		this.rarity = iRarity;
@@ -135,3 +148,8 @@ Item availableItems[MAX_ITEMS];
 int loadedItems = 0;
 //Huds
 Handle itemDisplayHUD;
+//SDKCalls
+Handle SDKCall_GetWeaponProjectile;
+
+//Item Logic
+bool isKurwabombered[MAXPLAYERS+1][MAXPLAYERS+1];

@@ -38,10 +38,9 @@ public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 		}
 	}
 
-	//Choose 7 items before game start.
-	ChooseGeneratedItems(client, 0, 7);
+	//Choose 7 items before game start. Make sure this runs after all loadout changes.
+	CreateTimer(0.1, Timer_ChooseBeginnerItems, EntIndexToEntRef(client));
 }
-
 
 public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
@@ -52,6 +51,36 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 		playerBuffs[client][buff].clear();
 	}
 	buffChange[client] = true;
+}
+
+public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
+	int victim = GetClientOfUserId(GetEventInt(event, "userid"));
+	if(!IsValidClient(victim))
+		return;
+
+	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
+	if(!IsValidClient(attacker))
+		return;
+
+	if(isKurwabombered[attacker][victim]){
+		isKurwabombered[attacker][victim] = false;
+		SDKHooks_TakeDamage(victim, attacker, attacker, 1500.0, DMG_BLAST);
+	}
+}
+
+public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
+	if(GetEventInt(event, "death_flags") & 32)
+		return;
+
+	int victim = GetClientOfUserId(GetEventInt(event, "userid"));
+	if(!IsValidClient(victim))
+		return;
+
+	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
+	if(!IsValidClient(attacker))
+		return;
+
+	
 }
 
 public OnEntityCreated(entity, const char[] classname)

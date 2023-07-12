@@ -115,11 +115,14 @@ public void ManagePlayerBuffs(int i){
 
 	if(buffChange[i])
 	{
+		TF2Attrib_RemoveAll(i);
+
 		TF2Attrib_SetByName(i, "additive damage bonus", additiveDamageRawBuff);
 		TF2Attrib_SetByName(i, "damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
 		TF2Attrib_SetByName(i, "firerate player buff", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "recharge rate player buff", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "Reload time decreased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+		TF2Attrib_SetByName(i, "mult smack time", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "movespeed player buff", additiveMoveSpeedMultBuff);
 		TF2Attrib_SetByName(i, "damage taken mult 4", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
 
@@ -133,6 +136,35 @@ public void ManagePlayerBuffs(int i){
 				}
 				case (_:ItemID_ExtendedMagazine):{
 					TF2Attrib_SetByName(i, "clip size bonus", Pow(1.5,1.0*amountOfItem[item]));
+				}
+				case (_:ItemID_PlayingWithDanger):{
+					TF2Attrib_SetByName(i, "Blast radius increased", 1.0 + 0.4*amountOfItem[item]);
+				}
+				case (_:ItemID_ExplosiveSpecialist):{
+					TF2Attrib_SetByName(i, "dmg falloff decreased", 0.5);
+				}
+				case (_:ItemID_TheQuickestFix):{
+					TF2Attrib_SetByName(i, "healing mastery", 1.0*amountOfItem[item]);
+				}
+				case (_:ItemID_TankBuster):{
+					TF2Attrib_SetByName(i, "mult dmg vs tanks", Pow(1.5,1.0*amountOfItem[item]));
+				}
+				case (_:ItemID_ExtraMunitions):{
+					TF2Attrib_SetByName(i, "hidden primary max ammo bonus", Pow(1.5,1.0*amountOfItem[item]));
+					TF2Attrib_SetByName(i, "hidden secondary max ammo penalty", Pow(1.5,1.0*amountOfItem[item]));
+				}
+				case (_:ItemID_PocketDispenser):{
+					TF2Attrib_SetByName(i, "ammo regen", 0.05*amountOfItem[item]);
+				}
+				case (_:ItemID_BigBaboonHeart):{
+					TF2Attrib_SetByName(i, "mult max health", Pow(1.25,1.0*amountOfItem[item]));
+					TF2Attrib_SetByName(i, "max health additive bonus", 10.0*amountOfItem[item]);
+				}
+				case (_:ItemID_ProjectileSpeed):{
+					TF2Attrib_SetByName(i, "Projectile speed increased", 1.0 + 0.35*amountOfItem[item]);
+				}
+				case (_:ItemID_MoreBulletperBullet):{
+					TF2Attrib_SetByName(i, "bullets per shot bonus", 1.0 + 0.65*amountOfItem[item]);
 				}
 			}
 		}
@@ -286,21 +318,18 @@ void ParseAllItems(){
 		return;
 	
 	ParseItemConfig(keyvalue);
-	//for loops and stuff
-	loadedItems+=2;
 
 	delete keyvalue;
 }
 void ParseItemConfig(Handle keyvalue){
-	char buffer[64];
-	Item sizes;
+	char buffer[128];
 	do{
 		if (KvGotoFirstSubKey(keyvalue, false)){
 			ParseItemConfig(keyvalue);
 			KvGoBack(keyvalue);
 
 			KvGetSectionName(keyvalue, buffer, sizeof(buffer));
-			strcopy(availableItems[loadedItems].name, sizeof(sizes.name), buffer);
+			strcopy(availableItems[loadedItems].name, 32, buffer);
 			availableItems[loadedItems].id = view_as<ItemID>(loadedItems+1);
 
 			loadedItems++;
@@ -310,10 +339,35 @@ void ParseItemConfig(Handle keyvalue){
 				KvGetSectionName(keyvalue, buffer, sizeof(buffer));
 
 				if(StrEqual(buffer, "description")){
-					KvGetString(keyvalue, "", availableItems[loadedItems].description, sizeof(sizes.description));
+					KvGetString(keyvalue, "", availableItems[loadedItems].description, 64);
 				}
 				else if(StrEqual(buffer, "tags")){
-					KvGetString(keyvalue, "", availableItems[loadedItems].tags, sizeof(sizes.tags));
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					if(StrContains(buffer, "explosive", false) != -1)
+						availableItems[loadedItems].tagInfo.reqExplosive = true;
+					if(StrContains(buffer, "projectile", false) != -1)
+						availableItems[loadedItems].tagInfo.reqProjectile = true;
+					if(StrContains(buffer, "bullet", false) != -1)
+						availableItems[loadedItems].tagInfo.reqBullet = true;
+
+					if(StrContains(buffer, "scout", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_SCOUT;
+					if(StrContains(buffer, "soldier", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_SOLDIER;
+					if(StrContains(buffer, "pyro", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_PYRO;
+					if(StrContains(buffer, "demo", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_DEMO;
+					if(StrContains(buffer, "heavy", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_HEAVY;
+					if(StrContains(buffer, "engineer", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_ENGINEER;
+					if(StrContains(buffer, "medic", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_MEDIC;
+					if(StrContains(buffer, "sniper", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_SNIPER;
+					if(StrContains(buffer, "spy", false) != -1)
+						availableItems[loadedItems].tagInfo.classReq |= BIT_SPY;
 				}
 				else if(StrEqual(buffer, "weight")){
 					KvGetString(keyvalue, "", buffer, sizeof(buffer));
@@ -362,12 +416,47 @@ int ChooseWeighted(int[] weights, int size){
 	return 0;
 }
 void ChooseGeneratedItems(int client, int wave, int amount){
+	//Tagging time!
+	bool hasExplosive;
+	bool hasProjectile;
+	bool hasBullet;
+	int classBit = 1 << _:TF2_GetPlayerClass(client);
+	if(IsValidClient(client)){
+		for(int slot = 0;slot<3;++slot){
+			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot);
+			if(!IsValidWeapon(weapon))
+				continue;
+			
+			int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
+			int override = TF2Attrib_HookValueInt(-1, "override_projectile_type", weapon);
+			if(override != -1)
+				projectile = override;
+
+			switch(projectile){
+				case 2,3,4,12,14,16,17,27:{hasExplosive=true;}
+			}
+			if(projectile != 1 && projectile != 0)
+				hasProjectile = true;
+			if(projectile == 1)
+				hasBullet = true;
+		}
+	}
 	int weights[MAX_ITEMS];
 	for(int i = 0;i<loadedItems;++i){
+		if(availableItems[i].tagInfo.classReq != 0){
+			if(availableItems[i].tagInfo.classReq & classBit)
+				continue;
+		}
+		if(availableItems[i].tagInfo.reqExplosive && !hasExplosive)
+			continue;
+		if(availableItems[i].tagInfo.reqProjectile && !hasProjectile)
+			continue;
+		if(availableItems[i].tagInfo.reqBullet && !hasBullet)
+			continue;
+
 		weights[i] = availableItems[i].weight;
 	}
 
-	//7 items for when a player joins
 	for(int i = 0;i < amount; ++i){
 		int element = ChooseWeighted(weights, loadedItems);
 		generatedPlayerItems[client][wave][i] = availableItems[element];

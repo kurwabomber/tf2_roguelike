@@ -46,3 +46,4 @@ public Plugin:myinfo =
 #include "Roguelike/Timers.sp"
 #include "Roguelike/MenuFrontend.sp"
 #include "Roguelike/MenuBackend.sp"
+#include "Roguelike/Commands.sp"

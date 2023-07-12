@@ -1,3 +1,13 @@
+#define BIT_SCOUT 1 << 0
+#define BIT_SNIPER 1 << 1
+#define BIT_SOLDIER 1 << 2
+#define BIT_DEMO 1 << 3
+#define BIT_MEDIC 1 << 4
+#define BIT_HEAVY 1 << 5
+#define BIT_PYRO 1 << 6
+#define BIT_SPY 1 << 7
+#define BIT_ENGINEER 1 << 8
+
 stock void SendItemInfo(int client, const char[] text)
 {
 	Handle hBuffer = StartMessageOne("KeyHintText", client);
@@ -5,13 +15,13 @@ stock void SendItemInfo(int client, const char[] text)
 	BfWriteString(hBuffer, text);
 	EndMessage();
 }
-stock float GetAttribute(int entity, const char[] attrName, float value = 1.0)
+stock float GetAttribute(int entity, const char[] attrName, float defaultValue = 1.0)
 {
 	Address attribute_address = TF2Attrib_GetByName(entity, attrName);
 	if(attribute_address != Address_Null)
-		value = TF2Attrib_GetValue(attribute_address);
-
-	return value;
+		return TF2Attrib_GetValue(attribute_address);
+	else
+		return defaultValue;
 }
 stock bool IsOnDifferentTeams(entity1,entity2)
 {
