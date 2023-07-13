@@ -12,7 +12,7 @@ public Action Command_GiveItem(int client, int args){
 	char itemArgument[64];
 	int id = -1;
 	GetCmdArg(2, itemArgument, sizeof(itemArgument));
-	for(int i = 0;i < loadedItems;i++){
+	for(int i = 0;i <= loadedItems;i++){
 		if(StrEqual(itemArgument, availableItems[i].name, false)){
 			id = i;
 			break;

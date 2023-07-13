@@ -80,7 +80,39 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 	if(!IsValidClient(attacker))
 		return;
 
-	
+	int amountOfItem[MAX_ITEMS];
+	for(int item=0;item<MAX_HELD_ITEMS;++item){
+		if(playerItems[attacker][item].id == ItemID_None)
+			continue;
+		amountOfItem[_:playerItems[attacker][item].id]++;
+	}
+	for(int item=0;item<=loadedItems;++item){
+		if(amountOfItem[item] <= 0)
+			continue;
+		
+		switch(item){
+			case (_:ItemID_Scavenger):{
+				TFClassType class = TF2_GetPlayerClass(attacker);
+				for(int slot = 0; slot<3; slot++){
+					int id = TF2Util_GetPlayerLoadoutEntity(attacker, slot);
+					if(!IsValidWeapon(id))
+						continue;
+					if(!HasEntProp(id, Prop_Send, "m_iPrimaryAmmoType"))
+						continue;
+						
+					int type = GetEntProp(id, Prop_Send, "m_iPrimaryAmmoType"); 
+					if (type < 0 || type > 31)
+						continue;
+					
+					int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + 1 + RoundToCeil(0.05*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[item]);
+					if(nextAmmo > TF2Util_GetPlayerMaxAmmo(attacker,type,class))
+						nextAmmo = TF2Util_GetPlayerMaxAmmo(attacker,type,class);
+
+					SetEntProp(attacker, Prop_Send, "m_iAmmo", nextAmmo, _, type); 
+				}
+			}
+		}
+	}
 }
 
 public OnEntityCreated(entity, const char[] classname)

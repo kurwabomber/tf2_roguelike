@@ -99,7 +99,7 @@ public void ManagePlayerBuffs(int i){
 			continue;
 		amountOfItem[_:playerItems[i][item].id]++;
 	}
-	for(int item=0;item<loadedItems;++item){
+	for(int item=0;item<=loadedItems;++item){
 		if(amountOfItem[item] <= 0)
 			continue;
 		
@@ -126,7 +126,7 @@ public void ManagePlayerBuffs(int i){
 		TF2Attrib_SetByName(i, "movespeed player buff", additiveMoveSpeedMultBuff);
 		TF2Attrib_SetByName(i, "damage taken mult 4", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
 
-		for(int item=0;item<loadedItems;++item){
+		for(int item=0;item<=loadedItems;++item){
 			if(amountOfItem[item] <= 0)
 				continue;
 			
@@ -295,7 +295,7 @@ void ManagePlayerItemHUD(int client){
 			continue;
 		amountOfItem[_:playerItems[client][i].id]++;
 	}
-	for(int i=0;i<loadedItems;++i){
+	for(int i=0;i<=loadedItems;++i){
 		if(amountOfItem[i] <= 0)
 			continue;
 		
@@ -420,7 +420,7 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 	bool hasExplosive;
 	bool hasProjectile;
 	bool hasBullet;
-	int classBit = 1 << _:TF2_GetPlayerClass(client);
+	int classBit = 1 << _:TF2_GetPlayerClass(client)-1;
 	if(IsValidClient(client)){
 		for(int slot = 0;slot<3;++slot){
 			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot);
@@ -442,9 +442,9 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 		}
 	}
 	int weights[MAX_ITEMS];
-	for(int i = 0;i<loadedItems;++i){
+	for(int i = 0;i<=loadedItems;++i){
 		if(availableItems[i].tagInfo.classReq != 0){
-			if(availableItems[i].tagInfo.classReq & classBit)
+			if(!(availableItems[i].tagInfo.classReq & classBit))
 				continue;
 		}
 		if(availableItems[i].tagInfo.reqExplosive && !hasExplosive)

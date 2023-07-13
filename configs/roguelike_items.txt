@@ -4,7 +4,7 @@
 	{
         "description"   "1.25x damage"
         "tags"          ""
-        "weight"        "200"
+        "weight"        "70"
         "rarity"        "0"
         "cost"          "400"
     }
@@ -12,14 +12,14 @@
 	{
         "description"   "1.25x fire rate"
         "tags"          ""
-        "weight"        "100"
+        "weight"        "70"
         "rarity"        "0"
         "cost"          "400"
     }
 	"Rocket Specialist"
 	{
         "description"   "+1 point of rocket specialist"
-        "tags"          "rocket"
+        "tags"          "explosive"
         "weight"        "30"
         "rarity"        "0"
         "cost"          "200"

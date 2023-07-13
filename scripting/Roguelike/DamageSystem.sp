@@ -12,7 +12,7 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
                 continue;
             amountOfItem[_:playerItems[attacker][item].id]++;
         }
-        for(int item=0;item<loadedItems;++item){
+        for(int item=0;item<=loadedItems;++item){
             if(amountOfItem[item] <= 0)
                 continue;
             
@@ -49,7 +49,7 @@ public Action OnTakeDamageAlive(victim, &attacker, &inflictor, float &damage, &d
                 continue;
             amountOfItem[_:playerItems[attacker][item].id]++;
         }
-        for(int item=0;item<loadedItems;++item){
+        for(int item=0;item<=loadedItems;++item){
             if(amountOfItem[item] <= 0)
                 continue;
             
