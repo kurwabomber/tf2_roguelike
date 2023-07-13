@@ -20,7 +20,7 @@ public Action Menu_FrontPage(client, item){
 public Action Menu_WaveShop(client, wave, item){
 	if(IsValidClient(client) && IsPlayerAlive(client)){
 		Handle menu = CreateMenu(MenuHandler_WaveShop);
-		char displayString[64];
+		char displayString[128];
 		Format(displayString, sizeof(displayString), "Roguelike - Wave #%i Rewards Shop", wave);
 		SetMenuTitle(menu, displayString);
 
@@ -28,7 +28,7 @@ public Action Menu_WaveShop(client, wave, item){
 			if(generatedPlayerItems[client][wave][i].id == ItemID_None)
 				continue;
 
-			Format(displayString, sizeof(displayString), "%s%s - $%i\n\t%s", generatedPlayerItems[client][wave][i].isBought ? "[x] " : "",
+			Format(displayString, sizeof(displayString), "%s%s - $%i\n %s", generatedPlayerItems[client][wave][i].isBought ? "[x] " : "",
 					generatedPlayerItems[client][wave][i].name, generatedPlayerItems[client][wave][i].cost,
 					generatedPlayerItems[client][wave][i].description);
 			AddMenuItem(menu, "item", displayString);

@@ -33,7 +33,9 @@ public Action Command_GiveItem(int client, int args){
 
 			for(int a = 0; a < amount; ++a){
 				playerItems[target_list[i]][getFirstEmptyItemSlot(target_list[i])] = availableItems[id];
+				++amountOfItem[client][id+1]; 
 			}
+
 			buffChange[target_list[i]] = true;
 		}
 	}else{

@@ -1,5 +1,5 @@
 "roguelike_items_v1"
-{		
+{
 	"More Gun"
 	{
         "description"   "1.25x damage"
@@ -48,7 +48,9 @@
         "rarity"        "1"
         "cost"          "200"
     }
-	"Explosive Specialist"500ff"
+	"Explosive Specialist"
+	{
+        "description"   "No blast falloff"
         "tags"          "explosive"
         "weight"        "20"
         "rarity"        "2"

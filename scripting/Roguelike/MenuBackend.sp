@@ -19,6 +19,7 @@ public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
 			generatedPlayerItems[client][currentWaveViewed[client]][param2].isBought = false;
 			playerItems[client][getFirstIDItemSlot(client, generatedPlayerItems[client][currentWaveViewed[client]][param2].id)].clear();
 			SetEntProp(client, Prop_Send, "m_nCurrency", current+generatedPlayerItems[client][currentWaveViewed[client]][param2].cost);
+			--amountOfItem[client][generatedPlayerItems[client][currentWaveViewed[client]][param2].id]; 
 			buffChange[client] = true;
 		}
 		else if(current >= generatedPlayerItems[client][currentWaveViewed[client]][param2].cost){
@@ -26,7 +27,7 @@ public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
 			generatedPlayerItems[client][currentWaveViewed[client]][param2].isBought = true;
 			playerItems[client][getFirstEmptyItemSlot(client)] = generatedPlayerItems[client][currentWaveViewed[client]][param2];
 			SetEntProp(client, Prop_Send, "m_nCurrency", current-generatedPlayerItems[client][currentWaveViewed[client]][param2].cost);
-
+			++amountOfItem[client][generatedPlayerItems[client][currentWaveViewed[client]][param2].id]; 
 			buffChange[client] = true;
 		}else{
 			PrintToChat(client, "You cannot afford %s.", generatedPlayerItems[client][currentWaveViewed[client]][param2].name);

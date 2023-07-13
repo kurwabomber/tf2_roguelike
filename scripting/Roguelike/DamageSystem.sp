@@ -6,20 +6,15 @@
 //Only thing calculated is damage & "mult_dmg" attribute
 public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
     if(IsValidClient(attacker) && IsValidWeapon(weapon)){
-        int amountOfItem[MAX_ITEMS];
-        for(int item=0;item<MAX_HELD_ITEMS;++item){
-            if(playerItems[attacker][item].id == ItemID_None)
-                continue;
-            amountOfItem[_:playerItems[attacker][item].id]++;
-        }
         for(int item=0;item<=loadedItems;++item){
-            if(amountOfItem[item] <= 0)
-                continue;
-            
-            switch(item){
-                case (_:ItemID_Kurwabomber):{
-                    if(victim == attacker && !TF2Attrib_HookValueFloat(0.0, "no_self_blast_dmg", weapon)){
-                        isKurwabombered[attacker][victim] = true;
+
+            //Do attacker stuff
+            if(amountOfItem[attacker][item] > 0){
+                switch(item){
+                    case (_:ItemID_Kurwabomber):{
+                        if(victim == attacker && !TF2Attrib_HookValueFloat(0.0, "no_self_blast_dmg", weapon)){
+                            isKurwabombered[attacker][victim] = true;
+                        }
                     }
                 }
             }
@@ -43,20 +38,13 @@ int damagecustom, CritType &critType){
 //Final
 public Action OnTakeDamageAlive(victim, &attacker, &inflictor, float &damage, &damagetype, &weapon, float damageForce[3], float damagePosition[3], damagecustom){
     if(IsValidClient(attacker)){
-        int amountOfItem[MAX_ITEMS];
-        for(int item=0;item<MAX_HELD_ITEMS;++item){
-            if(playerItems[attacker][item].id == ItemID_None)
-                continue;
-            amountOfItem[_:playerItems[attacker][item].id]++;
-        }
         for(int item=0;item<=loadedItems;++item){
-            if(amountOfItem[item] <= 0)
-                continue;
-            
-            switch(item){
-                case (_:ItemID_Kurwabomber):{
-                    if(isKurwabombered[attacker][attacker]){
-                        isKurwabombered[attacker][victim] = true;
+            if(amountOfItem[attacker][item] > 0){
+                switch(item){
+                    case (_:ItemID_Kurwabomber):{
+                        if(isKurwabombered[attacker][attacker]){
+                            isKurwabombered[attacker][victim] = true;
+                        }
                     }
                 }
             }

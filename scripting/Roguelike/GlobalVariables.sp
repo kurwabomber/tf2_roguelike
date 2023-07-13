@@ -90,7 +90,7 @@ enum struct Tags{
 enum struct Item{
 	//All values start at 0
 	char name[32];
-	char description[64];
+	char description[128];
 	ItemID id;
 	int weight;
 	ItemRarity rarity;
@@ -108,7 +108,7 @@ enum struct Item{
 		this.isBought = false;
 		this.tagInfo.clear();
 	}
-	void init(const char sName[32], const char sDescription[64], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
+	void init(const char sName[32], const char sDescription[128], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
 	{
 		this.name = sName;
 		this.description = sDescription;
@@ -148,6 +148,7 @@ Item savedPlayerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item generatedPlayerItems[MAXPLAYERS+1][MAX_WAVES][MAX_ITEMS_PER_WAVE];
 Item availableItems[MAX_ITEMS];
 int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
+int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];
 int loadedItems = 0;
 //Huds
 Handle itemDisplayHUD;

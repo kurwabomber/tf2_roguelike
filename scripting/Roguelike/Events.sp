@@ -28,7 +28,11 @@ public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 		return;
 
 	for(int i = 0; i<MAX_HELD_ITEMS;++i){
+		if(playerItems[client][i].id == ItemID_None)
+			continue;
+
 		SetEntProp(client, Prop_Send, "m_nCurrency", GetEntProp(client, Prop_Send, "m_nCurrency") + playerItems[client][i].cost);
+		--amountOfItem[client][playerItems[client][i].id];
 		playerItems[client][i].clear();
 		savedPlayerItems[client][i].clear();
 	}
@@ -36,6 +40,9 @@ public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 		for(int j = 0;j<MAX_ITEMS_PER_WAVE;++j){
 			generatedPlayerItems[client][i][j].isBought = false;
 		}
+	}
+	for(int i = 0;i<7;++i){
+		--timesItemGenerated[client][generatedPlayerItems[client][0][i].id];
 	}
 
 	//Choose 7 items before game start. Make sure this runs after all loadout changes.
@@ -80,14 +87,8 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 	if(!IsValidClient(attacker))
 		return;
 
-	int amountOfItem[MAX_ITEMS];
-	for(int item=0;item<MAX_HELD_ITEMS;++item){
-		if(playerItems[attacker][item].id == ItemID_None)
-			continue;
-		amountOfItem[_:playerItems[attacker][item].id]++;
-	}
 	for(int item=0;item<=loadedItems;++item){
-		if(amountOfItem[item] <= 0)
+		if(amountOfItem[attacker][item] <= 0)
 			continue;
 		
 		switch(item){
@@ -104,7 +105,7 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 					if (type < 0 || type > 31)
 						continue;
 					
-					int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + 1 + RoundToCeil(0.05*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[item]);
+					int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + 1 + RoundToCeil(0.05*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[attacker][item]);
 					if(nextAmmo > TF2Util_GetPlayerMaxAmmo(attacker,type,class))
 						nextAmmo = TF2Util_GetPlayerMaxAmmo(attacker,type,class);
 
