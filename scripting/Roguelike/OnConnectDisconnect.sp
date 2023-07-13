@@ -8,6 +8,9 @@ public OnClientPutInServer(int client){
 		playerItems[client][i].clear();
 		savedPlayerItems[client][i].clear();
 	}
+	for(int i = 0; i<=loadedItems;++i){
+		timesItemGenerated[client][i] = 0;
+	}
 }
 public OnClientDisconnect(client){
 	if(isHooked[client]){

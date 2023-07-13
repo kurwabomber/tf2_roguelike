@@ -77,12 +77,14 @@ enum struct Tags{
 	bool reqProjectile;
 	bool reqBullet;
 	int classReq;
+	int maximum;
 	
 	void clear(){
 		this.reqExplosive = false;
 		this.reqProjectile = false;
 		this.reqBullet = false;
 		this.classReq = 0;
+		this.maximum = 0;
 	}
 }
 enum struct Item{
@@ -145,6 +147,7 @@ Item playerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item savedPlayerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item generatedPlayerItems[MAXPLAYERS+1][MAX_WAVES][MAX_ITEMS_PER_WAVE];
 Item availableItems[MAX_ITEMS];
+int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int loadedItems = 0;
 //Huds
 Handle itemDisplayHUD;

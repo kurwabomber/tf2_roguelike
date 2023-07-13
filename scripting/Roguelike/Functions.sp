@@ -121,6 +121,7 @@ public void ManagePlayerBuffs(int i){
 		TF2Attrib_SetByName(i, "damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
 		TF2Attrib_SetByName(i, "firerate player buff", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "recharge rate player buff", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+		TF2Attrib_SetByName(i, "mult_item_meter_charge_rate", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "Reload time decreased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "mult smack time", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		TF2Attrib_SetByName(i, "movespeed player buff", additiveMoveSpeedMultBuff);
@@ -381,6 +382,10 @@ void ParseItemConfig(Handle keyvalue){
 					KvGetString(keyvalue, "", buffer, sizeof(buffer));
 					availableItems[loadedItems].cost = StringToInt(buffer);
 				}
+				else if(StrEqual(buffer, "max")){
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					availableItems[loadedItems].tagInfo.maximum = StringToInt(buffer);
+				}
 			}
 		}
 	}
@@ -442,11 +447,23 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 		}
 	}
 	int weights[MAX_ITEMS];
+	int amountOfItem[MAX_ITEMS];
+	for(int waveCount=0;waveCount<=wavesCleared;++waveCount){
+		for(int item=0;item<MAX_ITEMS_PER_WAVE;++item){
+			if(generatedPlayerItems[client][waveCount][item].id == ItemID_None)
+				continue;
+			amountOfItem[_:generatedPlayerItems[client][waveCount][item].id]++;
+		}
+	}
+
 	for(int i = 0;i<=loadedItems;++i){
 		if(availableItems[i].tagInfo.classReq != 0){
 			if(!(availableItems[i].tagInfo.classReq & classBit))
 				continue;
 		}
+		
+		if(availableItems[i].tagInfo.maximum && amountOfItem[i] >= availableItems[i].tagInfo.maximum)
+			continue;
 		if(availableItems[i].tagInfo.reqExplosive && !hasExplosive)
 			continue;
 		if(availableItems[i].tagInfo.reqProjectile && !hasProjectile)
@@ -460,5 +477,9 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 	for(int i = 0;i < amount; ++i){
 		int element = ChooseWeighted(weights, loadedItems);
 		generatedPlayerItems[client][wave][i] = availableItems[element];
+		++amountOfItem[element];
+		if(availableItems[element].tagInfo.maximum && amountOfItem[element] >= availableItems[element].tagInfo.maximum){
+			weights[element] = 0;
+		}
 	}
 }
