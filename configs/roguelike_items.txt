@@ -4,7 +4,7 @@
 	{
         "description"   "1.25x damage"
         "tags"          ""
-        "weight"        "70"
+        "weight"        "60"
         "rarity"        "0"
         "cost"          "400"
     }
@@ -12,7 +12,7 @@
 	{
         "description"   "1.25x fire rate"
         "tags"          ""
-        "weight"        "70"
+        "weight"        "60"
         "rarity"        "0"
         "cost"          "400"
     }
@@ -48,9 +48,7 @@
         "rarity"        "1"
         "cost"          "200"
     }
-	"Explosive Specialist"
-	{
-        "description"   "No blast falloff"
+	"Explosive Specialist"500ff"
         "tags"          "explosive"
         "weight"        "20"
         "rarity"        "2"
@@ -69,7 +67,7 @@
     {
         "description"   "Explosions that deal self damage also deal +1500 damage.\n(Applies to self as well)"
         "tags"          "explosive"
-        "weight"        "500"
+        "weight"        "8"
         "rarity"        "5"
         "cost"          "600"
         "max"           "1"
