@@ -11,6 +11,7 @@ public OnClientPutInServer(int client){
 	for(int i = 0; i<=loadedItems;++i){
 		timesItemGenerated[client][i] = 0;
 	}
+	canteenCount[client] = 0;
 }
 public OnClientDisconnect(client){
 	if(isHooked[client]){

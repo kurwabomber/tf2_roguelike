@@ -61,6 +61,12 @@ enum ItemID{
 	ItemID_BigBaboonHeart,
 	ItemID_ProjectileSpeed,
 	ItemID_MoreBulletperBullet,
+	ItemID_Canteen,
+	ItemID_UberchargeCanteen,
+	ItemID_KritzCanteen,
+	ItemID_IlluminationCanteen,
+	ItemID_WardingCanteen,
+	ItemID_CollectionCanteen,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -76,6 +82,8 @@ enum struct Tags{
 	bool reqExplosive;
 	bool reqProjectile;
 	bool reqBullet;
+	bool reqCanteen;
+	bool reqRocket;
 	int classReq;
 	int maximum;
 	
@@ -83,6 +91,8 @@ enum struct Tags{
 		this.reqExplosive = false;
 		this.reqProjectile = false;
 		this.reqBullet = false;
+		this.reqCanteen = false;
+		this.reqRocket = false;
 		this.classReq = 0;
 		this.maximum = 0;
 	}
@@ -150,6 +160,7 @@ Item availableItems[MAX_ITEMS];
 int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];
 int loadedItems = 0;
+int canteenCount[MAXPLAYERS+1];
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls

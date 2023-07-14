@@ -24,6 +24,9 @@
 #define MAX_WAVES 30
 #define PLUGIN_VERSION "INDEV-1.0"
 
+//Sounds
+#define LARGE_EXPLOSION_SOUND "mvm/sentrybuster/mvm_sentrybuster_explode.wav"
+
 // Plugin Info
 public Plugin:myinfo =
 {

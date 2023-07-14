@@ -13,7 +13,7 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 		return MRES_Ignored;
 
 	int client = getOwner(canteen);
-	if(!IsValidClient(client))
+	if(!IsValidClient(client) || !IsPlayerAlive(client))
 		return MRES_Ignored;
 
 	if(GetEntPropFloat(client, Prop_Send, "m_flRuneCharge") >= 100.0){
@@ -50,6 +50,38 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 		}
 
 		SetEntPropFloat(client, Prop_Send, "m_flRuneCharge", 0.0);
+	}else{
+		//Canteens!
+		if(canteenCount[client] <= 0)
+			return MRES_Ignored;
+		
+		if(amountOfItem[client][ItemID_UberchargeCanteen])
+			TF2_AddCondition(client, TFCond_UberchargedCanteen, 6.0 * amountOfItem[client][ItemID_UberchargeCanteen]);
+
+		if(amountOfItem[client][ItemID_KritzCanteen])
+			TF2_AddCondition(client, TFCond_CritCanteen, 6.0 * amountOfItem[client][ItemID_KritzCanteen]);
+
+		if(amountOfItem[client][ItemID_IlluminationCanteen]){
+			
+		}
+
+		if(amountOfItem[client][ItemID_WardingCanteen]){
+			
+		}
+
+		if(amountOfItem[client][ItemID_CollectionCanteen]){
+			int i = -1;
+			float pos[3];
+			GetClientAbsOrigin(client, pos);
+
+			while ((i = FindEntityByClassname(i, "item_currencypack_custom")) != -1){
+				TeleportEntity(i, pos);
+			}
+		}
+
+		EmitSoundToAll("mvm/mvm_used_powerup.wav", client, -1, 150, 0, 1.0);
+
+		--canteenCount[client];
 	}
 						
 	return MRES_Ignored;

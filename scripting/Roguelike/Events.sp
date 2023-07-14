@@ -58,6 +58,8 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 		playerBuffs[client][buff].clear();
 	}
 	buffChange[client] = true;
+
+	canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 }
 
 public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
@@ -71,7 +73,10 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 
 	if(isKurwabombered[attacker][victim]){
 		isKurwabombered[attacker][victim] = false;
-		SDKHooks_TakeDamage(victim, attacker, attacker, 1500.0, DMG_BLAST);
+		SDKHooks_TakeDamage(victim, attacker, attacker, 300.0, DMG_BLAST);
+		if(attacker == victim){
+			EmitSoundToAll(LARGE_EXPLOSION_SOUND, attacker, -1, 150, 0, 1.0);
+		}
 	}
 }
 

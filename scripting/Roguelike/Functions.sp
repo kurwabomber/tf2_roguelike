@@ -283,20 +283,28 @@ TFCond GetPowerupCondFromID(int id){
 }
 void ManagePlayerItemHUD(int client){
 	char textBuild[512] = "- Items -\n";
-	bool success = false;
-
-	for(int i=0;i<=loadedItems;++i){
-		if(amountOfItem[client][i] <= 0)
+	int itemCount;
+	bool counted[MAX_ITEMS];
+	for(int i=0;i<MAX_HELD_ITEMS;++i){
+		ItemID id = playerItems[client][i].id;
+		if(id == ItemID_None || counted[id])
 			continue;
 		
-		Format(textBuild, sizeof(textBuild), "%s%s%s x%i",textBuild, success ? " | " : "", availableItems[i-1].name, amountOfItem[client][i]);
-
-		if(i != 0 && i % 4 == 0)
-			Format(textBuild, sizeof(textBuild), "%s\n",textBuild);
-
-		success = true;
+		if(itemCount != 0 && itemCount % 3 == 0){
+			Format(textBuild, sizeof(textBuild), "%s%s x%i\n",textBuild, playerItems[client][i].name, amountOfItem[client][id]);
+		}else{
+			Format(textBuild, sizeof(textBuild), "%s%s x%i | ",textBuild, playerItems[client][i].name, amountOfItem[client][id]);
+		}
+		counted[id] = true;
+		++itemCount;
 	}
+	int lastBar = FindCharInString(textBuild, '|', true);
+	if(lastBar != -1)
+		textBuild[lastBar] = ' ';
 
+	if(canteenCount[client] > 0){
+		Format(textBuild, sizeof(textBuild), "%s\nCanteen: %i uses left", textBuild, canteenCount[client])
+	}
 
 	SetHudTextParams(0.02, 0.08, 0.2, 69, 245, 66, 255, 0, 0.0, 0.0, 0.0);
 	ShowSyncHudText(client, itemDisplayHUD, textBuild);
@@ -340,6 +348,10 @@ void ParseItemConfig(Handle keyvalue){
 						availableItems[loadedItems].tagInfo.reqProjectile = true;
 					if(StrContains(buffer, "bullet", false) != -1)
 						availableItems[loadedItems].tagInfo.reqBullet = true;
+					if(StrContains(buffer, "canteen", false) != -1)
+						availableItems[loadedItems].tagInfo.reqCanteen = true;
+					if(StrContains(buffer, "rocket", false) != -1)
+						availableItems[loadedItems].tagInfo.reqRocket = true;
 
 					if(StrContains(buffer, "scout", false) != -1)
 						availableItems[loadedItems].tagInfo.classReq |= BIT_SCOUT;
@@ -412,14 +424,12 @@ int ChooseWeighted(int[] weights, int size){
 }
 void ChooseGeneratedItems(int client, int wave, int amount){
 	//Tagging time!
-	bool hasExplosive;
-	bool hasProjectile;
-	bool hasBullet;
+	bool hasExplosive, hasProjectile, hasBullet, hasRocket;
 	int classBit = 1 << _:TF2_GetPlayerClass(client)-1;
 	if(IsValidClient(client)){
 		for(int slot = 0;slot<3;++slot){
 			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot);
-			if(!IsValidWeapon(weapon) || !HasEntProp(weapon, Prop_Send, "m_iPrimaryAmmoType"))
+			if(!IsValidWeapon(weapon) || TF2Util_IsEntityWearable(weapon))
 				continue;
 			
 			int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
@@ -434,6 +444,8 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 				hasProjectile = true;
 			if(projectile == 1)
 				hasBullet = true;
+			if(projectile == 2)
+				hasRocket = true;
 		}
 	}
 	int weights[MAX_ITEMS];
@@ -451,6 +463,10 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 		if(availableItems[i].tagInfo.reqProjectile && !hasProjectile)
 			continue;
 		if(availableItems[i].tagInfo.reqBullet && !hasBullet)
+			continue;
+		if(availableItems[i].tagInfo.reqCanteen && !amountOfItem[client][ItemID_Canteen])
+			continue;
+		if(availableItems[i].tagInfo.reqRocket && !hasRocket)
 			continue;
 
 		weights[i] = availableItems[i].weight;

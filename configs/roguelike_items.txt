@@ -19,7 +19,7 @@
 	"Rocket Specialist"
 	{
         "description"   "+1 point of rocket specialist"
-        "tags"          "explosive"
+        "tags"          "rocket"
         "weight"        "30"
         "rarity"        "0"
         "cost"          "200"
@@ -67,11 +67,11 @@
     }
     "Kurwabomber"
     {
-        "description"   "Explosions that deal self damage also deal +1500 damage.\n(Applies to self as well)"
+        "description"   "Explosions that deal self damage also deal +300 damage.\n(Applies to self as well)"
         "tags"          "explosive"
         "weight"        "8"
         "rarity"        "5"
-        "cost"          "600"
+        "cost"          "400"
         "max"           "1"
     }
     "Tank Buster"
@@ -121,5 +121,59 @@
         "weight"        "15"
         "rarity"        "0"
         "cost"          "600"
+    }
+    "Canteen"
+    {
+        "description"   "+1 canteen on spawn"
+        "tags"          ""
+        "weight"        "15"
+        "rarity"        "0"
+        "cost"          "100"
+        "max"           "3"
+    }
+    "Ubercharge Canteen"
+    {
+        "description"   "+6s uber on canteen usage"
+        "tags"          "canteen"
+        "weight"        "8"
+        "rarity"        "4"
+        "cost"          "400"
+        "max"           "2"
+    }
+    "Kritz Canteen"
+    {
+        "description"   "+6s crits on canteen usage"
+        "tags"          "canteen"
+        "weight"        "8"
+        "rarity"        "3"
+        "cost"          "400"
+        "max"           "2"
+    }
+    "Illumination Canteen"
+    {
+        "description"   "+30s reveal on canteen usage"
+        "tags"          "canteen"
+        "weight"        "8"
+        "rarity"        "3"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Warding Canteen"
+    {
+        "description"   "+16s 0.5x dmg taken on canteen usage"
+        "tags"          "canteen"
+        "weight"        "8"
+        "rarity"        "3"
+        "cost"          "250"
+        "max"           "1"
+    }
+    "Collection Canteen"
+    {
+        "description"   "collects money, health, and ammo packs on canteen usage"
+        "tags"          "canteen"
+        "weight"        "10"
+        "rarity"        "3"
+        "cost"          "50"
+        "max"           "1"
     }
 }
