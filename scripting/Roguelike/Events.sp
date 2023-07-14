@@ -1,8 +1,9 @@
 public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
     wavesCleared++;
 
+	//todo: scale it based off max wave
 	for(int client = 1;client<MaxClients;++client){
-		ChooseGeneratedItems(client, wavesCleared, 4+wavesCleared);
+		ChooseGeneratedItems(client, wavesCleared, 4+wavesCleared, view_as<ItemRarity>(_:ItemRarity_Normal+wavesCleared/2), view_as<ItemRarity>(_:ItemRarity_Genuine+wavesCleared/2));
 	}
 }
 public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
@@ -110,7 +111,7 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 					if (type < 0 || type > 31)
 						continue;
 					
-					int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + 1 + RoundToCeil(0.05*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[attacker][item]);
+					int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + RoundToCeil(0.03*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[attacker][item]);
 					if(nextAmmo > TF2Util_GetPlayerMaxAmmo(attacker,type,class))
 						nextAmmo = TF2Util_GetPlayerMaxAmmo(attacker,type,class);
 

@@ -107,6 +107,11 @@ public void ManagePlayerBuffs(int i){
 		}
 	}
 
+	if(amountOfItem[i][ItemID_HeavyWeapons] > 0){
+		multiplicativeDamageBuff *= multiplicativeAttackSpeedMultBuff;
+		multiplicativeAttackSpeedMultBuff = 1.0;
+	}
+
 	if(buffChange[i])
 	{
 		TF2Attrib_RemoveAll(i);
@@ -422,10 +427,40 @@ int ChooseWeighted(int[] weights, int size){
 	}
 	return 0;
 }
-void ChooseGeneratedItems(int client, int wave, int amount){
+char[] RarityToString(ItemRarity rarity){
+	char buffer[32];
+	switch(rarity){
+		case ItemRarity_Normal:{
+			buffer = "Normal";	
+		}
+		case ItemRarity_Unique:{
+			buffer = "Unique";	
+		}
+		case ItemRarity_Strange:{
+			buffer = "Strange";	
+		}
+		case ItemRarity_Genuine:{
+			buffer = "Genuine";	
+		}
+		case ItemRarity_Collectors:{
+			buffer = "Collectors";	
+		}
+		case ItemRarity_Unusual:{
+			buffer = "Unusual";	
+		}
+		case ItemRarity_SelfMade:{
+			buffer = "Self-Made";	
+		}
+		case ItemRarity_Valve:{
+			buffer = "Valve";	
+		}
+	}
+	return buffer;
+}
+void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity = ItemRarity_Normal, ItemRarity maxRarity = ItemRarity_Valve){
 	//Tagging time!
 	bool hasExplosive, hasProjectile, hasBullet, hasRocket;
-	int classBit = 1 << _:TF2_GetPlayerClass(client)-1;
+	int classBit = IsValidClient(client) ? (1 << _:TF2_GetPlayerClass(client)-1) : 0;
 	if(IsValidClient(client)){
 		for(int slot = 0;slot<3;++slot){
 			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot);
@@ -451,6 +486,9 @@ void ChooseGeneratedItems(int client, int wave, int amount){
 	int weights[MAX_ITEMS];
 
 	for(int i = 0;i<=loadedItems;++i){
+		if(availableItems[i].rarity < minRarity || availableItems[i].rarity > maxRarity)
+			continue;
+
 		if(availableItems[i].tagInfo.classReq != 0){
 			if(!(availableItems[i].tagInfo.classReq & classBit))
 				continue;

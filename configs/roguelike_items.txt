@@ -34,7 +34,7 @@
     }
 	"Scavenger"
 	{
-        "description"   "1 + 5% ammo per kill"
+        "description"   "+3% ammo per kill"
         "tags"          ""
         "weight"        "20"
         "rarity"        "1"
@@ -62,15 +62,15 @@
         "description"   "+1 healing mastery"
         "tags"          "medic"
         "weight"        "15"
-        "rarity"        "3"
-        "cost"          "500"
+        "rarity"        "2"
+        "cost"          "200"
     }
     "Kurwabomber"
     {
         "description"   "Explosions that deal self damage also deal +300 damage.\n(Applies to self as well)"
         "tags"          "explosive"
         "weight"        "8"
-        "rarity"        "5"
+        "rarity"        "4"
         "cost"          "400"
         "max"           "1"
     }
@@ -79,7 +79,7 @@
         "description"   "1.5x tank damage"
         "tags"          ""
         "weight"        "10"
-        "rarity"        "4"
+        "rarity"        "3"
         "cost"          "400"
     }
     "Extra Munitions"
@@ -103,7 +103,7 @@
         "description"   "1.25x max health and +10 max health."
         "tags"          ""
         "weight"        "20"
-        "rarity"        "3"
+        "rarity"        "2"
         "cost"          "300"
     }
     "Projectile Speed"
@@ -116,10 +116,10 @@
     }
     "More Bullet per Bullet"
     {
-        "description"   "+65% bullets per shot"
+        "description"   "+65% bullets per shot (bullet count rounds down)"
         "tags"          "bullet"
         "weight"        "15"
-        "rarity"        "0"
+        "rarity"        "1"
         "cost"          "600"
     }
     "Canteen"
@@ -127,7 +127,7 @@
         "description"   "+1 canteen on spawn"
         "tags"          ""
         "weight"        "15"
-        "rarity"        "0"
+        "rarity"        "2"
         "cost"          "100"
         "max"           "3"
     }
@@ -175,5 +175,203 @@
         "rarity"        "3"
         "cost"          "50"
         "max"           "1"
+    }
+    "Heavy Weapons"
+    {
+        "description"   "converts fire rate bonuses into damage bonus"
+        "tags"          ""
+        "weight"        "7"
+        "rarity"        "4"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Ricochet"
+    {
+        "description"   "+2 targets for bullet damage"
+        "tags"          "bullet"
+        "weight"        "7"
+        "rarity"        "4"
+        "cost"          "600"
+        "max"           "3"
+    }
+    "Chain Explosives"
+    {
+        "description"   "+1 explosion per explosion hit, non-recursively"
+        "tags"          "explosive"
+        "weight"        "8"
+        "rarity"        "6"
+        "cost"          "1200"
+        "max"           "1"
+    }
+    "Explosive Impact"
+    {
+        "description"   "+1 explosion for non-explosive weapons (50% dmg)"
+        "tags"          ""
+        "weight"        "9"
+        "rarity"        "5"
+        "cost"          "800"
+        "max"           "1"
+    }
+    "The Flying Guillotine"
+    {
+        "description"   "+20% execute under max hp%"
+        "tags"          ""
+        "weight"        "3"
+        "rarity"        "5"
+        "cost"          "1200"
+        "max"           "1"
+    }
+    "The Escape Plan"
+    {
+        "description"   "proc ubercharge automatically if fatal damage\nmust be above 50% ubercharge. +5s speed boost"
+        "tags"          "medic"
+        "weight"        "6"
+        "rarity"        "4"
+        "cost"          "750"
+        "max"           "1"
+    }
+    "Quad Damage"
+    {
+        "description"   "every 10th hit deals 4x damage"
+        "tags"          ""
+        "weight"        "13"
+        "rarity"        "4"
+        "cost"          "500"
+        "max"           "1"
+    }
+    "Australium Alchemist"
+    {
+        "description"   "+15% cash flow"
+        "tags"          ""
+        "weight"        "3"
+        "rarity"        "4"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Compound Interest"
+    {
+        "description"   "+2s bleeding, infinitely stacking."
+        "tags"          ""
+        "weight"        "6"
+        "rarity"        "4"
+        "cost"          "900"
+        "max"           "1"
+    }
+    "Goop Gunner"
+    {
+        "description"   "1.1x dmg per debuff applied to victim"
+        "tags"          ""
+        "weight"        "10"
+        "rarity"        "5"
+        "cost"          "400"
+        "max"           "3"
+    }
+    "The Weaver"
+    {
+        "description"   "+4 max sappers, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+15 sapper dps. cannot collide with others."
+        "tags"          "spy"
+        "weight"        "7"
+        "rarity"        "3"
+        "cost"          "1600"
+        "max"           "1"
+    }
+    "Biomechanical Engineering"
+    {
+        "description"   "medigun can heal buildings"
+        "tags"          "medic"
+        "weight"        "5"
+        "rarity"        "2"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Martyr"
+    {
+        "description"   "applies amputator effect to nearby teammates when hit"
+        "tags"          "medic"
+        "weight"        "5"
+        "rarity"        "3"
+        "cost"          "300"
+        "max"           "1"
+    }
+    "Medical Assistance"
+    {
+        "description"   "+1 medigun target"
+        "tags"          "medic"
+        "weight"        "3"
+        "rarity"        "6"
+        "cost"          "700"
+        "max"           "1"
+    }
+    "Fraggy Explosives"
+    {
+        "description"   "+5 syringes on explosion"
+        "tags"          "explosive"
+        "weight"        "6"
+        "rarity"        "3"
+        "cost"          "300"
+        "max"           "1"
+    }
+    "Armor Penetration"
+    {
+        "description"   "-25% resistance effects\n(eg: vaccinator, battallion's, tank minigun res, etc.)"
+        "tags"          ""
+        "weight"        "6"
+        "rarity"        "3"
+        "cost"          "300"
+        "max"           "1"
+    }
+    "Tren Maxxdoser"
+    {
+        "description"   "+75 hp, 1.5x rage duration, 1.3x rage gain."
+        "tags"          ""
+        "weight"        "8"
+        "rarity"        "3"
+        "cost"          "500"
+        "max"           "2"
+    }
+    "Decently Balanced"
+    {
+        "description"   "+10% random crit chance"
+        "tags"          ""
+        "weight"        "12"
+        "rarity"        "3"
+        "cost"          "200"
+        "max"           "10"
+    }
+    "Slower Than a Speeding Bullet"
+    {
+        "description"   "+15% move speed"
+        "tags"          ""
+        "weight"        "15"
+        "rarity"        "1"
+        "cost"          "150"
+        "max"           "4"
+    }
+    "Pandora's Canteen"
+    {
+        "description"   "+100 projectiles spawned on canteen use"
+        "tags"          "canteen"
+        "weight"        "3"
+        "rarity"        "6"
+        "cost"          "150"
+        "max"           "1"
+    }
+    "Projectile Penetration"
+    {
+        "description"   "+1 projectile penetration"
+        "tags"          "projectile"
+        "weight"        "13"
+        "rarity"        "2"
+        "cost"          "100"
+        "max"           "3"
+    }
+    "Drunken Bomber"
+    {
+        "description"   "+1 projectile bounce"
+        "tags"          "projectile"
+        "weight"        "10"
+        "rarity"        "2"
+        "cost"          "100"
+        "max"           "3"
     }
 }

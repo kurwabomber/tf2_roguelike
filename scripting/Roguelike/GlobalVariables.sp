@@ -67,6 +67,28 @@ enum ItemID{
 	ItemID_IlluminationCanteen,
 	ItemID_WardingCanteen,
 	ItemID_CollectionCanteen,
+	ItemID_HeavyWeapons,
+	ItemID_Ricochet,
+	ItemID_ChainExplosives,
+	ItemID_ExplosiveImpact,
+	ItemID_FlyingGuillotine,
+	ItemID_EscapePlan,
+	ItemID_QuadDamage,
+	ItemID_AustraliumAlchemist,
+	ItemID_CompoundInterest,
+	ItemID_GoopGunner,
+	ItemID_TheWeaver,
+	ItemID_BiomechanicalEngineering,
+	ItemID_Martyr,
+	ItemID_MedicalAssistance,
+	ItemID_FraggyExplosives,
+	ItemID_ArmorPenetration,
+	ItemID_TrenMaxxdoser,
+	ItemID_DecentlyBalanced,
+	ItemID_SlowerThanaSpeedingBullet,
+	ItemID_PandorasCanteen,
+	ItemID_ProjectilePenetration,
+	ItemID_DrunkenBomber,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -161,6 +183,7 @@ int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];
 int loadedItems = 0;
 int canteenCount[MAXPLAYERS+1];
+float canteenCooldown[MAXPLAYERS+1];
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls

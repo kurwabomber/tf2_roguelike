@@ -50,7 +50,7 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 		}
 
 		SetEntPropFloat(client, Prop_Send, "m_flRuneCharge", 0.0);
-	}else{
+	}else if(canteenCooldown[client] <= GetGameTime()){
 		//Canteens!
 		if(canteenCount[client] <= 0)
 			return MRES_Ignored;
@@ -82,6 +82,7 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 		EmitSoundToAll("mvm/mvm_used_powerup.wav", client, -1, 150, 0, 1.0);
 
 		--canteenCount[client];
+		canteenCooldown[client] = GetGameTime()+6.0;
 	}
 						
 	return MRES_Ignored;
