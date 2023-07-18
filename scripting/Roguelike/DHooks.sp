@@ -87,7 +87,51 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 						
 	return MRES_Ignored;
 }
+public MRESReturn OnBlastExplosion(int entity, Handle hReturn){
+	if(!IsValidEntity(entity))
+		return MRES_Ignored;
 
+	int owner = getOwner(entity);
+	if(!IsValidClient(owner))
+		return MRES_Ignored;
+
+	if(amountOfItem[owner][ItemID_FraggyExplosives]){
+		for(int i = 0;i<5*amountOfItem[owner][ItemID_FraggyExplosives];++i)
+		{
+			int iEntity = CreateEntityByName("tf_projectile_syringe");
+			if (!IsValidEdict(iEntity)) 
+				continue;
+
+			int iTeam = GetClientTeam(owner);
+			float fAngles[3],fOrigin[3],vBuffer[3]
+			float fVelocity[3]
+			float fwd[3]
+			SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", owner);
+			SetEntProp(iEntity, Prop_Send, "m_iTeamNum", iTeam);
+			GetEntPropVector(entity, Prop_Send, "m_vecOrigin", fOrigin);
+			fAngles[0] = GetRandomFloat(0.0,-60.0)
+			fAngles[1] = GetRandomFloat(-179.0,179.0)
+
+			GetAngleVectors(fAngles,fwd, NULL_VECTOR, NULL_VECTOR);
+			ScaleVector(fwd, 30.0);
+			
+			AddVectors(fOrigin, fwd, fOrigin);
+			GetAngleVectors(fAngles, vBuffer, NULL_VECTOR, NULL_VECTOR);
+			
+			float velocity = 2000.0;
+			fVelocity[0] = vBuffer[0]*velocity;
+			fVelocity[1] = vBuffer[1]*velocity;
+			fVelocity[2] = vBuffer[2]*velocity;
+			
+			TeleportEntity(iEntity, fOrigin, fAngles, fVelocity);
+			DispatchSpawn(iEntity);
+			SetEntityGravity(iEntity, 9.0);
+			CreateTimer(1.0,SelfDestruct,EntIndexToEntRef(iEntity));
+		}
+	}
+
+	return MRES_Ignored;
+}
 public MRESReturn OnAddCurrency(int client, Handle hParams){
 	if(!IsValidClient(client))
 		return MRES_Ignored;

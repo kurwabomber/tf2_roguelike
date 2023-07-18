@@ -20,6 +20,26 @@ public void OnPluginStart(){
 		PrintToServer("Roguelike | Error with \"CTFPlayer::AddCurrency()\" gamedata.");
 	DHookEnableDetour(CurrencyAddHook, false, OnAddCurrency);
 
+	//Blast Radius Overrides
+	{
+		Handle BlastHook = DHookCreateFromConf(hConf, "CTFProjectile_Flare::GetRadius()");
+		if(!BlastHook)
+			PrintToServer("Roguelike | Error with \"CTFProjectile_Flare::GetRadius()\" gamedata.");
+		DHookEnableDetour(BlastHook, true, OnBlastExplosion);
+	}
+	{
+		Handle BlastHook = DHookCreateFromConf(hConf, "CTFBaseRocket::GetRadius()");
+		if(!BlastHook)
+			PrintToServer("Roguelike | Error with \"CTFBaseRocket::GetRadius()\" gamedata.");
+		DHookEnableDetour(BlastHook, true, OnBlastExplosion);
+	}
+	{
+		Handle BlastHook = DHookCreateFromConf(hConf, "CTFWeaponBaseGrenadeProj::GetDamageRadius()");
+		if(!BlastHook)
+			PrintToServer("Roguelike | Error with \"CTFWeaponBaseGrenadeProj::GetDamageRadius()\" gamedata.");
+		DHookEnableDetour(BlastHook, true, OnBlastExplosion);
+	}
+
 	//Get Weapon Projectile
 	StartPrepSDKCall(SDKCall_Entity);
 	PrepSDKCall_SetFromConf(hConf, SDKConf_Signature, "CTFRocketLauncher::GetWeaponProjectileType()");

@@ -16,7 +16,7 @@
 #define DetonatorExplosionSound "weapons/flare_detonator_explode.wav"
 #define OrnamentExplosionSound "weapons/ball_buster_break_01.wav"
 
-stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.65,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 100, bool ignition = false)
+stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.65,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 80, bool ignition = false)
 {
 	if(entity == -1 || !IsValidEdict(entity))
 		entity = owner;

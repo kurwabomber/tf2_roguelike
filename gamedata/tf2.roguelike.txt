@@ -43,6 +43,27 @@
 					}
 				}
 			}
+			"CTFProjectile_Flare::GetRadius()"
+			{
+				"signature"		"CTFProjectile_Flare::GetRadius()"
+				"callconv"		"thiscall"
+				"return"		"float"
+				"this"			"entity"
+			}
+			"CTFBaseRocket::GetRadius()"
+			{
+				"signature"		"CTFBaseRocket::GetRadius()"
+				"callconv"		"thiscall"
+				"return"		"float"
+				"this"			"entity"
+			}
+			"CTFWeaponBaseGrenadeProj::GetDamageRadius()"
+			{
+				"signature"		"CTFWeaponBaseGrenadeProj::GetDamageRadius()"
+				"callconv"		"thiscall"
+				"return"		"float"
+				"this"			"entity"
+			}
 		}
 		"Signatures"
 		{
@@ -65,6 +86,21 @@
 			{
 				"library"	"server"
 				"linux"		"@_ZNK17CTFRocketLauncher23GetWeaponProjectileTypeEv"
+			}
+			"CTFProjectile_Flare::GetRadius()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN19CTFProjectile_Flare9GetRadiusEv"
+			}
+			"CTFBaseRocket::GetRadius()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN13CTFBaseRocket9GetRadiusEv"
+			}
+			"CTFWeaponBaseGrenadeProj::GetDamageRadius()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN24CTFWeaponBaseGrenadeProj15GetDamageRadiusEv"
 			}
 		}
 	}

@@ -51,7 +51,7 @@ public void ManagePlayerBuffs(int i){
 
 	for(int buff = 0;buff < MAXBUFFS; buff++)
 	{
-		if(playerBuffs[i][buff].id == 0)
+		if(playerBuffs[i][buff].id == Buff_Empty)
 			continue;
 
 		//Clear out any non-active buffs.
@@ -93,21 +93,15 @@ public void ManagePlayerBuffs(int i){
 	if(TF2_IsPlayerInCondition(i, TFCond_AfterburnImmune))
 		Format(details, sizeof(details), "%s\n%s - %.1fs", details, "Afterburn Immunity", TF2Util_GetPlayerConditionDuration(i, TFCond_AfterburnImmune));
 
-	for(int item=0;item<=loadedItems;++item){
-		if(amountOfItem[i][item] <= 0)
-			continue;
-		
-		switch(item){
-			case (_:ItemID_MoreGun):{
-				multiplicativeDamageBuff *= Pow(1.25, float(amountOfItem[i][item]));
-			}
-			case (_:ItemID_FireRate):{
-				multiplicativeAttackSpeedMultBuff *= Pow(1.25, float(amountOfItem[i][item]));
-			}
-		}
+
+	if(amountOfItem[i][ItemID_MoreGun]){
+		multiplicativeDamageBuff *= Pow(1.25, float(amountOfItem[i][ItemID_MoreGun]));
+	}
+	if(amountOfItem[i][ItemID_FireRate]){
+		multiplicativeAttackSpeedMultBuff *= Pow(1.25, float(amountOfItem[i][ItemID_FireRate]));
 	}
 
-	if(amountOfItem[i][ItemID_HeavyWeapons] > 0){
+	if(amountOfItem[i][ItemID_HeavyWeapons]){
 		multiplicativeDamageBuff *= multiplicativeAttackSpeedMultBuff;
 		multiplicativeAttackSpeedMultBuff = 1.0;
 	}
@@ -126,49 +120,57 @@ public void ManagePlayerBuffs(int i){
 		TF2Attrib_SetByName(i, "movespeed player buff", additiveMoveSpeedMultBuff);
 		TF2Attrib_SetByName(i, "damage taken mult 4", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
 
-		for(int item=0;item<=loadedItems;++item){
-			if(amountOfItem[i][item] <= 0)
-				continue;
-			
-			switch(item){
-				case (_:ItemID_RocketSpecialist):{
-					TF2Attrib_SetByName(i, "rocket specialist", 1.0*amountOfItem[i][item]);
-				}
-				case (_:ItemID_ExtendedMagazine):{
-					TF2Attrib_SetByName(i, "clip size bonus", Pow(1.5,1.0*amountOfItem[i][item]));
-				}
-				case (_:ItemID_PlayingWithDanger):{
-					TF2Attrib_SetByName(i, "Blast radius increased", 1.0 + 0.4*amountOfItem[i][item]);
-				}
-				case (_:ItemID_ExplosiveSpecialist):{
-					TF2Attrib_SetByName(i, "dmg falloff decreased", 0.5);
-				}
-				case (_:ItemID_TheQuickestFix):{
-					TF2Attrib_SetByName(i, "healing mastery", 1.0*amountOfItem[i][item]);
-				}
-				case (_:ItemID_TankBuster):{
-					TF2Attrib_SetByName(i, "mult dmg vs tanks", Pow(1.5,1.0*amountOfItem[i][item]));
-				}
-				case (_:ItemID_ExtraMunitions):{
-					TF2Attrib_SetByName(i, "hidden primary max ammo bonus", Pow(1.5,1.0*amountOfItem[i][item]));
-					TF2Attrib_SetByName(i, "hidden secondary max ammo penalty", Pow(1.5,1.0*amountOfItem[i][item]));
-				}
-				case (_:ItemID_PocketDispenser):{
-					TF2Attrib_SetByName(i, "ammo regen", 0.05*amountOfItem[i][item]);
-				}
-				case (_:ItemID_BigBaboonHeart):{
-					TF2Attrib_SetByName(i, "mult max health", Pow(1.25,1.0*amountOfItem[i][item]));
-					TF2Attrib_SetByName(i, "max health additive bonus", 10.0*amountOfItem[i][item]);
-				}
-				case (_:ItemID_ProjectileSpeed):{
-					TF2Attrib_SetByName(i, "Projectile speed increased", 1.0 + 0.35*amountOfItem[i][item]);
-				}
-				case (_:ItemID_MoreBulletperBullet):{
-					TF2Attrib_SetByName(i, "bullets per shot bonus", 1.0 + 0.65*amountOfItem[i][item]);
-				}
-			}
+		if(amountOfItem[i][ItemID_RocketSpecialist]){
+			TF2Attrib_SetByName(i, "rocket specialist", 1.0*amountOfItem[i][ItemID_RocketSpecialist]);
 		}
-
+		if(amountOfItem[i][ItemID_ExtendedMagazine]){
+			TF2Attrib_SetByName(i, "clip size bonus", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtendedMagazine]));
+		}
+		if(amountOfItem[i][ItemID_PlayingWithDanger]){
+			TF2Attrib_SetByName(i, "Blast radius increased", 1.0 + 0.4*amountOfItem[i][ItemID_PlayingWithDanger]);
+		}
+		if(amountOfItem[i][ItemID_ExplosiveSpecialist]){
+			TF2Attrib_SetByName(i, "dmg falloff decreased", 0.5);
+		}
+		if(amountOfItem[i][ItemID_TheQuickestFix]){
+			TF2Attrib_SetByName(i, "healing mastery", 1.0*amountOfItem[i][ItemID_TheQuickestFix]);
+		}
+		if(amountOfItem[i][ItemID_TankBuster]){
+			TF2Attrib_SetByName(i, "mult dmg vs tanks", Pow(1.5,1.0*amountOfItem[i][ItemID_TankBuster]));
+		}
+		if(amountOfItem[i][ItemID_ExtraMunitions]){
+			TF2Attrib_SetByName(i, "hidden primary max ammo bonus", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtraMunitions]));
+			TF2Attrib_SetByName(i, "hidden secondary max ammo penalty", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtraMunitions]));
+		}
+		if(amountOfItem[i][ItemID_PocketDispenser]){
+			TF2Attrib_SetByName(i, "ammo regen", 0.05*amountOfItem[i][ItemID_PocketDispenser]);
+		}
+		if(amountOfItem[i][ItemID_BigBaboonHeart]){
+			TF2Attrib_SetByName(i, "mult max health", Pow(1.25,1.0*amountOfItem[i][ItemID_BigBaboonHeart]));
+			TF2Attrib_SetByName(i, "max health additive bonus", 10.0*amountOfItem[i][ItemID_BigBaboonHeart]);
+		}
+		if(amountOfItem[i][ItemID_ProjectileSpeed]){
+			TF2Attrib_SetByName(i, "Projectile speed increased", 1.0 + 0.35*amountOfItem[i][ItemID_ProjectileSpeed]);
+		}
+		if(amountOfItem[i][ItemID_MoreBulletperBullet]){
+			TF2Attrib_SetByName(i, "bullets per shot bonus", 1.0 + 0.65*amountOfItem[i][ItemID_MoreBulletperBullet]);
+		}
+		if(amountOfItem[i][ItemID_BiomechanicalEngineering]){
+			TF2Attrib_SetByName(i, "medic machinery beam", 1.0*amountOfItem[i][ItemID_BiomechanicalEngineering]);
+		}
+		if(amountOfItem[i][ItemID_ArmorPenetration]){
+			TF2Attrib_SetByName(i, "dmg pierces resists absorbs", 1.0);
+		}
+		if(amountOfItem[i][ItemID_TrenMaxxdoser]){
+			TF2Attrib_SetByName(i, "max health additive penalty", 100.0 * amountOfItem[i][ItemID_TrenMaxxdoser]);
+			TF2Attrib_SetByName(i, "increase buff duration", Pow(1.5,float(amountOfItem[i][ItemID_TrenMaxxdoser])));
+		}
+		if(amountOfItem[i][ItemID_SlowerThanaSpeedingBullet]){
+			TF2Attrib_SetByName(i, "move speed bonus", 1.0 + 0.15 * amountOfItem[i][ItemID_SlowerThanaSpeedingBullet]);
+		}
+		if(amountOfItem[i][ItemID_ProjectilePenetration]){
+			TF2Attrib_SetByName(i, "projectile penetration", float(amountOfItem[i][ItemID_ProjectilePenetration]));
+		}
 		buffChange[i] = false;
 	}
 
@@ -296,7 +298,7 @@ void ManagePlayerItemHUD(int client){
 			continue;
 		
 		if(itemCount != 0 && itemCount % 3 == 0){
-			Format(textBuild, sizeof(textBuild), "%s%s x%i\n",textBuild, playerItems[client][i].name, amountOfItem[client][id]);
+			Format(textBuild, sizeof(textBuild), "%s\n%s x%i | ",textBuild, playerItems[client][i].name, amountOfItem[client][id]);
 		}else{
 			Format(textBuild, sizeof(textBuild), "%s%s x%i | ",textBuild, playerItems[client][i].name, amountOfItem[client][id]);
 		}

@@ -30,6 +30,9 @@ public Action Timer_100MS(Handle timer)
 		if(!IsValidClient(i))
 			continue;
 
+		if(IsFakeClient(i))
+			continue;
+			
 		if(!IsPlayerAlive(i))
 			continue;
 
@@ -99,5 +102,12 @@ public Action Timer_ChooseBeginnerItems(Handle timer, int client){
 	client = EntRefToEntIndex(client)
 	if(IsValidClient(client))
 		ChooseGeneratedItems(client, 0, 7, _, ItemRarity_Strange);
+	return Plugin_Stop;
+}
+public Action SelfDestruct(Handle timer, any:ref) 
+{ 
+    int entity = EntRefToEntIndex(ref); 
+    if(IsValidEdict(entity)) 
+		RemoveEntity(entity);
 	return Plugin_Stop;
 }

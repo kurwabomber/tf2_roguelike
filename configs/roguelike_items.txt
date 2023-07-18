@@ -149,7 +149,7 @@
         "cost"          "400"
         "max"           "2"
     }
-    "Illumination Canteen"
+    "Illumination Canteen"// not implemented
     {
         "description"   "+30s reveal on canteen usage"
         "tags"          "canteen"
@@ -158,7 +158,7 @@
         "cost"          "400"
         "max"           "1"
     }
-    "Warding Canteen"
+    "Warding Canteen"//Not implemented
     {
         "description"   "+16s 0.5x dmg taken on canteen usage"
         "tags"          "canteen"
@@ -266,7 +266,7 @@
         "cost"          "400"
         "max"           "3"
     }
-    "The Weaver"
+    "The Weaver"//Not Implemented yet
     {
         "description"   "+4 max sappers, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+15 sapper dps. cannot collide with others."
         "tags"          "spy"
@@ -293,7 +293,7 @@
         "cost"          "300"
         "max"           "1"
     }
-    "Medical Assistance"
+    "Medical Assistance"//Not Implemented yet
     {
         "description"   "+1 medigun target"
         "tags"          "medic"
@@ -313,16 +313,16 @@
     }
     "Armor Penetration"
     {
-        "description"   "-25% resistance effects\n(eg: vaccinator, battallion's, tank minigun res, etc.)"
+        "description"   "-100% resistance effects\n(eg: vaccinator, battallion's, tank minigun res, etc.)"
         "tags"          ""
         "weight"        "6"
         "rarity"        "3"
-        "cost"          "300"
+        "cost"          "1000"
         "max"           "1"
     }
     "Tren Maxxdoser"
     {
-        "description"   "+75 hp, 1.5x rage duration, 1.3x rage gain."
+        "description"   "+100 hp, 1.5x rage duration."
         "tags"          ""
         "weight"        "8"
         "rarity"        "3"
@@ -347,7 +347,7 @@
         "cost"          "150"
         "max"           "4"
     }
-    "Pandora's Canteen"
+    "Merasmus' Canteen"
     {
         "description"   "+100 projectiles spawned on canteen use"
         "tags"          "canteen"
@@ -356,11 +356,11 @@
         "cost"          "150"
         "max"           "1"
     }
-    "Projectile Penetration"
+    "Robot Penetration"
     {
-        "description"   "+1 projectile penetration"
-        "tags"          "projectile"
-        "weight"        "13"
+        "description"   "+1 enemies penetrated"
+        "tags"          ""
+        "weight"        "15"
         "rarity"        "2"
         "cost"          "100"
         "max"           "3"

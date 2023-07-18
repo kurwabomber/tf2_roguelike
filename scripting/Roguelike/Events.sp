@@ -83,10 +83,19 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 			EmitSoundToAll(LARGE_EXPLOSION_SOUND, attacker, -1, 150, 0, 1.0);
 		}
 	}
-	if(amountOfItem[attacker][ItemID_FlyingGuillotine] > 0){
+	if(amountOfItem[attacker][ItemID_FlyingGuillotine]){
 		float pct = float(GetClientHealth(victim))/TF2Util_GetEntityMaxHealth(victim);
 		if(pct <= 0.2*amountOfItem[attacker][ItemID_FlyingGuillotine])
 			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim), DMG_GENERIC);
+	}
+	if(amountOfItem[victim][ItemID_Martyr]){
+		for(int i = 1; i <= MaxClients; ++i){
+			if(!IsValidClient(i))
+				continue;
+			if(IsOnDifferentTeams(victim,i)) 
+				continue;
+			TF2_AddCondition(i, TFCond_RadiusHealOnDamage, 1.5, victim);
+		}
 	}
 	++amountHits[attacker];
 }
@@ -132,6 +141,15 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 	}
 }
 
+public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool& result){
+	if(IsValidClient(client)){
+		if(amountOfItem[client][ItemID_DecentlyBalanced])
+			if(0.1 * amountOfItem[client][ItemID_DecentlyBalanced] >= GetRandomFloat(0.0,1.0))
+				result = true;
+	}
+	return Plugin_Changed;
+}
+
 public OnEntityCreated(entity, const char[] classname)
 {
 	if(!IsValidEdict(entity) || entity < 0 || entity > 2048)
@@ -139,4 +157,11 @@ public OnEntityCreated(entity, const char[] classname)
 
     if(StrEqual(classname, "item_powerup_rune", false))
 		RemoveEntity(entity);
+	if(StrEqual(classname, "tank_boss", false))
+		SDKHook(entity, SDKHook_OnTakeDamage, Tank_OnTakeDamage);
+
+	if(StrContains(classname, "tf_projectile_") != -1){
+		projectileBounces[entity] = 0;
+		SDKHook(entity, SDKHook_StartTouch, OnStartBounceTouch);
+	}
 }

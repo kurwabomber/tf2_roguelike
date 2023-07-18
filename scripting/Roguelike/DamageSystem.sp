@@ -22,10 +22,10 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
                 int maxBounces = 2*amountOfItem[attacker][ItemID_Ricochet];
                 for(int client=1;client<MaxClients && i < maxBounces;client++)
                 {
+                    if(isBounced[client]) {continue;}
                     if(!IsValidClient(client)) {continue;}
                     if(!IsPlayerAlive(client)) {continue;}
                     if(!IsOnDifferentTeams(client,attacker)) {continue;}
-                    if(isBounced[client]) {continue;}
 
                     float VictimPos[3]; 
                     GetClientEyePosition(client, VictimPos); 
@@ -37,16 +37,17 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
                     lastBouncedTarget = client
                     SDKHooks_TakeDamage(client,attacker,attacker,damage,damagetype,-1,NULL_VECTOR,NULL_VECTOR);
                     i++
+                    client = 1;
                 }
             }
         }
         if(amountOfItem[attacker][ItemID_ChainExplosives]){
             if(damagetype & DMG_BLAST || damagetype & DMG_BLAST_SURFACE)
-                EntityExplosion(attacker, damage*0.25*amountOfItem[attacker][ItemID_ChainExplosives], 144.0, damagePosition, _, _, inflictor, _, damagetype, weapon, 0.2);
+                EntityExplosion(attacker, damage*0.25*amountOfItem[attacker][ItemID_ChainExplosives], 144.0, damagePosition, _, _, victim, _, damagetype, weapon, 0.2);
         }
         if(amountOfItem[attacker][ItemID_ExplosiveImpact]){
             if(!(damagetype & DMG_BLAST || damagetype & DMG_BLAST_SURFACE))
-                EntityExplosion(attacker, damage*0.5*amountOfItem[attacker][ItemID_ExplosiveImpact], 144.0, damagePosition, _, _, inflictor, _, damagetype, weapon, 0.2);
+                EntityExplosion(attacker, damage*0.5*amountOfItem[attacker][ItemID_ExplosiveImpact], 144.0, damagePosition, _, _, victim, _, damagetype, weapon, 0.2);
         }
         if(amountOfItem[attacker][ItemID_QuadDamage]){
             if(amountHits[attacker] % 10 == 0)
@@ -55,6 +56,46 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
         if(amountOfItem[attacker][ItemID_CompoundInterest]){
             compoundInterestDuration[victim] = currentGameTime+2.0;
             ++compoundInterestStacks[victim][attacker];
+        }
+        if(amountOfItem[attacker][ItemID_GoopGunner]){
+            int amountOfDebuffs = 0;
+            if(TF2_IsPlayerInCondition(victim, TFCond_OnFire))
+                ++amountOfDebuffs;
+            if(TF2_IsPlayerInCondition(victim, TFCond_Dazed))
+                ++amountOfDebuffs;
+            if(TF2_IsPlayerInCondition(victim, TFCond_Bleeding))
+                ++amountOfDebuffs;             
+            if(TF2_IsPlayerInCondition(victim, TFCond_Jarated))
+                ++amountOfDebuffs;      
+            if(TF2_IsPlayerInCondition(victim, TFCond_MarkedForDeath))
+                ++amountOfDebuffs;   
+            if(TF2_IsPlayerInCondition(victim, TFCond_Milked))
+                ++amountOfDebuffs;   
+            if(TF2_IsPlayerInCondition(victim, TFCond_Plague))
+                ++amountOfDebuffs;   
+            if(TF2_IsPlayerInCondition(victim, TFCond_HealingDebuff))
+                ++amountOfDebuffs;
+
+            for(int buff = 0;buff < MAXBUFFS; ++buff)
+            {
+                if(playerBuffs[victim][buff].isDebuff)
+                    ++amountOfDebuffs;
+            }
+
+            damage *= Pow(Pow(1.1, float(amountOfItem[attacker][ItemID_GoopGunner])), float(amountOfDebuffs));
+        }
+
+    }
+    return Plugin_Changed;
+}
+//For a tank
+public Action Tank_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
+    if(IsValidClient(attacker) && IsValidWeapon(weapon)){
+        if(amountOfItem[attacker][ItemID_ArmorPenetration]){
+            char weaponClass[32];
+            GetEntityClassname(weapon, weaponClass, sizeof(weaponClass));
+            if(StrEqual(weaponClass, "tf_weapon_minigun"))
+                damage *= 4.0;
         }
     }
     return Plugin_Changed;
