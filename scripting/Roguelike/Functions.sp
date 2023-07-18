@@ -105,6 +105,11 @@ public void ManagePlayerBuffs(int i){
 		multiplicativeDamageBuff *= multiplicativeAttackSpeedMultBuff;
 		multiplicativeAttackSpeedMultBuff = 1.0;
 	}
+	if(amountOfItem[i][ItemID_BiggerCaliber]){
+		multiplicativeAttackSpeedMultBuff /= Pow(1.8, float(amountOfItem[i][ItemID_BiggerCaliber]));
+		multiplicativeDamageBuff *= Pow(2.1, float(amountOfItem[i][ItemID_BiggerCaliber]));
+	}
+
 
 	if(buffChange[i])
 	{
@@ -112,13 +117,16 @@ public void ManagePlayerBuffs(int i){
 
 		TF2Attrib_SetByName(i, "additive damage bonus", additiveDamageRawBuff);
 		TF2Attrib_SetByName(i, "damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
-		TF2Attrib_SetByName(i, "firerate player buff", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
-		TF2Attrib_SetByName(i, "recharge rate player buff", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
-		TF2Attrib_SetByName(i, "mult_item_meter_charge_rate", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
-		TF2Attrib_SetByName(i, "Reload time decreased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
-		TF2Attrib_SetByName(i, "mult smack time", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
-		TF2Attrib_SetByName(i, "movespeed player buff", additiveMoveSpeedMultBuff);
-		TF2Attrib_SetByName(i, "damage taken mult 4", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
+		TF2Attrib_SetByName(i, "move speed penalty", additiveMoveSpeedMultBuff);
+		TF2Attrib_SetByName(i, "dmg taken increased", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
+
+		if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff != 1.0){
+			TF2Attrib_SetByName(i, "fire rate bonus", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+			TF2Attrib_SetByName(i, "item_meter_charge_rate", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+			TF2Attrib_SetByName(i, "Reload time decreased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+			if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff > 1.0)
+				TF2Attrib_SetByName(i, "mult smack time", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+		}
 
 		if(amountOfItem[i][ItemID_RocketSpecialist]){
 			TF2Attrib_SetByName(i, "rocket specialist", 1.0*amountOfItem[i][ItemID_RocketSpecialist]);
@@ -141,6 +149,10 @@ public void ManagePlayerBuffs(int i){
 		if(amountOfItem[i][ItemID_ExtraMunitions]){
 			TF2Attrib_SetByName(i, "hidden primary max ammo bonus", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtraMunitions]));
 			TF2Attrib_SetByName(i, "hidden secondary max ammo penalty", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtraMunitions]));
+			if(TF2_GetPlayerClass(i) == TFClass_Engineer){
+				TF2Attrib_SetByName(i, "mvm sentry ammo", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtraMunitions]));
+				TF2Attrib_SetByName(i, "maxammo metal increased", Pow(1.5,1.0*amountOfItem[i][ItemID_ExtraMunitions]));
+			}
 		}
 		if(amountOfItem[i][ItemID_PocketDispenser]){
 			TF2Attrib_SetByName(i, "ammo regen", 0.05*amountOfItem[i][ItemID_PocketDispenser]);
@@ -170,6 +182,43 @@ public void ManagePlayerBuffs(int i){
 		}
 		if(amountOfItem[i][ItemID_ProjectilePenetration]){
 			TF2Attrib_SetByName(i, "projectile penetration", float(amountOfItem[i][ItemID_ProjectilePenetration]));
+		}
+		if(amountOfItem[i][ItemID_PrecisionTargeting]){
+			TF2Attrib_SetByName(i, "mult crit dmg", Pow(1.4, float(amountOfItem[i][ItemID_PrecisionTargeting])));
+		}
+		if(amountOfItem[i][ItemID_AustraliumAlchemist]){
+			TF2Attrib_SetByName(i, "mult credit collect range", Pow(1.5, float(amountOfItem[i][ItemID_AustraliumAlchemist])));
+		}
+		if(amountOfItem[i][ItemID_GiantSlayer]){
+			TF2Attrib_SetByName(i, "mult dmg vs giants", Pow(1.5, float(amountOfItem[i][ItemID_GiantSlayer])));
+		}
+		if(amountOfItem[i][ItemID_Autocollect]){
+			TF2Attrib_SetByName(i, "collect currency on kill", float(amountOfItem[i][ItemID_Autocollect]));
+		}
+		if(amountOfItem[i][ItemID_Cleave]){
+			TF2Attrib_SetByName(i, "melee cleave attack", float(amountOfItem[i][ItemID_Cleave]));
+		}
+		if(amountOfItem[i][ItemID_Multishot]){
+			TF2Attrib_SetByName(i, "mult projectile count", float(amountOfItem[i][ItemID_Multishot]));
+		}
+		if(amountOfItem[i][ItemID_LongerMelee]){
+			TF2Attrib_SetByName(i, "melee range multiplier", Pow(2.0, float(amountOfItem[i][ItemID_Multishot])));
+		}
+		if(amountOfItem[i][ItemID_PrecisionNotAccuracy]){
+			TF2Attrib_SetByName(i, "weapon spread bonus", Pow(0.66, float(amountOfItem[i][ItemID_PrecisionNotAccuracy])));
+		}
+		if(amountOfItem[i][ItemID_AcceleratedDegeneration]){
+			TF2Attrib_SetByName(i, "mult bleeding delay", Pow(1.5, float(amountOfItem[i][ItemID_AcceleratedDegeneration])));
+			TF2Attrib_SetByName(i, "mult afterburn delay", Pow(1.5, float(amountOfItem[i][ItemID_AcceleratedDegeneration])));
+		}
+		if(amountOfItem[i][ItemID_Bargain]){
+			TF2Attrib_SetByName(i, "sniper charge per sec", Pow(1.5, float(amountOfItem[i][ItemID_Bargain])));
+		}
+		if(amountOfItem[i][ItemID_Snare]){
+			TF2Attrib_SetByName(i, "slow enemy on hit major", 2.0*amountOfItem[i][ItemID_Snare]);
+		}
+		if(amountOfItem[i][ItemID_DumpsterDiver]){
+			TF2Attrib_SetByName(i, "slow enemy on hit major", 2.0*amountOfItem[i][ItemID_Snare]);
 		}
 		buffChange[i] = false;
 	}
@@ -359,6 +408,9 @@ void ParseItemConfig(Handle keyvalue){
 						availableItems[loadedItems].tagInfo.reqCanteen = true;
 					if(StrContains(buffer, "rocket", false) != -1)
 						availableItems[loadedItems].tagInfo.reqRocket = true;
+					
+					if(StrContains(buffer, "ultimate", false) != -1)
+						availableItems[loadedItems].tagInfo.isUltimate = true;
 
 					if(StrContains(buffer, "scout", false) != -1)
 						availableItems[loadedItems].tagInfo.classReq |= BIT_SCOUT;

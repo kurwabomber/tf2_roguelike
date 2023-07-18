@@ -76,7 +76,7 @@
     }
     "Tank Buster"
     {
-        "description"   "1.5x tank damage"
+        "description"   "1.5x damage VS tanks"
         "tags"          ""
         "weight"        "10"
         "rarity"        "3"
@@ -149,7 +149,7 @@
         "cost"          "400"
         "max"           "2"
     }
-    "Illumination Canteen"// not implemented
+    "Illumination Canteen"
     {
         "description"   "+30s reveal on canteen usage"
         "tags"          "canteen"
@@ -158,7 +158,7 @@
         "cost"          "400"
         "max"           "1"
     }
-    "Warding Canteen"//Not implemented
+    "Warding Canteen"
     {
         "description"   "+16s 0.5x dmg taken on canteen usage"
         "tags"          "canteen"
@@ -169,7 +169,7 @@
     }
     "Collection Canteen"
     {
-        "description"   "collects money, health, and ammo packs on canteen usage"
+        "description"   "collects money packs on canteen usage"
         "tags"          "canteen"
         "weight"        "10"
         "rarity"        "3"
@@ -241,12 +241,12 @@
     }
     "Australium Alchemist"
     {
-        "description"   "+15% cash flow"
+        "description"   "+15% cash flow, 1.5x collect radius"
         "tags"          ""
-        "weight"        "3"
+        "weight"        "10"
         "rarity"        "4"
-        "cost"          "400"
-        "max"           "1"
+        "cost"          "600"
+        "max"           "5"
     }
     "Compound Interest"
     {
@@ -266,16 +266,16 @@
         "cost"          "400"
         "max"           "3"
     }
-    "The Weaver"//Not Implemented yet
+    "The Weaver"
     {
         "description"   "+4 max sappers, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+15 sapper dps. cannot collide with others."
-        "tags"          "spy"
+        "tags"          "spyultimate"
         "weight"        "7"
         "rarity"        "3"
         "cost"          "1600"
         "max"           "1"
     }
-    "Biomechanical Engineering"
+    "Biomechanical Bandaging"
     {
         "description"   "medigun can heal buildings"
         "tags"          "medic"
@@ -373,5 +373,124 @@
         "rarity"        "2"
         "cost"          "100"
         "max"           "3"
+    }
+    "Precision Targeting"
+    {
+        "description"   "1.4x crit damage"
+        "tags"          ""
+        "weight"        "15"
+        "rarity"        "3"
+        "cost"          "400"
+    }
+    "Giant Slayer"
+    {
+        "description"   "1.5x damage VS giants"
+        "tags"          ""
+        "weight"        "15"
+        "rarity"        "3"
+        "cost"          "400"
+    }
+    "Autocollect"
+    {
+        "description"   "automatically collects money from killed bots"
+        "tags"          ""
+        "weight"        "15"
+        "rarity"        "3"
+        "cost"          "400"       
+    }
+    "Cleave"
+    {
+        "description"   "melee hits all enemies within range"
+        "tags"          ""
+        "weight"        "20"
+        "rarity"        "3"
+        "cost"          "600"
+        "max"           "1"       
+    }
+    "Multishot"
+    {
+        "description"   "+1 projectiles per shot"
+        "tags"          "projectile"
+        "weight"        "7"
+        "rarity"        "5"
+        "cost"          "800"
+        "max"           "2"       
+    }
+	"Bigger Caliber"
+    {
+        "description"   "2.1x damage, 1.8x slower fire rate."
+        "tags"          ""
+        "weight"        "18"
+        "rarity"        "1"
+        "cost"          "200"
+        "max"           "3"       
+    }
+	"Longer Melee"
+    {
+        "description"   "2x melee range"
+        "tags"          ""
+        "weight"        "18"
+        "rarity"        "1"
+        "cost"          "100"       
+    }
+	"Phaselock"
+    {
+        "description"   "On Headshot: +15% chance to summon\nlightning orb to lock movement in enemies."
+        "tags"          "sniper"
+        "weight"        "6"
+        "rarity"        "4"
+        "cost"          "500"
+		"max"			"1"
+    }
+	"Precision Is Not Accuracy"
+    {
+        "description"   "0.66x bullet spread"
+        "tags"          "bullet"
+        "weight"        "15"
+        "rarity"        "1"
+        "cost"          "200"
+		"max"			"3"
+    }
+	"Accelerated Degeneration"
+    {
+        "description"   "1.5x faster afterburn and bleed tick rate"
+        "tags"          ""
+        "weight"        "8"
+        "rarity"        "3"
+        "cost"          "300"
+    }
+	"Convenience Store Bargain"
+    {
+        "description"   "1.5x sniper rifle charge rate"
+        "tags"          "sniper"
+        "weight"        "15"
+        "rarity"        "1"
+        "cost"          "200"
+    }
+	"Snare"
+    {
+        "description"   "+2s slow on hit"
+        "tags"          ""
+        "weight"        "15"
+        "rarity"        "1"
+        "cost"          "200"
+    }
+    "Dumpster Diver"
+    {
+        "description"   "gives beggar bonuses to weapons"
+        "tags"          ""
+        "weight"        "7"
+        "rarity"        "4"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Immunity Penetration"
+    {
+        "description"   "damage pierces through uber and bonk"
+        "tags"          ""
+        "weight"        "10"
+        "rarity"        "4"
+        "cost"          "700"
+        "max"           "1"
     }
 }

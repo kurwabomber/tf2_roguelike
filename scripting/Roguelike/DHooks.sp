@@ -62,11 +62,25 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 			TF2_AddCondition(client, TFCond_CritCanteen, 6.0 * amountOfItem[client][ItemID_KritzCanteen]);
 
 		if(amountOfItem[client][ItemID_IlluminationCanteen]){
-			
+			Buff illuminatedDebuff;
+			illuminatedDebuff.init("Illuminated", "Cannot cloak/disguise", Buff_IlluminatedDebuff, 1, client, 30.0 * amountOfItem[client][ItemID_IlluminationCanteen]);
+			for(int i = 1; i <= MaxClients; ++i){
+				if(!IsValidClient(i))
+					continue;
+				if(!IsOnDifferentTeams(client, i))
+					continue;
+
+				TF2_RemoveCondition(i, TFCond_Cloaked);
+				TF2_RemoveCondition(i, TFCond_Disguised);
+				insertBuff(i, illuminatedDebuff);
+				SetEntProp(i, Prop_Send, "m_bGlowEnabled", 1);
+			}
 		}
 
 		if(amountOfItem[client][ItemID_WardingCanteen]){
-			
+			Buff defenseBonus;
+			defenseBonus.init("Defense Bonus", "", Buff_DefenseBuff, 1, client, 16.0 * amountOfItem[client][ItemID_WardingCanteen]);
+			insertBuff(client, defenseBonus);
 		}
 
 		if(amountOfItem[client][ItemID_CollectionCanteen]){
@@ -96,7 +110,7 @@ public MRESReturn OnBlastExplosion(int entity, Handle hReturn){
 		return MRES_Ignored;
 
 	if(amountOfItem[owner][ItemID_FraggyExplosives]){
-		for(int i = 0;i<5*amountOfItem[owner][ItemID_FraggyExplosives];++i)
+		for(int i = 0;i<3*amountOfItem[owner][ItemID_FraggyExplosives];++i)
 		{
 			int iEntity = CreateEntityByName("tf_projectile_syringe");
 			if (!IsValidEdict(iEntity)) 
@@ -126,6 +140,7 @@ public MRESReturn OnBlastExplosion(int entity, Handle hReturn){
 			TeleportEntity(iEntity, fOrigin, fAngles, fVelocity);
 			DispatchSpawn(iEntity);
 			SetEntityGravity(iEntity, 9.0);
+			
 			CreateTimer(1.0,SelfDestruct,EntIndexToEntRef(iEntity));
 		}
 	}

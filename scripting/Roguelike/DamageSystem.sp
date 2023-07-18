@@ -6,6 +6,8 @@
 //Only thing calculated is damage & "mult_dmg" attribute
 public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
     if(IsValidClient(attacker) && IsValidWeapon(weapon)){
+        damage += GetAttribute(attacker, "additive damage bonus", 0.0);
+
         if(amountOfItem[attacker][ItemID_Kurwabomber]){
             if(victim == attacker && !TF2Attrib_HookValueFloat(0.0, "no_self_blast_dmg", weapon)){
                 isKurwabombered[attacker][victim] = true;
@@ -74,6 +76,8 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
             if(TF2_IsPlayerInCondition(victim, TFCond_Plague))
                 ++amountOfDebuffs;   
             if(TF2_IsPlayerInCondition(victim, TFCond_HealingDebuff))
+                ++amountOfDebuffs;
+            if(TF2_IsPlayerInCondition(victim, TFCond_Slowed))
                 ++amountOfDebuffs;
 
             for(int buff = 0;buff < MAXBUFFS; ++buff)

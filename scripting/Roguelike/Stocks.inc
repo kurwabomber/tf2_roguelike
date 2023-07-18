@@ -16,7 +16,7 @@
 #define DetonatorExplosionSound "weapons/flare_detonator_explode.wav"
 #define OrnamentExplosionSound "weapons/ball_buster_break_01.wav"
 
-stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.65,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 80, bool ignition = false)
+stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.7,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 80, bool ignition = false)
 {
 	if(entity == -1 || !IsValidEdict(entity))
 		entity = owner;
@@ -66,35 +66,35 @@ stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType
 		case 1:
 		{
 			if(random == 1){
-				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
-				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
-				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel,_,_,pos);
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel,_,_,pos);
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel,_,_,pos);
 			}else if(random == 2){
-				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
-				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
-				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel,_,_,pos);
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel,_,_,pos);
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel,_,_,pos);
 			}else if(random == 3){
-				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
-				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
-				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel,_,_,pos);
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel,_,_,pos);
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel,_,_,pos);
 			}
 		}
 		case 2:
 		{
-			EmitSoundToAll(DetonatorExplosionSound, entity, -1, soundPriority-20, 0, soundLevel-0.15);
+			EmitSoundToAll(DetonatorExplosionSound, entity, -1, soundPriority-20, 0, soundLevel-0.15,_,_,pos);
 		}
 		case 3:
 		{
-			EmitSoundToAll(OrnamentExplosionSound, entity, -1, soundPriority, 0, soundLevel);
+			EmitSoundToAll(OrnamentExplosionSound, entity, -1, soundPriority, 0, soundLevel,_,_,pos);
 		}
 		default:
 		{
 			if(random == 1){
-				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel,_,_,pos);
 			}else if(random == 2){
-				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel,_,_,pos);
 			}else if(random == 3){
-				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel,_,_,pos);
 			}
 		}
 	}

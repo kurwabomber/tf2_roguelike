@@ -32,7 +32,7 @@
 public Plugin:myinfo =
 {
 	name = "TF2 Roguelike",
-	author = "Telia",
+	author = "Razor",
 	description = "MvM Gamemode stylized as a roguelike",
 	version = PLUGIN_VERSION,
 	url = "https://github.com/kurwabomber/Incremental-Fortress",

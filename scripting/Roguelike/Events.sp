@@ -4,6 +4,7 @@ public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
 	//todo: scale it based off max wave
 	for(int client = 1;client<MaxClients;++client){
 		ChooseGeneratedItems(client, wavesCleared, 4+wavesCleared, view_as<ItemRarity>(_:ItemRarity_Normal+wavesCleared/2), view_as<ItemRarity>(_:ItemRarity_Genuine+wavesCleared/2));
+		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	}
 }
 public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
@@ -11,6 +12,7 @@ public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
 		for(int i = 0; i<MAX_HELD_ITEMS;++i){
 			savedPlayerItems[client][i] = playerItems[client][i];
 		}
+		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	}
 }
 public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
@@ -150,6 +152,16 @@ public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname
 	return Plugin_Changed;
 }
 
+public TF2_OnConditionAdded(int client, TFCond condition){
+	if(IsValidClient(client)){
+		switch(condition){
+			case TFCond_Cloaked,TFCond_Disguised:{
+				if(hasBuffIndex(client, Buff_IlluminatedDebuff))
+					TF2_RemoveCondition(client, condition);
+			}
+		}
+	}
+}
 public OnEntityCreated(entity, const char[] classname)
 {
 	if(!IsValidEdict(entity) || entity < 0 || entity > 2048)

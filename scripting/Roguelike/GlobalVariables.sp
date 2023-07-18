@@ -92,6 +92,20 @@ enum ItemID{
 	ItemID_PandorasCanteen,
 	ItemID_ProjectilePenetration,
 	ItemID_DrunkenBomber,
+	ItemID_PrecisionTargeting,
+	ItemID_GiantSlayer,
+	ItemID_Autocollect,
+	ItemID_Cleave,
+	ItemID_Multishot,
+	ItemID_BiggerCaliber,
+	ItemID_LongerMelee,
+	ItemID_Phaselock,
+	ItemID_PrecisionNotAccuracy,
+	ItemID_AcceleratedDegeneration,
+	ItemID_Bargain,
+	ItemID_Snare,
+	ItemID_DumpsterDiver,
+	ItemID_ImmunityPenetration,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -111,6 +125,7 @@ enum struct Tags{
 	bool reqRocket;
 	int classReq;
 	int maximum;
+	bool isUltimate;
 	
 	void clear(){
 		this.reqExplosive = false;
@@ -120,6 +135,7 @@ enum struct Tags{
 		this.reqRocket = false;
 		this.classReq = 0;
 		this.maximum = 0;
+		this.isUltimate = false;
 	}
 }
 enum struct Item{
@@ -155,6 +171,8 @@ enum struct Item{
 }
 enum {
 	Buff_Empty=0,
+	Buff_DefenseBuff,
+	Buff_IlluminatedDebuff,
 };
 enum {
 	Powerup_Strength=0,
