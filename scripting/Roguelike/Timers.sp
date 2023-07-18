@@ -1,3 +1,29 @@
+public OnGameFrame()
+{
+	currentGameTime = GetGameTime();
+	for(int client=1; client<=MaxClients; ++client)
+	{
+		if(!IsValidClient(client))
+			continue;
+		if(!IsPlayerAlive(client))
+			continue;
+
+		if(compoundInterestDuration[client] >= currentGameTime){
+			if(compoundInterestDamageTime[client] <= currentGameTime){
+				for(int i = 1; i <= MaxClients; ++i){
+					if(compoundInterestStacks[client][i] > 0)
+						SDKHooks_TakeDamage(client, i, i, 2.0*compoundInterestStacks[client][i], DMG_SLASH);
+				}
+				compoundInterestDamageTime[client] = currentGameTime+0.5;
+			}
+		}else if(compoundInterestDamageTime[client]){
+			compoundInterestDamageTime[client] = 0.0;
+			for(int i = 1; i <= MaxClients; ++i){
+				compoundInterestStacks[client][i] = 0
+			}
+		}
+	}
+}
 public Action Timer_100MS(Handle timer)
 {
 	for(int i = 1; i <= MaxClients; i++){
@@ -60,7 +86,6 @@ public Action Timer_10S(Handle timer)
 	}
 	return Plugin_Continue;
 }
-
 public Action ReEnableBuilding(Handle timer, int entity)
 {
 	entity = EntRefToEntIndex(entity);

@@ -68,6 +68,14 @@ public void OnMapStart(){
 	PrecacheSound("items/powerup_pickup_supernova_activate.wav");
 	PrecacheSound("mvm/mvm_used_powerup.wav");
 	PrecacheSound(LARGE_EXPLOSION_SOUND);
+	PrecacheSound(ExplosionSound1);
+	PrecacheSound(ExplosionSound2);
+	PrecacheSound(ExplosionSound3);
+	PrecacheSound(SmallExplosionSound1);
+	PrecacheSound(SmallExplosionSound2);
+	PrecacheSound(SmallExplosionSound3);
+	PrecacheSound(DetonatorExplosionSound);
+	PrecacheSound(OrnamentExplosionSound);
 }
 
 public OnPluginEnd(){

@@ -59,8 +59,12 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 		playerBuffs[client][buff].clear();
 	}
 	buffChange[client] = true;
-
 	canteenCount[client] = amountOfItem[client][ItemID_Canteen];
+	compoundInterestDuration[client] = 0.0;
+	compoundInterestDamageTime[client] = 0.0;
+	for(int i = 1 ; i <= MaxClients; ++i){
+		compoundInterestStacks[client][i] = 0;
+	}
 }
 
 public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
@@ -79,6 +83,12 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 			EmitSoundToAll(LARGE_EXPLOSION_SOUND, attacker, -1, 150, 0, 1.0);
 		}
 	}
+	if(amountOfItem[attacker][ItemID_FlyingGuillotine] > 0){
+		float pct = float(GetClientHealth(victim))/TF2Util_GetEntityMaxHealth(victim);
+		if(pct <= 0.2*amountOfItem[attacker][ItemID_FlyingGuillotine])
+			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim), DMG_GENERIC);
+	}
+	++amountHits[attacker];
 }
 
 public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){

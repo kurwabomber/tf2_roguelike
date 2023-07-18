@@ -7,7 +7,107 @@
 #define BIT_PYRO 1 << 6
 #define BIT_SPY 1 << 7
 #define BIT_ENGINEER 1 << 8
+#define ExplosionSound1 "weapons/explode1.wav"
+#define ExplosionSound2 "weapons/explode2.wav"
+#define ExplosionSound3 "weapons/explode3.wav"
+#define SmallExplosionSound1 "weapons/airstrike_small_explosion_01.wav"
+#define SmallExplosionSound2 "weapons/airstrike_small_explosion_02.wav"
+#define SmallExplosionSound3 "weapons/airstrike_small_explosion_03.wav"
+#define DetonatorExplosionSound "weapons/flare_detonator_explode.wav"
+#define OrnamentExplosionSound "weapons/ball_buster_break_01.wav"
 
+stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.65,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 100, bool ignition = false)
+{
+	if(entity == -1 || !IsValidEdict(entity))
+		entity = owner;
+	int i = -1;
+	while ((i = FindEntityByClassname(i, "*")) != -1)
+	{
+		if(IsValidForDamage(i) && IsOnDifferentTeams(owner,i) && i != entity)
+		{
+			float targetvec[3];
+			float distance;
+			GetEntPropVector(i, Prop_Data, "m_vecOrigin", targetvec);
+			distance = GetVectorDistance(pos, targetvec, false)
+			if(distance <= radius)
+			{
+				if(IsPointVisible(pos,targetvec))
+				{
+					if(falloff != 0.0)
+					{
+						float ratio = (1.0-(distance/radius)*falloff);
+						if(ratio < 0.5)
+							ratio = 0.5;
+						if(ratio >= 0.95)
+							ratio = 1.0;
+						damage *= ratio
+					}
+
+					if(IsValidWeapon(weapon) && IsValidClient(i))
+					{
+						SDKHooks_TakeDamage(i,owner,owner,damage, damagetype,weapon,NULL_VECTOR,NULL_VECTOR)
+						if(ignition)
+							TF2Util_IgnitePlayer(i, owner, 7.0, weapon);
+					}
+					else
+					{
+						SDKHooks_TakeDamage(i,owner,owner,damage, damagetype,-1,NULL_VECTOR,NULL_VECTOR, false);
+					}
+				}
+			}
+		}
+	}
+	if(visual)
+		CreateParticle(-1, "ExplosionCore_MidAir", false, "", 0.1, pos);
+	
+	int random = GetRandomInt(1,3)
+	switch(soundType)
+	{
+		case 1:
+		{
+			if(random == 1){
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
+			}else if(random == 2){
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
+			}else if(random == 3){
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
+			}
+		}
+		case 2:
+		{
+			EmitSoundToAll(DetonatorExplosionSound, entity, -1, soundPriority-20, 0, soundLevel-0.15);
+		}
+		case 3:
+		{
+			EmitSoundToAll(OrnamentExplosionSound, entity, -1, soundPriority, 0, soundLevel);
+		}
+		default:
+		{
+			if(random == 1){
+				EmitSoundToAll(ExplosionSound1, entity,_,soundPriority,_,soundLevel);
+			}else if(random == 2){
+				EmitSoundToAll(ExplosionSound2, entity,_,soundPriority,_,soundLevel);
+			}else if(random == 3){
+				EmitSoundToAll(ExplosionSound3, entity,_,soundPriority,_,soundLevel);
+			}
+		}
+	}
+}
+stock bool IsPointVisible(const float start[3], const float end[3])
+{
+    TR_TraceRayFilter(start, end, MASK_SOLID, RayType_EndPoint, Filter_WorldOnly);
+    return TR_GetFraction() == 1.0;
+}
+stock bool Filter_WorldOnly(int entity,int mask)
+{
+    return false;
+}
 stock void SendItemInfo(int client, const char[] text)
 {
 	Handle hBuffer = StartMessageOne("KeyHintText", client);

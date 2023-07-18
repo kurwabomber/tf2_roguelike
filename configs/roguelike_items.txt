@@ -196,7 +196,7 @@
     }
     "Chain Explosives"
     {
-        "description"   "+1 explosion per explosion hit, non-recursively"
+        "description"   "+1 explosion per explosion hit, non-recursively (25% dmg)"
         "tags"          "explosive"
         "weight"        "8"
         "rarity"        "6"
@@ -223,7 +223,7 @@
     }
     "The Escape Plan"
     {
-        "description"   "proc ubercharge automatically if fatal damage\nmust be above 50% ubercharge. +5s speed boost"
+        "description"   "proc ubercharge automatically if fatal damage\nmust be above 75% ubercharge. +5s speed boost"
         "tags"          "medic"
         "weight"        "6"
         "rarity"        "4"

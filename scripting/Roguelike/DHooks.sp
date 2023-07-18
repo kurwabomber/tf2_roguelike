@@ -94,6 +94,8 @@ public MRESReturn OnAddCurrency(int client, Handle hParams){
 
 	int add = DHookGetParam(hParams, 1);
 	int current = GetEntProp(client, Prop_Send, "m_nCurrency");
+	if(amountOfItem[client][ItemID_AustraliumAlchemist] > 0)
+		add = RoundToCeil(add*(1.0+0.15*amountOfItem[client][ItemID_AustraliumAlchemist]));
 	SetEntProp(client, Prop_Send, "m_nCurrency", add+current);
 
 	return MRES_Supercede;

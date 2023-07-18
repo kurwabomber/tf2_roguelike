@@ -13,6 +13,7 @@ public OnClientPutInServer(int client){
 	}
 	canteenCount[client] = 0;
 	canteenCooldown[client] = 0.0;
+	amountHits[client] = 0;
 }
 public OnClientDisconnect(client){
 	if(isHooked[client]){

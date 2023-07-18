@@ -16,6 +16,7 @@ enum struct Buff{
 	float additiveDamageTaken;
 	float multiplicativeDamageTaken;
 	float additiveArmorRecharge;
+	bool isDebuff;
 
 	void clear(){
 		this.name = "";
@@ -33,8 +34,9 @@ enum struct Buff{
 		this.additiveDamageTaken = 0.0;
 		this.multiplicativeDamageTaken = 0.0;
 		this.additiveArmorRecharge = 0.0;
+		this.isDebuff = false;
 	}
-	void init(const char sName[32], const char sDescription[64], int iID, int iPriority, int iInflictor, float fDuration)
+	void init(const char sName[32], const char sDescription[64], int iID, int iPriority, int iInflictor, float fDuration, bool bIsDebuff = false)
 	{
 		this.name = sName;
 		this.description = sDescription;
@@ -42,6 +44,7 @@ enum struct Buff{
 		this.priority = iPriority;
 		this.inflictor = iInflictor;
 		this.duration = fDuration+GetGameTime();
+		this.isDebuff = bIsDebuff;
 	}
 }
 enum ItemID{
@@ -184,6 +187,10 @@ int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];
 int loadedItems = 0;
 int canteenCount[MAXPLAYERS+1];
 float canteenCooldown[MAXPLAYERS+1];
+int amountHits[MAXPLAYERS+1];
+int compoundInterestStacks[MAXPLAYERS+1][MAXPLAYERS+1];
+float compoundInterestDuration[MAXPLAYERS+1];
+float compoundInterestDamageTime[MAXPLAYERS+1];
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls
