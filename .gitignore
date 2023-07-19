@@ -5,6 +5,8 @@
 
 !gamedata
 !gamedata/tf2.roguelike.txt
+!gamedata/sigsegv
+!gamedata/sigsegv/custom_attributes.txt
 
 !scripting
 !scripting/TF2_Roguelike.sp

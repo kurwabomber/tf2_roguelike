@@ -45,8 +45,6 @@ public void ManagePlayerBuffs(int i){
 	float additiveMoveSpeedMultBuff = 1.0;
 	float additiveDamageTakenBuff = 1.0;
 	float multiplicativeDamageTakenBuff = 1.0;
-	float additiveArmorRechargeBuff = 1.0;
-
 	char details[255] = "Statuses Active:"
 
 	for(int buff = 0;buff < MAXBUFFS; buff++)
@@ -82,7 +80,6 @@ public void ManagePlayerBuffs(int i){
 		additiveMoveSpeedMultBuff += playerBuffs[i][buff].additiveMoveSpeedMult;
 		additiveDamageTakenBuff += playerBuffs[i][buff].additiveDamageTaken;
 		multiplicativeDamageTakenBuff *= playerBuffs[i][buff].multiplicativeDamageTaken;
-		additiveArmorRechargeBuff += playerBuffs[i][buff].additiveArmorRecharge;
 
 		if(playerBuffs[i][buff].description[0] != '\0')
 			Format(details, sizeof(details), "%s\n%s: - %.1fs\n  %s", details, playerBuffs[i][buff].name, playerBuffs[i][buff].duration - currentGameTime, playerBuffs[i][buff].description);
@@ -114,11 +111,21 @@ public void ManagePlayerBuffs(int i){
 	if(buffChange[i])
 	{
 		TF2Attrib_RemoveAll(i);
+		
+		TF2Attrib_SetByName(i, "ignores other projectiles", 1.0);
+		TF2Attrib_SetByName(i, "penetrate teammates", 1.0);
 
-		TF2Attrib_SetByName(i, "additive damage bonus", additiveDamageRawBuff);
-		TF2Attrib_SetByName(i, "damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
-		TF2Attrib_SetByName(i, "move speed penalty", additiveMoveSpeedMultBuff);
-		TF2Attrib_SetByName(i, "dmg taken increased", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
+		if(additiveDamageRawBuff != 0.0)
+			TF2Attrib_SetByName(i, "additive damage bonus", additiveDamageRawBuff);
+		
+		if(additiveDamageMultBuff*multiplicativeDamageBuff != 1.0)
+			TF2Attrib_SetByName(i, "damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
+		
+		if(additiveMoveSpeedMultBuff != 1.0)
+			TF2Attrib_SetByName(i, "move speed penalty", additiveMoveSpeedMultBuff);
+
+		if(additiveDamageTakenBuff*multiplicativeDamageTakenBuff != 1.0)
+			TF2Attrib_SetByName(i, "dmg taken increased", additiveDamageTakenBuff*multiplicativeDamageTakenBuff);
 
 		if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff != 1.0){
 			TF2Attrib_SetByName(i, "fire rate bonus", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
@@ -199,7 +206,25 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "melee cleave attack", float(amountOfItem[i][ItemID_Cleave]));
 		}
 		if(amountOfItem[i][ItemID_Multishot]){
-			TF2Attrib_SetByName(i, "mult projectile count", float(amountOfItem[i][ItemID_Multishot]));
+			for(int slot = 0; slot<2; ++slot){
+				int weapon = TF2Util_GetPlayerLoadoutEntity(i, slot, false);
+				if(!IsValidWeapon(weapon))
+					continue;
+
+				int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
+				int override = TF2Attrib_HookValueInt(0, "override_projectile_type", weapon);
+				if(override != 0)
+					projectile = override;
+
+				switch(projectile){
+					case TF_PROJECTILE_ROCKET,TF_PROJECTILE_PIPEBOMB,TF_PROJECTILE_FLARE,TF_PROJECTILE_ARROW,TF_PROJECTILE_HEALING_BOLT,
+					TF_PROJECTILE_ENERGY_BALL,TF_PROJECTILE_ENERGY_RING,TF_PROJECTILE_CANNONBALL,TF_PROJECTILE_BUILDING_REPAIR_BOLT,
+					TF_PROJECTILE_FESTIVE_ARROW,TF_PROJECTILE_FESTIVE_HEALING_BOLT:{
+						TF2Attrib_SetByName(weapon, "mult projectile count", 1.0 + amountOfItem[i][ItemID_Multishot]);
+						TF2Attrib_SetByName(weapon, "projectile spread angle penalty", float(amountOfItem[i][ItemID_Multishot]));
+					}
+				}
+			}
 		}
 		if(amountOfItem[i][ItemID_LongerMelee]){
 			TF2Attrib_SetByName(i, "melee range multiplier", Pow(2.0, float(amountOfItem[i][ItemID_Multishot])));
@@ -224,15 +249,16 @@ public void ManagePlayerBuffs(int i){
 					continue;
 
 				int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
-				int override = TF2Attrib_HookValueInt(-1, "override_projectile_type", weapon);
-				if(override != -1)
+				int override = TF2Attrib_HookValueInt(0, "override_projectile_type", weapon);
+				if(override != 0)
 					projectile = override;
 				
 				if(!HasEntProp(weapon, Prop_Data, "m_iClip1") || GetEntProp(weapon,Prop_Data,"m_iClip1")  == -1)
 					continue;
 
 				switch(projectile){
-					case 1,2,3,4,12,14,16,17,27:{
+					case TF_PROJECTILE_BULLET,TF_PROJECTILE_ROCKET,TF_PROJECTILE_PIPEBOMB,TF_PROJECTILE_SYRINGE,TF_PROJECTILE_FLARE,TF_PROJECTILE_ARROW,
+					TF_PROJECTILE_HEALING_BOLT,TF_PROJECTILE_ENERGY_BALL,TF_PROJECTILE_ENERGY_RING,TF_PROJECTILE_BUILDING_REPAIR_BOLT,TF_PROJECTILE_FESTIVE_HEALING_BOLT:{
 						TF2Attrib_SetByName(weapon, "fire rate bonus HIDDEN", 0.3);
 						TF2Attrib_SetByName(weapon, "auto fires full clip", 1.0);
 					}
@@ -245,25 +271,30 @@ public void ManagePlayerBuffs(int i){
 	if(IsFakeClient(i))
 		return;
 
-	if(additiveDamageRawBuff != 0.0)
+	if(additiveDamageRawBuff > 0.0)
 		Format(details, sizeof(details), "%s\n+%i Damage", details, RoundToNearest(additiveDamageRawBuff));
+	else if(additiveDamageRawBuff < 0.0)
+		 Format(details, sizeof(details), "%s\n%i Damage", details, RoundToNearest(additiveDamageRawBuff));
 	
-	if(additiveDamageMultBuff*multiplicativeDamageBuff != 1.0)
+	if(additiveDamageMultBuff*multiplicativeDamageBuff > 1.0)
 		Format(details, sizeof(details), "%s\n+%ipct Damage", details, RoundToNearest(((additiveDamageMultBuff*multiplicativeDamageBuff)-1.0)*100.0) );
+	else if(additiveDamageMultBuff*multiplicativeDamageBuff < 1.0)
+		Format(details, sizeof(details), "%s\n%ipct Damage", details, RoundToNearest(((additiveDamageMultBuff*multiplicativeDamageBuff)-1.0)*100.0) );
 
-	if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff != 1.0)
+	if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff > 1.0)
 		Format(details, sizeof(details), "%s\n+%ipct Fire Rate", details, RoundToNearest(((additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff)-1.0)*100.0) );
+	else if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff < 1.0)
+		Format(details, sizeof(details), "%s\n%ipct Fire Rate", details, RoundToNearest(((additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff)-1.0)*100.0) );
 
-	if(additiveMoveSpeedMultBuff != 1.0)
+	if(additiveMoveSpeedMultBuff > 1.0)
 		Format(details, sizeof(details), "%s\n+%ipct Move Speed", details, RoundToNearest((additiveMoveSpeedMultBuff-1.0)*100.0) );
+	else if(additiveMoveSpeedMultBuff < 1.0)
+		Format(details, sizeof(details), "%s\n%ipct Move Speed", details, RoundToNearest((additiveMoveSpeedMultBuff-1.0)*100.0) );
 
 	if(additiveDamageTakenBuff*multiplicativeDamageTakenBuff > 1.0)
 		Format(details, sizeof(details), "%s\n+%ipct Damage Vulnerability", details, RoundToNearest(((additiveDamageTakenBuff*multiplicativeDamageTakenBuff)-1.0)*100.0) );
 	else if (additiveDamageTakenBuff*multiplicativeDamageTakenBuff < 1.0)
 		Format(details, sizeof(details), "%s\n-%ipct Damage Taken", details, RoundToNearest( (1.0-(additiveDamageTakenBuff*multiplicativeDamageTakenBuff)) *100.0) );
-
-	if(additiveArmorRechargeBuff != 1.0)
-		Format(details, sizeof(details), "%s\n+%ipct Armor Recharge Rate", details, RoundToNearest((additiveArmorRechargeBuff-1.0)*100.0) );
 
 	SendItemInfo(i, details);
 }
@@ -391,6 +422,8 @@ void ParseAllItems(){
 		return;
 	
 	ParseItemConfig(keyvalue);
+
+	PrintToServer("Roguelike | Loaded %i roguelike items", loadedItems);
 
 	delete keyvalue;
 }
@@ -541,18 +574,19 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 				continue;
 			
 			int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
-			int override = TF2Attrib_HookValueInt(-1, "override_projectile_type", weapon);
-			if(override != -1)
+			int override = TF2Attrib_HookValueInt(0, "override_projectile_type", weapon);
+			if(override != 0)
 				projectile = override;
 
 			switch(projectile){
-				case 2,3,4,12,14,16,17,27:{hasExplosive=true;}
+				case TF_PROJECTILE_ROCKET,TF_PROJECTILE_PIPEBOMB,TF_PROJECTILE_PIPEBOMB_REMOTE,
+				TF_PROJECTILE_ENERGY_BALL,TF_PROJECTILE_CANNONBALL,TF_PROJECTILE_SENTRY_ROCKET:{hasExplosive=true;}
 			}
-			if(projectile != 1 && projectile != 0)
+			if(projectile != TF_PROJECTILE_BULLET && projectile != TF_PROJECTILE_NONE)
 				hasProjectile = true;
-			if(projectile == 1)
+			if(projectile == TF_PROJECTILE_BULLET)
 				hasBullet = true;
-			if(projectile == 2)
+			if(projectile == TF_PROJECTILE_ROCKET)
 				hasRocket = true;
 		}
 	}

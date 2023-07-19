@@ -15,7 +15,6 @@ enum struct Buff{
 	float additiveMoveSpeedMult;
 	float additiveDamageTaken;
 	float multiplicativeDamageTaken;
-	float additiveArmorRecharge;
 	bool isDebuff;
 
 	void clear(){
@@ -33,7 +32,6 @@ enum struct Buff{
 		this.additiveMoveSpeedMult = 0.0;
 		this.additiveDamageTaken = 0.0;
 		this.multiplicativeDamageTaken = 1.0;
-		this.additiveArmorRecharge = 0.0;
 		this.isDebuff = false;
 	}
 	void init(const char sName[32], const char sDescription[64], int iID, int iPriority, int iInflictor, float fDuration, bool bIsDebuff = false)
@@ -189,6 +187,37 @@ enum {
 	Powerup_King,
 	Powerup_Plague,
 	Powerup_Supernova,
+};
+enum{
+	TF_PROJECTILE_NONE=0,
+	TF_PROJECTILE_BULLET,
+	TF_PROJECTILE_ROCKET,
+	TF_PROJECTILE_PIPEBOMB,
+	TF_PROJECTILE_PIPEBOMB_REMOTE,
+	TF_PROJECTILE_SYRINGE,
+	TF_PROJECTILE_FLARE,
+	TF_PROJECTILE_JAR,
+	TF_PROJECTILE_ARROW,
+	TF_PROJECTILE_FLAME_ROCKET,
+	TF_PROJECTILE_JAR_MILK,
+	TF_PROJECTILE_HEALING_BOLT,
+	TF_PROJECTILE_ENERGY_BALL,
+	TF_PROJECTILE_ENERGY_RING,
+	TF_PROJECTILE_PIPEBOMB_PRACTICE,
+	TF_PROJECTILE_CLEAVER,
+	TF_PROJECTILE_STICKY_BALL,
+	TF_PROJECTILE_CANNONBALL,
+	TF_PROJECTILE_BUILDING_REPAIR_BOLT,
+	TF_PROJECTILE_FESTIVE_ARROW,
+	TF_PROJECTILE_THROWABLE,
+	TF_PROJECTILE_SPELL,
+	TF_PROJECTILE_FESTIVE_JAR,
+	TF_PROJECTILE_FESTIVE_HEALING_BOLT,
+	TF_PROJECTILE_BREADMONSTER_JARATE,
+	TF_PROJECTILE_BREADMONSTER_MADMILK,
+	TF_PROJECTILE_GRAPPLINGHOOK,
+	TF_PROJECTILE_SENTRY_ROCKET,
+	TF_PROJECTILE_BREAD_MONSTER,
 };
 
 Buff playerBuffs[MAXPLAYERS+1][MAXBUFFS+1];

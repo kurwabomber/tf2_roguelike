@@ -93,7 +93,22 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 
             damage *= Pow(Pow(1.1, float(amountOfItem[attacker][ItemID_GoopGunner])), float(amountOfDebuffs));
         }
+        if(amountOfItem[attacker][ItemID_Phaselock] && damagecustom == TF_CUSTOM_HEADSHOT){
+            if(0.15 * amountOfItem[attacker][ItemID_Phaselock] >= GetRandomFloat(0.0,1.0)){
+				int iEntity = CreateEntityByName("tf_projectile_lightningorb");
+				if (IsValidEdict(iEntity)){
+                    int iTeam = GetClientTeam(attacker);
+                    SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", attacker);
 
+                    SetEntProp(iEntity, Prop_Send, "m_iTeamNum", iTeam, 1);
+                    SetEntProp(iEntity, Prop_Send, "m_nSkin", (iTeam-2));
+                    SetEntPropEnt(iEntity, Prop_Data, "m_hOwnerEntity", attacker);
+                    SetEntPropEnt(iEntity, Prop_Send, "m_hLauncher", weapon);
+                    TeleportEntity(iEntity, damagePosition, NULL_VECTOR, NULL_VECTOR);
+                    DispatchSpawn(iEntity);
+				}
+            }
+        }
     }
     return Plugin_Changed;
 }

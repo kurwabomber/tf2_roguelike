@@ -20,12 +20,31 @@ public Action OnStartBounceTouch(entity, other)
 	if (other > 0 && other <= MaxClients)
 		return Plugin_Continue;
 		
-	int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")
+	int owner = getOwner(entity);
 	if(!IsValidClient(owner))
 		return Plugin_Continue;
 	
 	if (projectileBounces[entity] >= amountOfItem[owner][ItemID_DrunkenBomber])
 		return Plugin_Continue;
+
+	char classname[32];
+	GetEntityClassname(entity, classname, sizeof(classname));
+	float projectileOrigin[3];
+	GetEntPropVector(entity, Prop_Data, "m_vecOrigin", projectileOrigin);
+
+	if(StrEqual(classname, "tf_projectile_rocket") || StrEqual(classname, "tf_projectile_sentryrocket") || StrEqual(classname, "tf_projectile_energy_ball")){
+		for(int i = 1; i<=MaxClients;++i){
+			if(!IsValidClient(i))
+				continue;
+			if(!(IsOnDifferentTeams(owner, i) || owner == i))
+				continue;
+			float playerOrigin[3];
+			GetClientAbsOrigin(i, playerOrigin);
+			
+			if(GetVectorDistance(playerOrigin, projectileOrigin) <= 144.0)
+				return Plugin_Continue;
+		}
+	}
 
 	SDKHook(entity, SDKHook_Touch, OnBounceTouch);
 	return Plugin_Handled;
