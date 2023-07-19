@@ -13,6 +13,11 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
                 isKurwabombered[attacker][victim] = true;
             }
         }
+        if(amountOfItem[attacker][ItemID_ImmunityPenetration]){
+            Buff deactivateInvulns;
+            deactivateInvulns.init("Vulnerable", "Cannot be invulnerable", Buff_VulnerableDebuff, 1, attacker, 0.5, true);
+            insertBuff(victim, deactivateInvulns);
+        }
         if(amountOfItem[attacker][ItemID_Ricochet]){
             if(damagetype & DMG_BULLET || damagetype & DMG_BUCKSHOT){
                 bool isBounced[MAXPLAYERS+1];

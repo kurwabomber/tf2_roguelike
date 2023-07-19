@@ -64,6 +64,28 @@
 				"return"		"float"
 				"this"			"entity"
 			}
+			"CTFGameRules::ApplyOnDamageModifyRules()"
+			{
+				"signature"		"CTFGameRules::ApplyOnDamageModifyRules()"
+				"callconv"		"thiscall"
+				"return"		"bool"
+				"this"			"address"
+				"arguments"
+				{
+					"damage_info"
+					{
+						"type"	"int"
+					}
+					"target"
+					{
+						"type"	"cbaseentity"
+					}
+					"invuln"
+					{
+						"type"	"bool"
+					}
+				}
+			}
 		}
 		"Signatures"
 		{
@@ -101,6 +123,11 @@
 			{
 				"library"	"server"
 				"linux"		"@_ZN24CTFWeaponBaseGrenadeProj15GetDamageRadiusEv"
+			}
+			"CTFGameRules::ApplyOnDamageModifyRules()"
+			{
+				"library"	"server"
+				"linux"		"@_ZN12CTFGameRules24ApplyOnDamageModifyRulesER15CTakeDamageInfoP11CBaseEntityb"
 			}
 		}
 	}

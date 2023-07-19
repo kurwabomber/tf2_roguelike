@@ -40,6 +40,11 @@ public void OnPluginStart(){
 		DHookEnableDetour(BlastHook, true, OnBlastExplosion);
 	}
 
+	//Remove Invuln Hook
+	Handle dtModifyRules = DHookCreateFromConf(hConf,
+			"CTFGameRules::ApplyOnDamageModifyRules()");
+	DHookEnableDetour(dtModifyRules, false, OnDamageModifyRules);
+
 	//Get Weapon Projectile
 	StartPrepSDKCall(SDKCall_Entity);
 	PrepSDKCall_SetFromConf(hConf, SDKConf_Signature, "CTFRocketLauncher::GetWeaponProjectileType()");

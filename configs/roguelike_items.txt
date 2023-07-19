@@ -481,7 +481,7 @@
         "tags"          ""
         "weight"        "7"
         "rarity"        "4"
-        "cost"          "400"
+        "cost"          "800"
         "max"           "1"
     }
     "Immunity Penetration"

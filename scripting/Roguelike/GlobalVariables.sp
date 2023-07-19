@@ -27,17 +27,18 @@ enum struct Buff{
 		this.duration = 0.0;
 		this.additiveDamageRaw = 0.0;
 		this.additiveDamageMult = 0.0;
-		this.multiplicativeDamage = 0.0;
+		this.multiplicativeDamage = 1.0;
 		this.additiveAttackSpeedMult = 0.0;
-		this.multiplicativeAttackSpeedMult = 0.0;
+		this.multiplicativeAttackSpeedMult = 1.0;
 		this.additiveMoveSpeedMult = 0.0;
 		this.additiveDamageTaken = 0.0;
-		this.multiplicativeDamageTaken = 0.0;
+		this.multiplicativeDamageTaken = 1.0;
 		this.additiveArmorRecharge = 0.0;
 		this.isDebuff = false;
 	}
 	void init(const char sName[32], const char sDescription[64], int iID, int iPriority, int iInflictor, float fDuration, bool bIsDebuff = false)
 	{
+		this.clear();
 		this.name = sName;
 		this.description = sDescription;
 		this.id = iID;
@@ -173,6 +174,7 @@ enum {
 	Buff_Empty=0,
 	Buff_DefenseBuff,
 	Buff_IlluminatedDebuff,
+	Buff_VulnerableDebuff,
 };
 enum {
 	Powerup_Strength=0,

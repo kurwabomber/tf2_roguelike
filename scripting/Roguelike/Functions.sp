@@ -218,7 +218,26 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "slow enemy on hit major", 2.0*amountOfItem[i][ItemID_Snare]);
 		}
 		if(amountOfItem[i][ItemID_DumpsterDiver]){
-			TF2Attrib_SetByName(i, "slow enemy on hit major", 2.0*amountOfItem[i][ItemID_Snare]);
+			for(int slot = 0; slot<2; ++slot){
+				int weapon = TF2Util_GetPlayerLoadoutEntity(i, slot, false);
+				if(!IsValidWeapon(weapon))
+					continue;
+
+				int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
+				int override = TF2Attrib_HookValueInt(-1, "override_projectile_type", weapon);
+				if(override != -1)
+					projectile = override;
+				
+				if(!HasEntProp(weapon, Prop_Data, "m_iClip1") || GetEntProp(weapon,Prop_Data,"m_iClip1")  == -1)
+					continue;
+
+				switch(projectile){
+					case 1,2,3,4,12,14,16,17,27:{
+						TF2Attrib_SetByName(weapon, "fire rate bonus HIDDEN", 0.3);
+						TF2Attrib_SetByName(weapon, "auto fires full clip", 1.0);
+					}
+				}
+			}
 		}
 		buffChange[i] = false;
 	}
@@ -517,8 +536,8 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 	int classBit = IsValidClient(client) ? (1 << _:TF2_GetPlayerClass(client)-1) : 0;
 	if(IsValidClient(client)){
 		for(int slot = 0;slot<3;++slot){
-			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot);
-			if(!IsValidWeapon(weapon) || TF2Util_IsEntityWearable(weapon))
+			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot, false);
+			if(!IsValidWeapon(weapon))
 				continue;
 			
 			int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
