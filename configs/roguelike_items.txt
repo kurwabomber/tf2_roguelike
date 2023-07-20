@@ -293,7 +293,7 @@
         "cost"          "300"
         "max"           "1"
     }
-    "Medical Assistance"//Not Implemented yet
+    "Medical Assistance"
     {
         "description"   "+1 medigun target"
         "tags"          "medic"
@@ -304,7 +304,7 @@
     }
     "Fraggy Explosives"
     {
-        "description"   "+5 syringes on explosion"
+        "description"   "+3 syringes on explosion"
         "tags"          "explosive"
         "weight"        "6"
         "rarity"        "3"

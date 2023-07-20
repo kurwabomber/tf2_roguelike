@@ -65,6 +65,7 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	compoundInterestDuration[client] = 0.0;
 	compoundInterestDamageTime[client] = 0.0;
+	switchMedicalTargetTime[client] = 0.0;
 	for(int i = 1 ; i <= MaxClients; ++i){
 		compoundInterestStacks[client][i] = 0;
 	}
@@ -81,7 +82,7 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 
 	if(isKurwabombered[attacker][victim]){
 		isKurwabombered[attacker][victim] = false;
-		SDKHooks_TakeDamage(victim, attacker, attacker, 300.0, DMG_BLAST);
+		SDKHooks_TakeDamage(victim, attacker, attacker, 300.0*TF2_GetDamageModifiers(attacker), DMG_BLAST);
 		if(attacker == victim){
 			EmitSoundToAll(LARGE_EXPLOSION_SOUND, attacker, -1, 150, 0, 1.0);
 		}
@@ -89,7 +90,7 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 	if(amountOfItem[attacker][ItemID_FlyingGuillotine]){
 		float pct = float(GetClientHealth(victim))/TF2Util_GetEntityMaxHealth(victim);
 		if(pct <= 0.2*amountOfItem[attacker][ItemID_FlyingGuillotine])
-			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim), DMG_GENERIC);
+			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim)*TF2_GetDamageModifiers(attacker), DMG_GENERIC);
 	}
 	if(amountOfItem[victim][ItemID_Martyr]){
 		for(int i = 1; i <= MaxClients; ++i){

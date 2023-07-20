@@ -99,6 +99,40 @@ stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType
 		}
 	}
 }
+stock AddPlayerHealth(client, iAdd, float flOverheal = 1.5, bool bEvent = false, healer = -1)
+{
+    int iHealth = GetClientHealth(client);
+    int iNewHealth = iHealth + iAdd;
+    int iMax = RoundFloat(float(TF2Util_GetEntityMaxHealth(client)) * flOverheal)
+	if(iNewHealth > iMax && iHealth < iMax)
+	{
+		iNewHealth = iMax;
+	}
+    if (iNewHealth <= iMax && iHealth != iMax)
+    {
+        if (bEvent)
+        {
+            ShowHealthGain(client, iNewHealth-iHealth, healer);
+        }
+        SetEntityHealth(client, iNewHealth);
+    }
+}
+stock ShowHealthGain(iPatient, iHealth, iHealer = -1)
+{
+    int iUserId = GetClientUserId(iPatient);
+    Handle hEvent = CreateEvent("player_healed", true);
+    SetEventBool(hEvent, "sourcemod", true);
+    SetEventInt(hEvent, "patient", iUserId);
+    SetEventInt(hEvent, "healer", IsValidClient(iHealer) ? GetClientUserId(iHealer) : iUserId);
+    SetEventInt(hEvent, "amount", iHealth);
+    FireEvent(hEvent);
+
+    hEvent = CreateEvent("player_healonhit", true);
+    SetEventBool(hEvent, "sourcemod", true);
+    SetEventInt(hEvent, "amount", iHealth);
+    SetEventInt(hEvent, "entindex", iPatient);
+    FireEvent(hEvent);
+}
 stock bool IsPointVisible(const float start[3], const float end[3])
 {
     TR_TraceRayFilter(start, end, MASK_SOLID, RayType_EndPoint, Filter_WorldOnly);

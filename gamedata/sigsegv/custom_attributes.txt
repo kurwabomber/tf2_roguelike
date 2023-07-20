@@ -496,7 +496,7 @@
         "description_string"	"On Hit: Chance of stunning enemies for 3 seconds"
         "description_format"	"value_is_additive"
         "hidden"	"0"
-        "effect_type"	"positive"
+        "effect_type"	"positive"  
         "stored_as_integer"	"0"
     }
     //On hit: refire time * (x/60) % chance for 100 hu blast that stuns players for 2 seconds and applies bleed. use 60 for 100% chance on 1s refire time weapon, 600 for 0.1s

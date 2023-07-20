@@ -738,3 +738,9 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 		}
 	}
 }
+//Fill this up later with a bunch more stuff...
+float TF2_GetDamageModifiers(int client){
+	float modifier = 1.0;
+	modifier *= TF2Attrib_HookValueFloat(1.0, "mult_dmg", client);
+	return modifier;
+}

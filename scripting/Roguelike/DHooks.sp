@@ -142,7 +142,29 @@ public MRESReturn OnBlastExplosion(int entity, Handle hReturn){
 			TeleportEntity(iEntity, fOrigin, fAngles, fVelocity);
 			DispatchSpawn(iEntity);
 			SetEntityGravity(iEntity, 9.0);
+			SDKHook(iEntity, SDKHook_Touch, CollisionFrag);
+			SetEntPropFloat(iEntity, Prop_Send, "m_flModelScale", 1.8);
+
+			float vecBossMin[3], vecBossMax[3];
+			GetEntPropVector(iEntity, Prop_Send, "m_vecMins", vecBossMin);
+			GetEntPropVector(iEntity, Prop_Send, "m_vecMaxs", vecBossMax);
 			
+			float vecScaledBossMin[3], vecScaledBossMax[3];
+			
+			vecScaledBossMin = vecBossMin;
+			vecScaledBossMax = vecBossMax;
+
+			vecScaledBossMin[0] -= 3.0;
+			vecScaledBossMax[0] += 3.0;
+			vecScaledBossMin[1] -= 3.0;
+			vecScaledBossMax[1] += 3.0;
+			vecScaledBossMin[2] -= 3.0;
+			vecScaledBossMax[2] += 3.0;
+			
+			
+			SetEntPropVector(iEntity, Prop_Send, "m_vecMins", vecScaledBossMin);
+			SetEntPropVector(iEntity, Prop_Send, "m_vecMaxs", vecScaledBossMax);
+
 			CreateTimer(1.0,SelfDestruct,EntIndexToEntRef(iEntity));
 		}
 	}

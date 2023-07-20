@@ -244,6 +244,8 @@ int compoundInterestStacks[MAXPLAYERS+1][MAXPLAYERS+1];
 float compoundInterestDuration[MAXPLAYERS+1];
 float compoundInterestDamageTime[MAXPLAYERS+1];
 int projectileBounces[MAXENTITIES+1];
+float switchMedicalTargetTime[MAXPLAYERS+1];
+int priorityTargeting[MAXPLAYERS+1][MAXPLAYERS+1];
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls

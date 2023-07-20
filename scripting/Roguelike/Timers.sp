@@ -39,6 +39,67 @@ public Action Timer_100MS(Handle timer)
 		ManagePlayerBuffs(i);
 		ManagePlayerItemHUD(i);
 
+		if(amountOfItem[i][ItemID_MedicalAssistance]){
+			int shouldNotHeal = 0;
+			int healing = 0;
+			int uberType = 0;
+			int medigun = TF2Util_GetPlayerLoadoutEntity(i, 1);
+			if(IsValidWeapon(medigun) && HasEntProp(medigun, Prop_Send, "m_hHealingTarget")){
+				shouldNotHeal = GetEntPropEnt(medigun, Prop_Send, "m_hHealingTarget");
+				if(GetEntProp(medigun, Prop_Send, "m_bChargeRelease")){
+					uberType = TF2Attrib_HookValueInt(1, "set_charge_type", medigun);
+				}
+			}
+			if(switchMedicalTargetTime[i] <= currentGameTime){
+				float pctHealths[MAXPLAYERS+1];
+				for(int k = 1; k <= MaxClients; ++k){
+					if(!IsValidClient(k))
+						continue;
+					if(!IsPlayerAlive(k))
+						continue;
+					if(IsOnDifferentTeams(i,k))
+						continue;
+					pctHealths[k] = float(GetClientHealth(k))/TF2Util_GetEntityMaxHealth(k);
+				}
+				bool added[MAXPLAYERS+1];
+				int targets = 0;
+				for(int k = 1; k <= MaxClients; ++k){
+					if(!pctHealths[k] || added[k])
+						continue;
+					float lowest = 1.0;
+					int latest = 0;
+					for(int j = 1; j <= MaxClients; ++j){
+						if(!pctHealths[j] || added[j])
+							continue;
+						if(pctHealths[j] <= lowest){
+							lowest = pctHealths[j];
+							latest = j;
+						}
+					}
+					if(latest){
+						added[latest] = true;
+						priorityTargeting[i][targets] = latest;
+					}
+					
+					++targets;
+				}
+				switchMedicalTargetTime[i] = currentGameTime+2.0;
+			}
+			for(int k = 0; k <= MaxClients && healing < amountOfItem[i][ItemID_MedicalAssistance]; ++k){
+				if(priorityTargeting[i][k] == 0 || shouldNotHeal == priorityTargeting[i][k] || priorityTargeting[i][k] == i)
+					continue;
+				
+				AddPlayerHealth(priorityTargeting[i][k], 2, 1.5, true, i);
+				switch(uberType){
+					case 1:{TF2_AddCondition(priorityTargeting[i][k], TFCond_Ubercharged, 0.3, i);}
+					case 2:{TF2_AddCondition(priorityTargeting[i][k], TFCond_Kritzkrieged, 0.3, i);}
+					case 3:{TF2_AddCondition(priorityTargeting[i][k], TFCond_MegaHeal, 0.3, i);}
+					case 4:{TF2_AddCondition(priorityTargeting[i][k], TFCond_UberBulletResist, 0.3, i);}
+				}
+				++healing;
+			}
+		}
+
 		if(powerupSelected[i] != -1)
 			TF2_AddCondition(i, GetPowerupCondFromID(powerupSelected[i]), 0.3);
 

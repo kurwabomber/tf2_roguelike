@@ -94,3 +94,18 @@ public bool TEF_ExcludeEntity(entity, contentsMask, any:data)
 {
 	return (entity != data);
 }
+public Action:CollisionFrag(entity, client)
+{
+	int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity")
+	if(!IsValidClient(owner))
+		return Plugin_Continue;
+	if(!IsValidForDamage(client))
+		return Plugin_Continue;
+	if(!IsOnDifferentTeams(owner,client))
+		return Plugin_Continue;
+
+	SDKHooks_TakeDamage(client, owner, owner, 15.0*TF2_GetDamageModifiers(owner), DMG_BULLET, _, NULL_VECTOR, NULL_VECTOR);
+
+	RemoveEntity(entity);
+	return Plugin_Stop;
+}
