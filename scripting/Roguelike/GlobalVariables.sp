@@ -106,6 +106,16 @@ enum ItemID{
 	ItemID_DumpsterDiver,
 	ItemID_ImmunityPenetration,
 	ItemID_MeteorShower,
+	ItemID_Camouflage,
+	ItemID_Headshot,
+	ItemID_ProjectileInertia,
+	ItemID_BossSlayer,
+	ItemID_Killstreak,
+	ItemID_Leeches,
+	ItemID_PowerfulSwings,
+	ItemID_DeadlierDecay,
+	ItemID_Inferno,
+	ItemID_Wounding,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,

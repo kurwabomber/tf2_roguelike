@@ -12,7 +12,7 @@ public OnGameFrame()
 			if(compoundInterestDamageTime[client] <= currentGameTime){
 				for(int i = 1; i <= MaxClients; ++i){
 					if(compoundInterestStacks[client][i] > 0)
-						SDKHooks_TakeDamage(client, i, i, 2.0*compoundInterestStacks[client][i], DMG_SLASH);
+						SDKHooks_TakeDamage(client, i, i, 2.0*compoundInterestStacks[client][i] * Pow(2.0, float(amountOfItem[i][ItemID_DeadlierDecay])), DMG_SLASH);
 				}
 				compoundInterestDamageTime[client] = currentGameTime+0.5;
 			}
@@ -30,6 +30,23 @@ public Action Timer_100MS(Handle timer)
 		if(!IsValidClient(i))
 			continue;
 
+		if(powerupSelected[i] != -1)
+			TF2_AddCondition(i, GetPowerupCondFromID(powerupSelected[i]), 0.3);
+
+		switch(powerupSelected[i]){
+			case Powerup_Regeneration:{
+				if(GetClientHealth(i) < TF2Util_GetEntityMaxHealth(i)){
+					TF2Util_TakeHealth(i, 3.0);
+				}
+			}
+			case Powerup_Knockout:{
+				TF2_AddCondition(i, TFCond_RestrictToMelee, 0.3);
+				int melee = TF2Util_GetPlayerLoadoutEntity(i, 2);
+				if(IsValidWeapon(melee))
+					TF2Util_SetPlayerActiveWeapon(i, melee);
+			}
+		}
+		
 		if(IsFakeClient(i))
 			continue;
 			
@@ -99,23 +116,6 @@ public Action Timer_100MS(Handle timer)
 				++healing;
 			}
 		}
-
-		if(powerupSelected[i] != -1)
-			TF2_AddCondition(i, GetPowerupCondFromID(powerupSelected[i]), 0.3);
-
-		switch(powerupSelected[i]){
-			case Powerup_Regeneration:{
-				if(GetClientHealth(i) < TF2Util_GetEntityMaxHealth(i)){
-					TF2Util_TakeHealth(i, 3.0);
-				}
-			}
-			case Powerup_Knockout:{
-				TF2_AddCondition(i, TFCond_RestrictToMelee, 0.3);
-				int melee = TF2Util_GetPlayerLoadoutEntity(i, 2);
-				if(IsValidWeapon(melee))
-					TF2Util_SetPlayerActiveWeapon(i, melee);
-			}
-		}
 	}
 	return Plugin_Continue;
 }
@@ -161,8 +161,12 @@ public Action ReEnableBuilding(Handle timer, int entity)
 
 public Action Timer_ChooseBeginnerItems(Handle timer, int client){
 	client = EntRefToEntIndex(client)
+	int logic = FindEntityByClassname(-1, "tf_objective_resource");
+	if(IsValidEntity(logic)){
+		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
+	}
 	if(IsValidClient(client)){
-		ChooseGeneratedItems(client, 0, 3+2*(10/totalWaveCount), _, ItemRarity_Strange);
+		ChooseGeneratedItems(client, 0, 5+2*(10/totalWaveCount), _, ItemRarity_Strange);
 		ChooseUltimateItems(client, true);
 	}
 	return Plugin_Stop;

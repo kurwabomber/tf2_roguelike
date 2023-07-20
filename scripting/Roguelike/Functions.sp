@@ -107,6 +107,9 @@ public void ManagePlayerBuffs(int i){
 		multiplicativeDamageBuff *= Pow(2.1, float(amountOfItem[i][ItemID_BiggerCaliber]));
 	}
 
+	if(amountOfItem[i][ItemID_Camouflage]){
+		TF2_AddCondition(i, TFCond_StealthedUserBuffFade, 0.5, i);
+	}
 
 	if(buffChange[i])
 	{
@@ -133,6 +136,8 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "Reload time decreased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 			if(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff > 1.0)
 				TF2Attrib_SetByName(i, "mult smack time", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
+			if(TF2_GetPlayerClass(i) == TFClass_Engineer)
+				TF2Attrib_SetByName(i, "engy sentry fire rate increased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		}
 
 		if(amountOfItem[i][ItemID_RocketSpecialist]){
@@ -163,10 +168,16 @@ public void ManagePlayerBuffs(int i){
 		}
 		if(amountOfItem[i][ItemID_PocketDispenser]){
 			TF2Attrib_SetByName(i, "ammo regen", 0.05*amountOfItem[i][ItemID_PocketDispenser]);
+			if(TF2_GetPlayerClass(i) == TFClass_Engineer){
+				TF2Attrib_SetByName(i, "metal regen", 20.0 * amountOfItem[i][ItemID_PocketDispenser]);
+			}
 		}
 		if(amountOfItem[i][ItemID_BigBaboonHeart]){
 			TF2Attrib_SetByName(i, "mult max health", Pow(1.25,1.0*amountOfItem[i][ItemID_BigBaboonHeart]));
 			TF2Attrib_SetByName(i, "max health additive bonus", 10.0*amountOfItem[i][ItemID_BigBaboonHeart]);
+			if(TF2_GetPlayerClass(i) == TFClass_Engineer){
+				TF2Attrib_SetByName(i, "engy building health bonus", 0.05*amountOfItem[i][ItemID_BigBaboonHeart] + Pow(1.25,1.0*amountOfItem[i][ItemID_BigBaboonHeart]));
+			}
 		}
 		if(amountOfItem[i][ItemID_ProjectileSpeed]){
 			TF2Attrib_SetByName(i, "Projectile speed increased", 1.0 + 0.35*amountOfItem[i][ItemID_ProjectileSpeed]);
@@ -233,8 +244,8 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "weapon spread bonus", Pow(0.66, float(amountOfItem[i][ItemID_PrecisionNotAccuracy])));
 		}
 		if(amountOfItem[i][ItemID_AcceleratedDegeneration]){
-			TF2Attrib_SetByName(i, "mult bleeding delay", Pow(1.5, float(amountOfItem[i][ItemID_AcceleratedDegeneration])));
-			TF2Attrib_SetByName(i, "mult afterburn delay", Pow(1.5, float(amountOfItem[i][ItemID_AcceleratedDegeneration])));
+			TF2Attrib_SetByName(i, "mult bleeding delay", Pow(0.5, float(amountOfItem[i][ItemID_AcceleratedDegeneration])));
+			TF2Attrib_SetByName(i, "mult afterburn delay", Pow(0.5, float(amountOfItem[i][ItemID_AcceleratedDegeneration])));
 		}
 		if(amountOfItem[i][ItemID_Bargain]){
 			TF2Attrib_SetByName(i, "sniper charge per sec", Pow(1.5, float(amountOfItem[i][ItemID_Bargain])));
@@ -271,6 +282,36 @@ public void ManagePlayerBuffs(int i){
 				TF2Attrib_SetByName(weapon, "override projectile type", float(TF_PROJECTILE_METEORSHOWER));
 				TF2Attrib_SetByName(weapon, "fire rate penalty HIDDEN", 2.0);
 			}
+		}
+		if(amountOfItem[i][ItemID_Headshot]){
+			TF2Attrib_SetByName(i, "can headshot", 1.0);
+		}
+		if(amountOfItem[i][ItemID_ProjectileInertia]){
+			TF2Attrib_SetByName(i, "projectile no deflect", 1.0);
+		}
+		if(amountOfItem[i][ItemID_BossSlayer]){
+			TF2Attrib_SetByName(i, "dmg current health", 0.01 * amountOfItem[i][ItemID_BossSlayer]);
+		}
+		if(amountOfItem[i][ItemID_Killstreak]){
+			TF2Attrib_SetByName(i, "minicritboost on kill", 2.0 * amountOfItem[i][ItemID_Killstreak]);
+		}
+		if(amountOfItem[i][ItemID_Leeches]){
+			TF2Attrib_SetByName(i, "damage returns as health", 0.1 * amountOfItem[i][ItemID_Leeches]);
+		}
+		if(amountOfItem[i][ItemID_PowerfulSwings]){
+			int melee = TF2Util_GetPlayerLoadoutEntity(i, 2);
+			if(IsValidWeapon(melee))
+				TF2Attrib_SetByName(melee, "melee airblast", 1.0);
+		}
+		if(amountOfItem[i][ItemID_DeadlierDecay]){
+			TF2Attrib_SetByName(i, "mult bleeding dmg", Pow(2.0, float(amountOfItem[i][ItemID_DeadlierDecay])));
+			TF2Attrib_SetByName(i, "weapon burn dmg increased", Pow(2.0, float(amountOfItem[i][ItemID_DeadlierDecay])));
+		}
+		if(amountOfItem[i][ItemID_Inferno]){
+			TF2Attrib_SetByName(i, "Set DamageType Ignite", 4.0);
+		}
+		if(amountOfItem[i][ItemID_Wounding]){
+			TF2Attrib_SetByName(i, "bleeding duration", 4.0);
 		}
 		buffChange[i] = false;
 	}

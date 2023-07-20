@@ -453,7 +453,7 @@
     }
 	"Accelerated Degeneration"
     {
-        "description"   "1.5x faster afterburn and bleed tick rate"
+        "description"   "2x faster afterburn and bleed tick rate"
         "tags"          ""
         "weight"        "8"
         "rarity"        "3"
@@ -500,6 +500,95 @@
         "weight"        "10"
         "rarity"        "7"
         "cost"          "5000"
+        "max"           "1"
+    }
+    "Camouflage"
+    {
+        "description"   "Passively cloaks over time.\nCan attack while cloaked."
+        "tags"          ""
+        "weight"        "20"
+        "rarity"        "2"
+        "cost"          "500"
+        "max"           "1"
+    }
+    "Headshot"
+    {
+        "description"   "bullets can headshot"
+        "tags"          "bullet"
+        "weight"        "15"
+        "rarity"        "2"
+        "cost"          "600"
+        "max"           "1"
+    }
+    "Projectile Inertia"
+    {
+        "description"   "projectiles cannot be re/deflected"
+        "tags"          "projectile"
+        "weight"        "12"
+        "rarity"        "4"
+        "cost"          "300"
+        "max"           "1"
+    }
+    "Boss Slayer"
+    {
+        "description"   "+1% hp% damage"
+        "tags"          ""
+        "weight"        "9"
+        "rarity"        "5"
+        "cost"          "300"
+        "max"           "2"
+    }
+    "Killstreak"
+    {
+        "description"   "+2s minicrit on kill"
+        "tags"          ""
+        "weight"        "10"
+        "rarity"        "5"
+        "cost"          "100"
+        "max"           "2"
+    }
+    "Leeches"
+    {
+        "description"   "+10% lifesteal"
+        "tags"          ""
+        "weight"        "10"
+        "rarity"        "3"
+        "cost"          "200"
+    }
+    "Powerful Swings"
+    {
+        "description"   "Reflects projectiles on melee swing"
+        "tags"          ""
+        "weight"        "8"
+        "rarity"        "2"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Deadlier Decay"
+    {
+        "description"   "2x DOT damage"
+        "tags"          ""
+        "weight"        "10"
+        "rarity"        "3"
+        "cost"          "600"
+        "max"           "4"
+    }
+    "Inferno"
+    {
+        "description"   "All attacks ignite for 4s."
+        "tags"          ""
+        "weight"        "14"
+        "rarity"        "3"
+        "cost"          "400"
+        "max"           "1"
+    }
+    "Wounding"
+    {
+        "description"   "All attacks bleed for 4s."
+        "tags"          ""
+        "weight"        "14"
+        "rarity"        "3"
+        "cost"          "400"
         "max"           "1"
     }
 }

@@ -34,6 +34,12 @@ public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
 		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
 }
 
+public Event_ChangeMission(Handle event, const char[] name, bool dontBroadcast){
+	int logic = FindEntityByClassname(-1, "tf_objective_resource");
+	if(IsValidEntity(logic))
+		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
+}
+
 public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	if(!IsValidClient(client))
@@ -57,8 +63,7 @@ public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 		--timesItemGenerated[client][generatedPlayerItems[client][0][i].id];
 	}
 
-	//Choose 7 items before game start. Make sure this runs after all loadout changes.
-	CreateTimer(0.1, Timer_ChooseBeginnerItems, EntIndexToEntRef(client));
+	CreateTimer(0.2, Timer_ChooseBeginnerItems, EntIndexToEntRef(client));
 }
 
 public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
@@ -76,6 +81,11 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	switchMedicalTargetTime[client] = 0.0;
 	for(int i = 1 ; i <= MaxClients; ++i){
 		compoundInterestStacks[client][i] = 0;
+	}
+
+	if(IsFakeClient(client)){
+		powerupSelected[client] = GetRandomInt(Powerup_Strength, Powerup_Plague);
+		TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.5);
 	}
 }
 
