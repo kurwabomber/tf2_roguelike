@@ -79,8 +79,10 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 
 		if(amountOfItem[client][ItemID_WardingCanteen]){
 			Buff defenseBonus;
-			defenseBonus.init("Defense Bonus", "", Buff_DefenseBuff, 1, client, 16.0 * amountOfItem[client][ItemID_WardingCanteen]);
+			defenseBonus.init("Defense Bonus", "Prevents instantkills", Buff_DefenseBuff, 1, client, 16.0 * amountOfItem[client][ItemID_WardingCanteen]);
+			defenseBonus.multiplicativeDamageTaken = 0.5;
 			insertBuff(client, defenseBonus);
+			TF2_AddCondition(client, TFCond_PreventDeath, 16.0 * amountOfItem[client][ItemID_WardingCanteen], client);
 		}
 
 		if(amountOfItem[client][ItemID_CollectionCanteen]){

@@ -5,6 +5,7 @@ public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
 	for(int client = 1;client<MaxClients;++client){
 		ChooseGeneratedItems(client, wavesCleared, 4+wavesCleared, view_as<ItemRarity>(_:ItemRarity_Normal+wavesCleared/2), view_as<ItemRarity>(_:ItemRarity_Genuine+wavesCleared/2));
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
+		ChooseUltimateItems(client);
 	}
 }
 public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){

@@ -428,7 +428,7 @@ void ParseAllItems(){
 	delete keyvalue;
 }
 void ParseItemConfig(Handle keyvalue){
-	char buffer[128];
+	char buffer[512];
 	do{
 		if (KvGotoFirstSubKey(keyvalue, false)){
 			ParseItemConfig(keyvalue);
@@ -445,8 +445,8 @@ void ParseItemConfig(Handle keyvalue){
 				KvGetSectionName(keyvalue, buffer, sizeof(buffer));
 
 				if(StrEqual(buffer, "description")){
-					KvGetString(keyvalue, "", availableItems[loadedItems].description, 128);
-					ReplaceString(availableItems[loadedItems].description, 128, "\\n", "\n");
+					KvGetString(keyvalue, "", availableItems[loadedItems].description, 512);
+					ReplaceString(availableItems[loadedItems].description, 512, "\\n", "\n");
 				}
 				else if(StrEqual(buffer, "tags")){
 					KvGetString(keyvalue, "", buffer, sizeof(buffer));
@@ -494,6 +494,19 @@ void ParseItemConfig(Handle keyvalue){
 				else if(StrEqual(buffer, "cost")){
 					KvGetString(keyvalue, "", buffer, sizeof(buffer));
 					availableItems[loadedItems].cost = StringToInt(buffer);
+				}
+				else if(StrEqual(buffer, "itemRequirement")){
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					char buffers[128][32];
+					ExplodeString(buffer,",", buffers, 32, 128);
+					for(int i = 0;i<32;++i){
+						if(buffers[i][0] != '\0')
+							availableItems[loadedItems].tagInfo.allowedWeapons[i] = StringToInt(buffers[i]);
+					}
+				}
+				else if(StrEqual(buffer, "classnameRequirement")){
+					KvGetString(keyvalue, "", buffer, sizeof(buffer));
+					strcopy(availableItems[loadedItems].tagInfo.requiredWeaponClassname, 64, buffer);
 				}
 				else if(StrEqual(buffer, "max")){
 					KvGetString(keyvalue, "", buffer, sizeof(buffer));
@@ -563,6 +576,102 @@ char[] RarityToString(ItemRarity rarity){
 	}
 	return buffer;
 }
+void ChooseUltimateItems(int client, bool clear=false){
+	if(clear){
+		for(int i = 0;i < MAX_ITEMS_PER_WAVE;++i){
+			generatedPlayerUltimateItems[client][i].clear();
+		}
+	}
+
+	bool hasExplosive, hasProjectile, hasBullet, hasRocket;
+	char classnames[64][3];
+	int itemIDs[3];
+	int classBit = IsValidClient(client) ? (1 << _:TF2_GetPlayerClass(client)-1) : 0;
+	if(IsValidClient(client)){
+		for(int slot = 0;slot<3;++slot){
+			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot);
+
+			if(!IsValidWeapon(weapon))
+				continue;
+			
+			GetEntityClassname(weapon, classnames[slot], 64);
+			itemIDs[slot] = GetEntProp(weapon, Prop_Send, "m_iItemDefinitionIndex");
+
+			if(TF2Util_IsEntityWearable(weapon))
+				continue;
+
+			int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
+			int override = TF2Attrib_HookValueInt(0, "override_projectile_type", weapon);
+			if(override != 0)
+				projectile = override;
+
+			switch(projectile){
+				case TF_PROJECTILE_ROCKET,TF_PROJECTILE_PIPEBOMB,TF_PROJECTILE_PIPEBOMB_REMOTE,
+				TF_PROJECTILE_ENERGY_BALL,TF_PROJECTILE_CANNONBALL,TF_PROJECTILE_SENTRY_ROCKET:{hasExplosive=true;}
+			}
+			if(projectile != TF_PROJECTILE_BULLET && projectile != TF_PROJECTILE_NONE)
+				hasProjectile = true;
+			if(projectile == TF_PROJECTILE_BULLET)
+				hasBullet = true;
+			if(projectile == TF_PROJECTILE_ROCKET)
+				hasRocket = true;
+		}
+	}
+
+	int itemsGenerated = 0;
+	for(int i = 0;i<=loadedItems;++i){
+		if(!availableItems[i].tagInfo.isUltimate)
+			continue;
+
+		if(availableItems[i].tagInfo.classReq != 0){
+			if(!(availableItems[i].tagInfo.classReq & classBit))
+				continue;
+		}
+		
+		if(availableItems[i].tagInfo.maximum && timesItemGenerated[client][i] >= availableItems[i].tagInfo.maximum)
+			continue;
+		if(availableItems[i].tagInfo.reqExplosive && !hasExplosive)
+			continue;
+		if(availableItems[i].tagInfo.reqProjectile && !hasProjectile)
+			continue;
+		if(availableItems[i].tagInfo.reqBullet && !hasBullet)
+			continue;
+		if(availableItems[i].tagInfo.reqCanteen && !amountOfItem[client][ItemID_Canteen])
+			continue;
+		if(availableItems[i].tagInfo.reqRocket && !hasRocket)
+			continue;
+		if(availableItems[i].tagInfo.allowedWeapons[0]){
+			bool flag = false;
+			for(int id = 0;id < 32;++id){
+				if(availableItems[i].tagInfo.allowedWeapons[id] != 0){
+					for(int k = 0;k < 3;++k){
+						if(itemIDs[k] == availableItems[i].tagInfo.allowedWeapons[id]){
+							flag = true;
+							break;
+						}
+					}
+				}
+			}
+			if(!flag)
+				continue;
+		}
+		if(availableItems[i].tagInfo.requiredWeaponClassname[0] != '\0'){
+			bool flag = false;
+			for(int k = 0;k < 3;++k){
+				PrintToServer("%s",classnames[k]);
+				if(StrEqual(classnames[k],availableItems[i].tagInfo.requiredWeaponClassname)){
+					flag = true;
+					break;
+				}
+			}
+			if(!flag)
+				continue;
+		}
+
+		generatedPlayerUltimateItems[client][itemsGenerated] = availableItems[i];
+		++itemsGenerated;
+	}
+}
 void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity = ItemRarity_Normal, ItemRarity maxRarity = ItemRarity_Valve){
 	//Tagging time!
 	bool hasExplosive, hasProjectile, hasBullet, hasRocket;
@@ -593,6 +702,9 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 	int weights[MAX_ITEMS];
 
 	for(int i = 0;i<=loadedItems;++i){
+		if(availableItems[i].tagInfo.isUltimate)
+			continue;
+			
 		if(availableItems[i].rarity < minRarity || availableItems[i].rarity > maxRarity)
 			continue;
 

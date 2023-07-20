@@ -116,7 +116,7 @@
     }
     "More Bullet per Bullet"
     {
-        "description"   "+65% bullets per shot (bullet count rounds down)"
+        "description"   "+65% bullets per shot (rounds down)"
         "tags"          "bullet"
         "weight"        "15"
         "rarity"        "1"
@@ -356,9 +356,9 @@
         "cost"          "150"
         "max"           "1"
     }
-    "Robot Penetration"
+    "Projectile Penetration"
     {
-        "description"   "+1 enemies penetrated"
+        "description"   "+1 enemies penetrated (bullets count too)"
         "tags"          ""
         "weight"        "15"
         "rarity"        "2"

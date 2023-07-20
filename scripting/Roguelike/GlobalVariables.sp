@@ -125,6 +125,8 @@ enum struct Tags{
 	int classReq;
 	int maximum;
 	bool isUltimate;
+	char requiredWeaponClassname[64]
+	int allowedWeapons[32];
 	
 	void clear(){
 		this.reqExplosive = false;
@@ -140,7 +142,7 @@ enum struct Tags{
 enum struct Item{
 	//All values start at 0
 	char name[32];
-	char description[128];
+	char description[512];
 	ItemID id;
 	int weight;
 	ItemRarity rarity;
@@ -158,7 +160,7 @@ enum struct Item{
 		this.isBought = false;
 		this.tagInfo.clear();
 	}
-	void init(const char sName[32], const char sDescription[128], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
+	void init(const char sName[32], const char sDescription[512], ItemID iID, int iWeight, ItemRarity iRarity, int iCost)
 	{
 		this.name = sName;
 		this.description = sDescription;
@@ -230,6 +232,7 @@ int currentWaveViewed[MAXPLAYERS+1] = {0,...};
 Item playerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item savedPlayerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item generatedPlayerItems[MAXPLAYERS+1][MAX_WAVES][MAX_ITEMS_PER_WAVE];
+Item generatedPlayerUltimateItems[MAXPLAYERS+1][MAX_ITEMS_PER_WAVE];
 Item availableItems[MAX_ITEMS];
 int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];

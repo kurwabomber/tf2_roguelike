@@ -100,8 +100,10 @@ public Action ReEnableBuilding(Handle timer, int entity)
 
 public Action Timer_ChooseBeginnerItems(Handle timer, int client){
 	client = EntRefToEntIndex(client)
-	if(IsValidClient(client))
+	if(IsValidClient(client)){
 		ChooseGeneratedItems(client, 0, 7, _, ItemRarity_Strange);
+		ChooseUltimateItems(client, true);
+	}
 	return Plugin_Stop;
 }
 public Action SelfDestruct(Handle timer, any:ref) 
