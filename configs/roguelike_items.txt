@@ -268,7 +268,7 @@
     }
     "The Weaver"
     {
-        "description"   "+4 max sappers, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+15 sapper dps. cannot collide with others."
+        "description"   "+4 max sappers, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+15 sapper dps. cannot collide with others.\nNOT IMPLEMENTED YET"
         "tags"          "spyultimate"
         "weight"        "7"
         "rarity"        "3"
@@ -491,6 +491,15 @@
         "weight"        "10"
         "rarity"        "4"
         "cost"          "700"
+        "max"           "1"
+    }
+    "Meteor Shower"
+    {
+        "description"   "Replaces rocket launcher with Meteor Shower spell\nConverts fire rate into damage\n2x slower fire rate."
+        "tags"          "soldierultimate"
+        "weight"        "10"
+        "rarity"        "7"
+        "cost"          "5000"
         "max"           "1"
     }
 }

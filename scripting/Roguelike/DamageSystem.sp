@@ -114,13 +114,43 @@ public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &dam
 }
 //For a tank
 public Action Tank_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
-    if(IsValidClient(attacker) && IsValidWeapon(weapon)){
+    if(IsValidClient(attacker)){
         if(amountOfItem[attacker][ItemID_ArmorPenetration]){
-            char weaponClass[32];
-            GetEntityClassname(weapon, weaponClass, sizeof(weaponClass));
-            if(StrEqual(weaponClass, "tf_weapon_minigun"))
-                damage *= 4.0;
+            if(IsValidWeapon(weapon)){
+                char weaponClass[32];
+                GetEntityClassname(weapon, weaponClass, sizeof(weaponClass));
+                if(StrEqual(weaponClass, "tf_weapon_minigun"))
+                    damage *= 4.0;
+            }
+            if(IsValidEntity(inflictor)){
+                char inflictorClassname[32];
+                GetEntityClassname(inflictor, inflictorClassname, sizeof(inflictorClassname));
+                if(StrContains(inflictorClassname, "tf_projectile_spell") != -1)
+                    damage *= 10.0;
+            }
         }
+        damage *= TF2Attrib_HookValueFloat(1.0, "damage_multiplier", attacker);
+    }
+    return Plugin_Changed;
+}
+//For Buildings
+public Action Building_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
+    if(IsValidClient(attacker)){
+        if(amountOfItem[attacker][ItemID_ArmorPenetration]){
+            if(IsValidWeapon(weapon)){
+                char weaponClass[32];
+                GetEntityClassname(weapon, weaponClass, sizeof(weaponClass));
+                if(StrEqual(weaponClass, "tf_weapon_minigun"))
+                    damage *= 1.25;//didn't even know sentries had minigun res
+            }
+            if(IsValidEntity(inflictor)){
+                char inflictorClassname[32];
+                GetEntityClassname(inflictor, inflictorClassname, sizeof(inflictorClassname));
+                if(StrContains(inflictorClassname, "tf_projectile_spell") != -1)
+                    damage *= 10.0;
+            }
+        }
+        damage *= TF2Attrib_HookValueFloat(1.0, "damage_multiplier", attacker);
     }
     return Plugin_Changed;
 }
@@ -145,6 +175,7 @@ public Action OnTakeDamageAlive(victim, &attacker, &inflictor, float &damage, &d
                 isKurwabombered[attacker][victim] = true;
             }
         }
+        damage *= TF2Attrib_HookValueFloat(1.0, "damage_multiplier", attacker);
     }
     if(IsValidClient(victim)){
         if(amountOfItem[victim][ItemID_EscapePlan] && GetClientHealth(victim) < damage){

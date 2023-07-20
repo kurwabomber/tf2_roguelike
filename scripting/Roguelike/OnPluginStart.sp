@@ -101,6 +101,10 @@ public void OnMapStart(){
 	PrecacheSound(SmallExplosionSound3);
 	PrecacheSound(DetonatorExplosionSound);
 	PrecacheSound(OrnamentExplosionSound);
+
+	int logic = FindEntityByClassname(-1, "tf_objective_resource");
+	if(IsValidEntity(logic))
+		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
 }
 
 public OnPluginEnd(){

@@ -186,7 +186,7 @@ public MRESReturn OnAddCurrency(int client, Handle hParams){
 
 public MRESReturn OnDamageModifyRules(Address pGameRules, Handle hReturn, Handle hParams) {
 	int victim = DHookGetParam(hParams, 2);
-	if(hasBuffIndex(victim,Buff_VulnerableDebuff))
+	if(IsValidClient(victim) && hasBuffIndex(victim,Buff_VulnerableDebuff))
 		DHookSetParam(hParams, 3, true);
 	return MRES_ChangedHandled;
 }

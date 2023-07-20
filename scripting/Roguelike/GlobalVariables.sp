@@ -105,6 +105,7 @@ enum ItemID{
 	ItemID_Snare,
 	ItemID_DumpsterDiver,
 	ItemID_ImmunityPenetration,
+	ItemID_MeteorShower,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -220,6 +221,9 @@ enum{
 	TF_PROJECTILE_GRAPPLINGHOOK,
 	TF_PROJECTILE_SENTRY_ROCKET,
 	TF_PROJECTILE_BREAD_MONSTER,
+	TF_PROJECTILE_NONE2,
+	TF_PROJECTILE_NONE3,
+	TF_PROJECTILE_METEORSHOWER,
 };
 
 Buff playerBuffs[MAXPLAYERS+1][MAXBUFFS+1];
@@ -246,6 +250,7 @@ float compoundInterestDamageTime[MAXPLAYERS+1];
 int projectileBounces[MAXENTITIES+1];
 float switchMedicalTargetTime[MAXPLAYERS+1];
 int priorityTargeting[MAXPLAYERS+1][MAXPLAYERS+1];
+int totalWaveCount;
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls

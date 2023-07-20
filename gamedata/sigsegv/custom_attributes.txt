@@ -3208,4 +3208,14 @@
         "effect_type"	"positive"
         "stored_as_integer"	"0"
     }
+    "6001"
+    {
+        "name"	"overall damage bonus"
+        "attribute_class"	"damage_multiplier"
+        "description_string"	"(+-)%p damage"
+        "description_format"	"value_is_percentage"
+        "hidden"	"1"
+        "effect_type"	"positive"
+        "stored_as_integer"	"0"
+    }
 }

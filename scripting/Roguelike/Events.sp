@@ -2,8 +2,12 @@ public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
     wavesCleared++;
 
 	//todo: scale it based off max wave
+	int itemsToGive = 7+(7*wavesCleared/totalWaveCount);
+	ItemRarity highest = view_as<ItemRarity>(7*wavesCleared/totalWaveCount);
+	ItemRarity lowest = view_as<ItemRarity>(4*wavesCleared/totalWaveCount);
+
 	for(int client = 1;client<MaxClients;++client){
-		ChooseGeneratedItems(client, wavesCleared, 4+wavesCleared, view_as<ItemRarity>(_:ItemRarity_Normal+wavesCleared/2), view_as<ItemRarity>(_:ItemRarity_Genuine+wavesCleared/2));
+		ChooseGeneratedItems(client, wavesCleared, itemsToGive, lowest, highest);
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 		ChooseUltimateItems(client);
 	}
@@ -24,6 +28,10 @@ public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
 			savedPlayerItems[client][i].clear();
 		}
 	}
+
+	int logic = FindEntityByClassname(-1, "tf_objective_resource");
+	if(IsValidEntity(logic))
+		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
 }
 
 public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
@@ -82,7 +90,7 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 
 	if(isKurwabombered[attacker][victim]){
 		isKurwabombered[attacker][victim] = false;
-		SDKHooks_TakeDamage(victim, attacker, attacker, 300.0*TF2_GetDamageModifiers(attacker), DMG_BLAST);
+		SDKHooks_TakeDamage(victim, attacker, attacker, 300.0, DMG_BLAST);
 		if(attacker == victim){
 			EmitSoundToAll(LARGE_EXPLOSION_SOUND, attacker, -1, 150, 0, 1.0);
 		}
@@ -90,7 +98,7 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 	if(amountOfItem[attacker][ItemID_FlyingGuillotine]){
 		float pct = float(GetClientHealth(victim))/TF2Util_GetEntityMaxHealth(victim);
 		if(pct <= 0.2*amountOfItem[attacker][ItemID_FlyingGuillotine])
-			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim)*TF2_GetDamageModifiers(attacker), DMG_GENERIC);
+			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim), DMG_GENERIC);
 	}
 	if(amountOfItem[victim][ItemID_Martyr]){
 		for(int i = 1; i <= MaxClients; ++i){
@@ -150,6 +158,33 @@ public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname
 		if(amountOfItem[client][ItemID_DecentlyBalanced])
 			if(0.1 * amountOfItem[client][ItemID_DecentlyBalanced] >= GetRandomFloat(0.0,1.0))
 				result = true;
+		
+		switch(TF2Attrib_HookValueInt(0, "override_projectile_type", weapon)){
+			case TF_PROJECTILE_METEORSHOWER:{
+				int iEntity = CreateEntityByName("tf_projectile_spellmeteorshower");
+				if (IsValidEdict(iEntity)){
+					int iTeam = GetClientTeam(client);
+					float fAngles[3],fOrigin[3],vBuffer[3],fVelocity[3],fwd[3]
+					SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", client);
+					SetEntProp(iEntity, Prop_Send, "m_iTeamNum", iTeam);
+					GetClientEyeAngles(client, fAngles);
+					GetClientEyePosition(client, fOrigin);
+					GetAngleVectors(fAngles,fwd, NULL_VECTOR, NULL_VECTOR);
+					ScaleVector(fwd, 30.0);
+					AddVectors(fOrigin, fwd, fOrigin);
+					GetAngleVectors(fAngles, vBuffer, NULL_VECTOR, NULL_VECTOR);
+					
+					float velocity = 1500.0;
+					fVelocity[0] = vBuffer[0]*velocity;
+					fVelocity[1] = vBuffer[1]*velocity;
+					fVelocity[2] = vBuffer[2]*velocity;
+
+					TeleportEntity(iEntity, fOrigin, fAngles, NULL_VECTOR);
+					DispatchSpawn(iEntity);
+					Phys_SetVelocity(iEntity, fVelocity, NULL_VECTOR, true);
+				}
+			}
+		}
 	}
 	return Plugin_Changed;
 }
@@ -169,10 +204,13 @@ public OnEntityCreated(entity, const char[] classname)
 	if(!IsValidEdict(entity) || entity < 0 || entity > 2048)
 		return;
 
-    if(StrEqual(classname, "item_powerup_rune", false))
+    if(StrEqual(classname, "item_powerup_rune"))
 		RemoveEntity(entity);
-	if(StrEqual(classname, "tank_boss", false))
+	if(StrEqual(classname, "tank_boss"))
 		SDKHook(entity, SDKHook_OnTakeDamage, Tank_OnTakeDamage);
+
+	if(StrContains(classname, "obj_") == 0)
+		SDKHook(entity, SDKHook_OnTakeDamage, Building_OnTakeDamage);
 
 	if(StrContains(classname, "tf_projectile_") != -1){
 		projectileBounces[entity] = 0;

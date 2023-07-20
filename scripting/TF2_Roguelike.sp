@@ -11,6 +11,7 @@
 #include <tf2utils>
 #include <tf2attributes>
 #include <tf_econ_data>
+#include <vphysics>
 
 #pragma tabsize 0
 

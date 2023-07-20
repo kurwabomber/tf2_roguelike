@@ -98,7 +98,7 @@ public void ManagePlayerBuffs(int i){
 		multiplicativeAttackSpeedMultBuff *= Pow(1.25, float(amountOfItem[i][ItemID_FireRate]));
 	}
 
-	if(amountOfItem[i][ItemID_HeavyWeapons]){
+	if(amountOfItem[i][ItemID_HeavyWeapons] || amountOfItem[i][ItemID_MeteorShower]){
 		multiplicativeDamageBuff *= multiplicativeAttackSpeedMultBuff;
 		multiplicativeAttackSpeedMultBuff = 1.0;
 	}
@@ -119,7 +119,7 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "additive damage bonus", additiveDamageRawBuff);
 		
 		if(additiveDamageMultBuff*multiplicativeDamageBuff != 1.0)
-			TF2Attrib_SetByName(i, "damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
+			TF2Attrib_SetByName(i, "overall damage bonus", additiveDamageMultBuff*multiplicativeDamageBuff);
 		
 		if(additiveMoveSpeedMultBuff != 1.0)
 			TF2Attrib_SetByName(i, "move speed penalty", additiveMoveSpeedMultBuff);
@@ -263,6 +263,13 @@ public void ManagePlayerBuffs(int i){
 						TF2Attrib_SetByName(weapon, "auto fires full clip", 1.0);
 					}
 				}
+			}
+		}
+		if(amountOfItem[i][ItemID_MeteorShower]){
+			int weapon = TF2Util_GetPlayerLoadoutEntity(i, 0);
+			if(IsValidWeapon(weapon)){
+				TF2Attrib_SetByName(weapon, "override projectile type", float(TF_PROJECTILE_METEORSHOWER));
+				TF2Attrib_SetByName(weapon, "fire rate penalty HIDDEN", 2.0);
 			}
 		}
 		buffChange[i] = false;
@@ -737,10 +744,4 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 			weights[element] = 0;
 		}
 	}
-}
-//Fill this up later with a bunch more stuff...
-float TF2_GetDamageModifiers(int client){
-	float modifier = 1.0;
-	modifier *= TF2Attrib_HookValueFloat(1.0, "mult_dmg", client);
-	return modifier;
 }

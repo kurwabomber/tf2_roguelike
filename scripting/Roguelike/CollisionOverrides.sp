@@ -104,7 +104,7 @@ public Action:CollisionFrag(entity, client)
 	if(!IsOnDifferentTeams(owner,client))
 		return Plugin_Continue;
 
-	SDKHooks_TakeDamage(client, owner, owner, 15.0*TF2_GetDamageModifiers(owner), DMG_BULLET, _, NULL_VECTOR, NULL_VECTOR);
+	SDKHooks_TakeDamage(client, owner, owner, 15.0, DMG_BULLET, _, NULL_VECTOR, NULL_VECTOR);
 
 	RemoveEntity(entity);
 	return Plugin_Stop;
