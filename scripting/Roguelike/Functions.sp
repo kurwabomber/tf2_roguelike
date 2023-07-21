@@ -313,6 +313,15 @@ public void ManagePlayerBuffs(int i){
 		if(amountOfItem[i][ItemID_Wounding]){
 			TF2Attrib_SetByName(i, "bleeding duration", 4.0);
 		}
+		if(amountOfItem[i][ItemID_HealthRegeneration]){
+			TF2Attrib_SetByName(i, "health regen", 10.0*amountOfItem[i][ItemID_HealthRegeneration]);
+		}
+		if(amountOfItem[i][ItemID_TheWeaver]){
+			TF2Attrib_SetByName(i, "robo sapper", 3.0);
+			TF2Attrib_SetByName(i, "maxammo grenades1 increased", 4.0);
+			TF2Attrib_SetByName(i, "effect bar recharge rate increased", 0.2);
+			TF2Attrib_SetByName(i, "not solid to players", 1.0);
+		}
 		buffChange[i] = false;
 	}
 
@@ -783,6 +792,47 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 		++timesItemGenerated[client][element];
 		if(availableItems[element].tagInfo.maximum && timesItemGenerated[client][element] >= availableItems[element].tagInfo.maximum){
 			weights[element] = 0;
+		}
+	}
+}
+void ApplyTankEffects(int ref){
+	int entity = EntRefToEntIndex(ref);
+	if(IsValidEntity(entity)){
+		for(int i = 1; i<= MaxClients; ++i){
+			if(!IsValidClient(i))
+				continue;
+
+			if(amountOfItem[i][ItemID_TheWeaver]){
+				SetEntPropFloat(entity, Prop_Data, "m_speed", GetEntPropFloat(entity, Prop_Data, "m_speed") * 0.7)
+				break;
+			}
+		}
+	}
+}
+void DoWeaverEffect(int client){
+	float victimPos[3];
+	GetClientAbsOrigin(client, victimPos);
+
+	int inflictor = TF2Util_GetPlayerConditionProvider(client, TFCond_Sapped);
+	if(IsValidClient(inflictor)){
+		if(amountOfItem[inflictor][ItemID_TheWeaver]){
+			TF2_AddCondition(client, TFCond_MarkedForDeath, 2.0);
+			TF2_StunPlayer(client, 999.0, 0.3, TF_STUNFLAG_SLOWDOWN, inflictor);
+			SDKHooks_TakeDamage(client, inflictor, inflictor, 3.0, DMG_GENERIC);
+			for(int i = 1; i <= MaxClients; ++i){
+				if(!IsValidClient(i) || !IsPlayerAlive(i))
+					continue;
+
+				if(IsOnDifferentTeams(client,i))
+					continue;
+
+				float teammatePos[3];
+				GetClientAbsOrigin(i, teammatePos);
+				if(GetVectorDistance(teammatePos, victimPos) > 300.0)
+					continue;
+				
+				PushEntity(i, client, -100.0);
+			}
 		}
 	}
 }

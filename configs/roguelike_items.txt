@@ -268,7 +268,7 @@
     }
     "The Weaver"
     {
-        "description"   "+4 max sappers, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+15 sapper dps. cannot collide with others.\nNOT IMPLEMENTED YET"
+        "description"   "5x sapper recharge rate, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+30 sapper dps. cannot collide with others."
         "tags"          "spyultimate"
         "weight"        "7"
         "rarity"        "3"
@@ -590,5 +590,13 @@
         "rarity"        "3"
         "cost"          "400"
         "max"           "1"
+    }
+    "Health Regeneration"
+    {
+        "description"   "+10 Health Regenerated/s"
+        "tags"          ""
+        "weight"        "20"
+        "rarity"        "2"
+        "cost"          "300"
     }
 }

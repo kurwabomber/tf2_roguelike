@@ -130,6 +130,11 @@ public Action Tank_OnTakeDamage(int victim, int &attacker, int &inflictor, float
             }
         }
         damage *= TF2Attrib_HookValueFloat(1.0, "damage_multiplier", attacker);
+        for(int i = 1;i<=MaxClients;++i){
+            if(amountOfItem[i][ItemID_TheWeaver]){
+                SDKHooks_TakeDamage(victim, i, i, damage * 0.35, DMG_GENERIC);
+            }
+        }
     }
     return Plugin_Changed;
 }

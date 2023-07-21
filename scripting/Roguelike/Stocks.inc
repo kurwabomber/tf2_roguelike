@@ -16,6 +16,31 @@
 #define DetonatorExplosionSound "weapons/flare_detonator_explode.wav"
 #define OrnamentExplosionSound "weapons/ball_buster_break_01.wav"
 
+stock PushEntity(int entity, int client, float strength=10.0, float heightOverride=0.0)
+{
+    if(IsValidEdict(entity))
+    {
+        // get positions of both entity and client 
+        float pos1[3], pos2[3];
+        GetClientAbsOrigin(client, pos1);
+        GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", pos2);
+		pos2[2]+=heightOverride;	
+		
+        // create push velocity
+		float currentVelocity[3];
+		GetEntPropVector(entity, Prop_Data, "m_vecVelocity", currentVelocity);
+
+        float vPush[3];
+        MakeVectorFromPoints(pos1, pos2, vPush);
+        NormalizeVector(vPush, vPush);
+        ScaleVector(vPush, strength);
+
+		AddVectors(currentVelocity, vPush, vPush);
+		
+        // push entity
+        TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, vPush);
+    }
+} 
 stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.7,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 80, bool ignition = false)
 {
 	if(entity == -1 || !IsValidEdict(entity))

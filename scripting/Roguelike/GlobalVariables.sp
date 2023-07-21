@@ -116,6 +116,8 @@ enum ItemID{
 	ItemID_DeadlierDecay,
 	ItemID_Inferno,
 	ItemID_Wounding,
+	ItemID_HealthRegeneration,
+	
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,

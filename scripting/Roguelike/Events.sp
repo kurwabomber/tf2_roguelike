@@ -213,11 +213,14 @@ public OnEntityCreated(entity, const char[] classname)
 {
 	if(!IsValidEdict(entity) || entity < 0 || entity > 2048)
 		return;
+	int reference = EntIndexToEntRef(entity);
 
     if(StrEqual(classname, "item_powerup_rune"))
 		RemoveEntity(entity);
-	if(StrEqual(classname, "tank_boss"))
+	if(StrEqual(classname, "tank_boss")){
 		SDKHook(entity, SDKHook_OnTakeDamage, Tank_OnTakeDamage);
+		RequestFrame(ApplyTankEffects, reference);
+	}
 
 	if(StrContains(classname, "obj_") == 0)
 		SDKHook(entity, SDKHook_OnTakeDamage, Building_OnTakeDamage);
