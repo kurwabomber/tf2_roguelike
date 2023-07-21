@@ -219,7 +219,7 @@ public void ManagePlayerBuffs(int i){
 		if(amountOfItem[i][ItemID_Multishot]){
 			for(int slot = 0; slot<2; ++slot){
 				int weapon = TF2Util_GetPlayerLoadoutEntity(i, slot, false);
-				if(!IsValidWeapon(weapon))
+				if(!IsValidWeapon(weapon) || TF2Util_IsEntityWearable(weapon))
 					continue;
 
 				int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
@@ -256,7 +256,7 @@ public void ManagePlayerBuffs(int i){
 		if(amountOfItem[i][ItemID_DumpsterDiver]){
 			for(int slot = 0; slot<2; ++slot){
 				int weapon = TF2Util_GetPlayerLoadoutEntity(i, slot, false);
-				if(!IsValidWeapon(weapon))
+				if(!IsValidWeapon(weapon) || TF2Util_IsEntityWearable(weapon))
 					continue;
 
 				int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
@@ -727,7 +727,7 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 	if(IsValidClient(client)){
 		for(int slot = 0;slot<3;++slot){
 			int weapon = TF2Util_GetPlayerLoadoutEntity(client, slot, false);
-			if(!IsValidWeapon(weapon))
+			if(!IsValidWeapon(weapon) || TF2Util_IsEntityWearable(weapon))
 				continue;
 			
 			int projectile = SDKCall(SDKCall_GetWeaponProjectile, weapon);
