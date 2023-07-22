@@ -238,7 +238,7 @@ public void ManagePlayerBuffs(int i){
 			}
 		}
 		if(amountOfItem[i][ItemID_LongerMelee]){
-			TF2Attrib_SetByName(i, "melee range multiplier", Pow(2.0, float(amountOfItem[i][ItemID_Multishot])));
+			TF2Attrib_SetByName(i, "melee range multiplier", Pow(2.0, float(amountOfItem[i][ItemID_LongerMelee])));
 		}
 		if(amountOfItem[i][ItemID_PrecisionNotAccuracy]){
 			TF2Attrib_SetByName(i, "weapon spread bonus", Pow(0.66, float(amountOfItem[i][ItemID_PrecisionNotAccuracy])));
