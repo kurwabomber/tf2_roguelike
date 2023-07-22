@@ -53,6 +53,17 @@ public void OnPluginStart(){
 	if(!SDKCall_GetWeaponProjectile)
 		PrintToServer("Roguelike | Error with \"CTFRocketLauncher::GetWeaponProjectileType()\" gamedata.");
 
+	//Init Grenade
+	StartPrepSDKCall(SDKCall_Entity);
+	PrepSDKCall_SetFromConf(hConf, SDKConf_Virtual,
+			"CTFWeaponBaseGrenadeProj::InitGrenade(int float)");
+	PrepSDKCall_AddParameter(SDKType_Vector, SDKPass_Pointer);
+	PrepSDKCall_AddParameter(SDKType_Vector, SDKPass_Pointer);
+	PrepSDKCall_AddParameter(SDKType_CBasePlayer, SDKPass_Pointer);
+	PrepSDKCall_AddParameter(SDKType_PlainOldData, SDKPass_Plain);
+	PrepSDKCall_AddParameter(SDKType_Float, SDKPass_Plain);
+	SDKCall_InitGrenade = EndPrepSDKCall();
+
 	//Timers
 	CreateTimer(0.1, Timer_100MS, _, TIMER_REPEAT);
 	CreateTimer(10.0, Timer_10S, _, TIMER_REPEAT);

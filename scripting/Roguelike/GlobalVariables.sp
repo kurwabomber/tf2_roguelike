@@ -267,6 +267,7 @@ int totalWaveCount;
 Handle itemDisplayHUD;
 //SDKCalls
 Handle SDKCall_GetWeaponProjectile;
+Handle SDKCall_InitGrenade;
 
 //Item Logic
 bool isKurwabombered[MAXPLAYERS+1][MAXPLAYERS+1];

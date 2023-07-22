@@ -48,7 +48,6 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 				CreateTimer(10.0, ReEnableBuilding, EntIndexToEntRef(i));
 			}
 		}
-
 		SetEntPropFloat(client, Prop_Send, "m_flRuneCharge", 0.0);
 	}else if(canteenCooldown[client] <= GetGameTime()){
 		//Canteens!
@@ -89,9 +88,14 @@ public MRESReturn OnUseCanteen(int canteen, Handle hReturn){
 			int i = -1;
 			float pos[3];
 			GetClientAbsOrigin(client, pos);
-
 			while ((i = FindEntityByClassname(i, "item_currencypack_custom")) != -1){
 				TeleportEntity(i, pos);
+			}
+		}
+
+		if(amountOfItem[client][ItemID_PandorasCanteen]){
+			for(int i = 0; i<50;++i){
+				SpawnRandomProjectile(client);
 			}
 		}
 

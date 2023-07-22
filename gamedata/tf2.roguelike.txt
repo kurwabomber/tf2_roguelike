@@ -2,6 +2,14 @@
 {
 	"tf"
 	{
+		"Offsets"
+		{
+			"CTFWeaponBaseGrenadeProj::InitGrenade(int float)"
+			{
+				"windows"	"243"
+				"linux"		"245"
+			}
+		}
 		"Functions"
 		{
 			"CTFPlayer::DropRune()"

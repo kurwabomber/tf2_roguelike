@@ -9,6 +9,7 @@ public OnClientPutInServer(int client){
 		savedPlayerItems[client][i].clear();
 	}
 	for(int i = 0; i<=loadedItems;++i){
+		amountOfItem[client][i] = 0;
 		timesItemGenerated[client][i] = 0;
 	}
 	canteenCount[client] = 0;

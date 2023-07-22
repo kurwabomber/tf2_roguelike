@@ -836,3 +836,88 @@ void DoWeaverEffect(int client){
 		}
 	}
 }
+char[] getRandomProjectileName(int input){
+	char buffer[64];
+	switch(input){
+		case 0:{buffer = "tf_projectile_arrow";}
+		case 1:{buffer = "tf_projectile_energy_ball";}
+		case 2:{buffer = "tf_projectile_flare";}
+		case 3:{buffer = "tf_projectile_healing_bolt";}
+		case 4:{buffer = "tf_projectile_jar";}
+		case 5:{buffer = "tf_projectile_jar_milk";}
+		case 6:{buffer = "tf_projectile_jar_gas";}
+		case 7:{buffer = "tf_projectile_lightningorb";}
+		case 8:{buffer = "tf_projectile_pipe";}
+		case 9:{buffer = "tf_projectile_rocket";}
+		case 10:{buffer = "tf_projectile_sentryrocket";}
+		case 11:{buffer = "tf_projectile_spellbats";}
+		case 12:{buffer = "tf_projectile_spellfireball";}
+		case 13:{buffer = "tf_projectile_spellmeteorshower";}
+		case 14:{buffer = "tf_projectile_syringe";}
+		case 15:{buffer = "tf_projectile_spellspawnboss";}
+		case 16:{buffer = "tf_projectile_cleaver";}
+		case 17:{buffer = "tf_projectile_stun_ball";}
+		case 18:{buffer = "tf_projectile_pipe";}
+	}
+	return buffer;
+}
+void SpawnRandomProjectile(int client){
+	int id = GetRandomInt(0,18);
+	int iEntity = CreateEntityByName(getRandomProjectileName(id));
+	if (IsValidEdict(iEntity)){
+		int iTeam = GetClientTeam(client);
+		float fAngles[3],fOrigin[3],vBuffer[3],fVelocity[3],fwd[3];
+
+		SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", client);
+		SetEntProp(iEntity, Prop_Send, "m_iTeamNum", iTeam);
+
+		GetClientEyePosition(client, fOrigin);
+		GetClientEyeAngles(client, fAngles);
+		fAngles[0] += GetRandomFloat(-15.0,15.0);
+		fAngles[1] += GetRandomFloat(-15.0,15.0);
+		GetAngleVectors(fAngles, vBuffer, NULL_VECTOR, NULL_VECTOR);
+		GetAngleVectors(fAngles,fwd, NULL_VECTOR, NULL_VECTOR);
+		ScaleVector(fwd, GetRandomFloat(10.0, 100.0));
+		AddVectors(fOrigin, fwd, fOrigin);
+		
+		if(HasEntProp(iEntity, Prop_Send, "m_hThrower"))
+		{
+			float vecAngImpulse[3];
+			GetCleaverAngularImpulse(vecAngImpulse);
+			fVelocity[0] = vBuffer[0]*2000.0;
+			fVelocity[1] = vBuffer[1]*2000.0;
+			fVelocity[2] = vBuffer[2]*2000.0;
+
+			TeleportEntity(iEntity, fOrigin, fAngles, NULL_VECTOR);
+			DispatchSpawn(iEntity);
+			SDKCall(SDKCall_InitGrenade, iEntity, fVelocity, vecAngImpulse, client, 0, 5.0);
+			Phys_SetVelocity(iEntity, fVelocity, vecAngImpulse, true);
+		}
+		else
+		{
+			fVelocity[0] = vBuffer[0]*1500.0;
+			fVelocity[1] = vBuffer[1]*1500.0;
+			fVelocity[2] = vBuffer[2]*1500.0;
+			TeleportEntity(iEntity, fOrigin, fAngles, fVelocity);
+			DispatchSpawn(iEntity);
+		}
+		if(HasEntProp(iEntity, Prop_Send, "m_hThrower"))
+			SetEntPropEnt(iEntity, Prop_Send, "m_hThrower", client);
+		if(HasEntProp(iEntity, Prop_Send, "m_hLauncher"))
+			SetEntPropEnt(iEntity, Prop_Send, "m_hLauncher", client);
+		if(HasEntProp(iEntity, Prop_Send, "m_hOriginalLauncher"))
+			SetEntPropEnt(iEntity, Prop_Send, "m_hOriginalLauncher", client);
+		if(HasEntProp(iEntity, Prop_Send, "m_flDamage"))
+			SetEntPropFloat(iEntity, Prop_Send, "m_flDamage", 100.0);
+		if(HasEntProp(iEntity, Prop_Send, "m_DmgRadius"))
+			SetEntPropFloat(iEntity, Prop_Send, "m_DmgRadius", 144.0);
+		if(HasEntProp(iEntity, Prop_Send, "m_bIsLive"))
+			SetEntProp(iEntity, Prop_Send, "m_bIsLive", true);
+	}
+}
+
+void GetCleaverAngularImpulse(float vecAngImpulse[3]) {
+	vecAngImpulse[0] = 0.0;
+	vecAngImpulse[1] = 500.0;
+	vecAngImpulse[2] = 0.0;
+}

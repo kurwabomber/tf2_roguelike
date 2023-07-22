@@ -349,11 +349,11 @@
     }
     "Merasmus' Canteen"
     {
-        "description"   "+100 projectiles spawned on canteen use"
+        "description"   "+50 projectiles spawned on canteen use"
         "tags"          "canteen"
         "weight"        "3"
         "rarity"        "6"
-        "cost"          "150"
+        "cost"          "800"
         "max"           "1"
     }
     "Projectile Penetration"

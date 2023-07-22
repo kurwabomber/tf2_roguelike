@@ -38,6 +38,7 @@ public Action Command_GiveItem(int client, int args){
 
 			buffChange[target_list[i]] = true;
 		}
+		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	}else{
 		ReplyToCommand(client, "Invalid quantity.");
 		return Plugin_Handled;

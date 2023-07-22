@@ -7,6 +7,8 @@
 public Action OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom){
     if(IsValidClient(attacker) && IsValidWeapon(weapon)){
         damage += GetAttribute(attacker, "additive damage bonus", 0.0);
+        if(damagetype & DMG_CRIT && TF2_IsPlayerInCondition(attacker, TFCond_RuneStrength))
+            damage *= 2.0;
 
         if(amountOfItem[attacker][ItemID_Kurwabomber]){
             if(victim == attacker && !TF2Attrib_HookValueFloat(0.0, "no_self_blast_dmg", weapon)){
@@ -129,6 +131,8 @@ public Action Tank_OnTakeDamage(int victim, int &attacker, int &inflictor, float
                     damage *= 10.0;
             }
         }
+        if(damagetype & DMG_CRIT && TF2_IsPlayerInCondition(attacker, TFCond_RuneStrength))
+            damage *= 2.0;
         damage *= TF2Attrib_HookValueFloat(1.0, "damage_multiplier", attacker);
         for(int i = 1;i<=MaxClients;++i){
             if(amountOfItem[i][ItemID_TheWeaver]){
