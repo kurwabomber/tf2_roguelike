@@ -1,6 +1,6 @@
 public void OnPluginStart(){
 	//Gamedata
-    Handle hConf = LoadGameConfigFile("tf2.roguelike");
+	Handle hConf = LoadGameConfigFile("tf2.roguelike");
 
 	//Disable dropping powerups
 	Handle PowerupDropHook = DHookCreateFromConf(hConf, "CTFPlayer::DropRune()");

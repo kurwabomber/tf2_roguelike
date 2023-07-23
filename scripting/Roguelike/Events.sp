@@ -1,5 +1,5 @@
 public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
-    wavesCleared++;
+	wavesCleared++;
 
 	//todo: scale it based off max wave
 	int itemsToGive = 7+(7*wavesCleared/totalWaveCount);
@@ -21,7 +21,7 @@ public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
 	}
 }
 public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
-    wavesCleared = 0;
+	wavesCleared = 0;
 	for(int client=1;client<MaxClients;++client){
 		for(int i = 0; i<MAX_HELD_ITEMS;++i){
 			playerItems[client][i].clear();
@@ -79,6 +79,7 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	compoundInterestDuration[client] = 0.0;
 	compoundInterestDamageTime[client] = 0.0;
 	switchMedicalTargetTime[client] = 0.0;
+	absorptionAmount[client] = 0.0;
 	for(int i = 1 ; i <= MaxClients; ++i){
 		compoundInterestStacks[client][i] = 0;
 	}
@@ -134,33 +135,28 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 	if(!IsValidClient(attacker))
 		return;
 
-	for(int item=0;item<=loadedItems;++item){
-		if(amountOfItem[attacker][item] <= 0)
-			continue;
-		
-		switch(item){
-			case (_:ItemID_Scavenger):{
-				TFClassType class = TF2_GetPlayerClass(attacker);
-				for(int slot = 0; slot<3; slot++){
-					int id = TF2Util_GetPlayerLoadoutEntity(attacker, slot);
-					if(!IsValidWeapon(id))
-						continue;
-					if(!HasEntProp(id, Prop_Send, "m_iPrimaryAmmoType"))
-						continue;
-						
-					int type = GetEntProp(id, Prop_Send, "m_iPrimaryAmmoType"); 
-					if (type < 0 || type > 31)
-						continue;
-					
-					int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + RoundToCeil(0.03*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[attacker][item]);
-					if(nextAmmo > TF2Util_GetPlayerMaxAmmo(attacker,type,class))
-						nextAmmo = TF2Util_GetPlayerMaxAmmo(attacker,type,class);
+	if(amountOfItem[attacker][ItemID_Scavenger]) {
+		TFClassType class = TF2_GetPlayerClass(attacker);
+		for(int slot = 0; slot<3; slot++){
+			int id = TF2Util_GetPlayerLoadoutEntity(attacker, slot);
+			if(!IsValidWeapon(id))
+				continue;
+			if(!HasEntProp(id, Prop_Send, "m_iPrimaryAmmoType"))
+				continue;
+				
+			int type = GetEntProp(id, Prop_Send, "m_iPrimaryAmmoType"); 
+			if (type < 0 || type > 31)
+				continue;
+			
+			int nextAmmo = GetEntProp(attacker, Prop_Send, "m_iAmmo", _, type) + RoundToCeil(0.03*TF2Util_GetPlayerMaxAmmo(attacker,type,class)*amountOfItem[attacker][ItemID_Scavenger]);
+			if(nextAmmo > TF2Util_GetPlayerMaxAmmo(attacker,type,class))
+				nextAmmo = TF2Util_GetPlayerMaxAmmo(attacker,type,class);
 
-					SetEntProp(attacker, Prop_Send, "m_iAmmo", nextAmmo, _, type); 
-				}
-			}
+			SetEntProp(attacker, Prop_Send, "m_iAmmo", nextAmmo, _, type); 
 		}
 	}
+	if(amountOfItem[attacker][ItemID_Absorption] && GetEntProp(victim, Prop_Send, "m_bIsMiniBoss"))
+		addAbsorption(attacker, 0.2*TF2Util_GetEntityMaxHealth(attacker));
 }
 
 public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool& result){
@@ -215,7 +211,7 @@ public OnEntityCreated(entity, const char[] classname)
 		return;
 	int reference = EntIndexToEntRef(entity);
 
-    if(StrEqual(classname, "item_powerup_rune"))
+	if(StrEqual(classname, "item_powerup_rune"))
 		RemoveEntity(entity);
 	if(StrEqual(classname, "tank_boss")){
 		SDKHook(entity, SDKHook_OnTakeDamage, Tank_OnTakeDamage);

@@ -18,28 +18,28 @@
 
 stock PushEntity(int entity, int client, float strength=10.0, float heightOverride=0.0)
 {
-    if(IsValidEdict(entity))
-    {
-        // get positions of both entity and client 
-        float pos1[3], pos2[3];
-        GetClientAbsOrigin(client, pos1);
-        GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", pos2);
+	if(IsValidEdict(entity))
+	{
+		// get positions of both entity and client 
+		float pos1[3], pos2[3];
+		GetClientAbsOrigin(client, pos1);
+		GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", pos2);
 		pos2[2]+=heightOverride;	
 		
-        // create push velocity
+		// create push velocity
 		float currentVelocity[3];
 		GetEntPropVector(entity, Prop_Data, "m_vecVelocity", currentVelocity);
 
-        float vPush[3];
-        MakeVectorFromPoints(pos1, pos2, vPush);
-        NormalizeVector(vPush, vPush);
-        ScaleVector(vPush, strength);
+		float vPush[3];
+		MakeVectorFromPoints(pos1, pos2, vPush);
+		NormalizeVector(vPush, vPush);
+		ScaleVector(vPush, strength);
 
 		AddVectors(currentVelocity, vPush, vPush);
 		
-        // push entity
-        TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, vPush);
-    }
+		// push entity
+		TeleportEntity(entity, NULL_VECTOR, NULL_VECTOR, vPush);
+	}
 } 
 stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType = 0, bool visual = true, entity = -1, float soundLevel = 0.7,damagetype = DMG_BLAST, weapon = -1, float falloff = 0.0, soundPriority = 80, bool ignition = false)
 {
@@ -126,46 +126,46 @@ stock EntityExplosion(owner, float damage, float radius, float pos[3], soundType
 }
 stock AddPlayerHealth(client, iAdd, float flOverheal = 1.5, bool bEvent = false, healer = -1)
 {
-    int iHealth = GetClientHealth(client);
-    int iNewHealth = iHealth + iAdd;
-    int iMax = RoundFloat(float(TF2Util_GetEntityMaxHealth(client)) * flOverheal)
+	int iHealth = GetClientHealth(client);
+	int iNewHealth = iHealth + iAdd;
+	int iMax = RoundFloat(float(TF2Util_GetEntityMaxHealth(client)) * flOverheal)
 	if(iNewHealth > iMax && iHealth < iMax)
 	{
 		iNewHealth = iMax;
 	}
-    if (iNewHealth <= iMax && iHealth != iMax)
-    {
-        if (bEvent)
-        {
-            ShowHealthGain(client, iNewHealth-iHealth, healer);
-        }
-        SetEntityHealth(client, iNewHealth);
-    }
+	if (iNewHealth <= iMax && iHealth != iMax)
+	{
+		if (bEvent)
+		{
+			ShowHealthGain(client, iNewHealth-iHealth, healer);
+		}
+		SetEntityHealth(client, iNewHealth);
+	}
 }
 stock ShowHealthGain(iPatient, iHealth, iHealer = -1)
 {
-    int iUserId = GetClientUserId(iPatient);
-    Handle hEvent = CreateEvent("player_healed", true);
-    SetEventBool(hEvent, "sourcemod", true);
-    SetEventInt(hEvent, "patient", iUserId);
-    SetEventInt(hEvent, "healer", IsValidClient(iHealer) ? GetClientUserId(iHealer) : iUserId);
-    SetEventInt(hEvent, "amount", iHealth);
-    FireEvent(hEvent);
+	int iUserId = GetClientUserId(iPatient);
+	Handle hEvent = CreateEvent("player_healed", true);
+	SetEventBool(hEvent, "sourcemod", true);
+	SetEventInt(hEvent, "patient", iUserId);
+	SetEventInt(hEvent, "healer", IsValidClient(iHealer) ? GetClientUserId(iHealer) : iUserId);
+	SetEventInt(hEvent, "amount", iHealth);
+	FireEvent(hEvent);
 
-    hEvent = CreateEvent("player_healonhit", true);
-    SetEventBool(hEvent, "sourcemod", true);
-    SetEventInt(hEvent, "amount", iHealth);
-    SetEventInt(hEvent, "entindex", iPatient);
-    FireEvent(hEvent);
+	hEvent = CreateEvent("player_healonhit", true);
+	SetEventBool(hEvent, "sourcemod", true);
+	SetEventInt(hEvent, "amount", iHealth);
+	SetEventInt(hEvent, "entindex", iPatient);
+	FireEvent(hEvent);
 }
 stock bool IsPointVisible(const float start[3], const float end[3])
 {
-    TR_TraceRayFilter(start, end, MASK_SOLID, RayType_EndPoint, Filter_WorldOnly);
-    return TR_GetFraction() == 1.0;
+	TR_TraceRayFilter(start, end, MASK_SOLID, RayType_EndPoint, Filter_WorldOnly);
+	return TR_GetFraction() == 1.0;
 }
 stock bool Filter_WorldOnly(int entity,int mask)
 {
-    return false;
+	return false;
 }
 stock void SendItemInfo(int client, const char[] text)
 {
@@ -205,21 +205,21 @@ stock bool IsOnDifferentTeams(entity1,entity2)
 		return true;
 	}
 	
-    return false; 
+	return false; 
 }
 stock bool IsValidClient(client)
 {
-    if(client <= 0 || client > MaxClients) return false; 
+	if(client <= 0 || client > MaxClients) return false; 
 	if(!IsClientInGame(client)) return false;
-    return true; 
+	return true; 
 }
 stock bool IsValidForDamage(entity)
 {
-    if(!IsValidEdict(entity)) return false; 
+	if(!IsValidEdict(entity)) return false; 
 	if(IsValidClient(entity) && (!IsPlayerAlive(entity) || IsClientObserver(entity))) return false;	
 	if(HasEntProp(entity, Prop_Data, "m_hActiveWeapon")) return true;
 	if(GetEntProp(entity, Prop_Data, "m_takedamage") == 0) return false;
-    return false; 
+	return false; 
 }
 stock bool IsValidWeapon(int entity)
 {

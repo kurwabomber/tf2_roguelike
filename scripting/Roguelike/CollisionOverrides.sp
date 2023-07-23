@@ -1,19 +1,19 @@
 public Action OnCollideUpgrade(entity, other){
-    if(!IsValidClient(other))
-        return Plugin_Continue;
+	if(!IsValidClient(other))
+		return Plugin_Continue;
 
-    Menu_FrontPage(other, 0);
-    return Plugin_Stop;
+	Menu_FrontPage(other, 0);
+	return Plugin_Stop;
 }
 public Action OnStopCollideUpgrade(entity, other){
-    if(!IsValidClient(other))
-        return Plugin_Continue;
+	if(!IsValidClient(other))
+		return Plugin_Continue;
 
-    CancelClientMenu(other);
-    return Plugin_Stop;
+	CancelClientMenu(other);
+	return Plugin_Stop;
 }
 public Action FullStopCollision(entity, other){
-    return Plugin_Stop;
+	return Plugin_Stop;
 }
 public Action OnStartBounceTouch(entity, other)
 {
@@ -82,8 +82,8 @@ public Action OnBounceTouch(entity, other)
 	float vNewAngles[3];
 	GetVectorAngles(vBounceVec, vNewAngles);
 	
-    TeleportEntity(entity, NULL_VECTOR, vNewAngles, vBounceVec);
-    
+	TeleportEntity(entity, NULL_VECTOR, vNewAngles, vBounceVec);
+	
 	delete trace;
 
 	projectileBounces[entity]++;

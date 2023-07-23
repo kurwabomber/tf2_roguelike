@@ -290,7 +290,7 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "projectile no deflect", 1.0);
 		}
 		if(amountOfItem[i][ItemID_BossSlayer]){
-			TF2Attrib_SetByName(i, "dmg current health", 0.01 * amountOfItem[i][ItemID_BossSlayer]);
+			TF2Attrib_SetByName(i, "dmg current health", 0.002 * amountOfItem[i][ItemID_BossSlayer]);
 		}
 		if(amountOfItem[i][ItemID_Killstreak]){
 			TF2Attrib_SetByName(i, "minicritboost on kill", 2.0 * amountOfItem[i][ItemID_Killstreak]);
@@ -467,6 +467,9 @@ void ManagePlayerItemHUD(int client){
 
 	if(canteenCount[client] > 0){
 		Format(textBuild, sizeof(textBuild), "%s\nCanteen: %i uses left", textBuild, canteenCount[client])
+	}
+	if(absorptionAmount[client] > 0){
+		Format(textBuild, sizeof(textBuild), "%s\nAbsorption: %.0f left", textBuild, absorptionAmount[client])
 	}
 
 	SetHudTextParams(0.02, 0.08, 0.2, 69, 245, 66, 255, 0, 0.0, 0.0, 0.0);
@@ -913,6 +916,8 @@ void SpawnRandomProjectile(int client){
 			SetEntPropFloat(iEntity, Prop_Send, "m_DmgRadius", 144.0);
 		if(HasEntProp(iEntity, Prop_Send, "m_bIsLive"))
 			SetEntProp(iEntity, Prop_Send, "m_bIsLive", true);
+
+		CreateTimer(3.0, SelfDestruct, EntIndexToEntRef(iEntity));
 	}
 }
 
@@ -920,4 +925,10 @@ void GetCleaverAngularImpulse(float vecAngImpulse[3]) {
 	vecAngImpulse[0] = 0.0;
 	vecAngImpulse[1] = 500.0;
 	vecAngImpulse[2] = 0.0;
+}
+
+void addAbsorption(int client, float amount){
+	absorptionAmount[client] += amount;
+	if(absorptionAmount[client] > TF2Util_GetEntityMaxHealth(client)*2)
+		absorptionAmount[client] = TF2Util_GetEntityMaxHealth(client)*2.0;
 }

@@ -117,7 +117,7 @@ enum ItemID{
 	ItemID_Inferno,
 	ItemID_Wounding,
 	ItemID_HealthRegeneration,
-	
+	ItemID_Absorption,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -263,6 +263,7 @@ int projectileBounces[MAXENTITIES+1];
 float switchMedicalTargetTime[MAXPLAYERS+1];
 int priorityTargeting[MAXPLAYERS+1][MAXPLAYERS+1];
 int totalWaveCount;
+float absorptionAmount[MAXPLAYERS+1];
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls

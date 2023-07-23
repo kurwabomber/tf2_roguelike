@@ -2,601 +2,610 @@
 {
 	"More Gun"
 	{
-        "description"   "1.25x damage"
-        "tags"          ""
-        "weight"        "60"
-        "rarity"        "0"
-        "cost"          "400"
-    }
+		"description"   "1.25x damage"
+		"tags"          ""
+		"weight"        "60"
+		"rarity"        "0"
+		"cost"          "400"
+	}
 	"Fire Rate"
 	{
-        "description"   "1.25x fire rate"
-        "tags"          ""
-        "weight"        "60"
-        "rarity"        "0"
-        "cost"          "400"
-    }
+		"description"   "1.25x fire rate"
+		"tags"          ""
+		"weight"        "60"
+		"rarity"        "0"
+		"cost"          "400"
+	}
 	"Rocket Specialist"
 	{
-        "description"   "+1 point of rocket specialist"
-        "tags"          "rocket"
-        "weight"        "30"
-        "rarity"        "0"
-        "cost"          "200"
-    }
+		"description"   "+1 point of rocket specialist"
+		"tags"          "rocket"
+		"weight"        "30"
+		"rarity"        "0"
+		"cost"          "200"
+	}
 	"Extended Magazine"
 	{
-        "description"   "1.5x clip size"
-        "tags"          ""
-        "weight"        "45"
-        "rarity"        "0"
-        "cost"          "300"
-    }
+		"description"   "1.5x clip size"
+		"tags"          ""
+		"weight"        "45"
+		"rarity"        "0"
+		"cost"          "300"
+	}
 	"Scavenger"
 	{
-        "description"   "+3% ammo per kill"
-        "tags"          ""
-        "weight"        "20"
-        "rarity"        "1"
-        "cost"          "200"
-    }
+		"description"   "+3% ammo per kill"
+		"tags"          ""
+		"weight"        "20"
+		"rarity"        "1"
+		"cost"          "200"
+	}
 	"Playing with Danger"
 	{
-        "description"   "+40% blast radius"
-        "tags"          "explosive"
-        "weight"        "20"
-        "rarity"        "1"
-        "cost"          "200"
-    }
+		"description"   "+40% blast radius"
+		"tags"          "explosive"
+		"weight"        "20"
+		"rarity"        "1"
+		"cost"          "200"
+	}
 	"Explosive Specialist"
 	{
-        "description"   "No blast falloff"
-        "tags"          "explosive"
-        "weight"        "20"
-        "rarity"        "2"
-        "cost"          "500"
-        "max"           "1"
-    }
+		"description"   "No blast falloff"
+		"tags"          "explosive"
+		"weight"        "20"
+		"rarity"        "2"
+		"cost"          "500"
+		"max"           "1"
+	}
 	"The Quickest-Fix"
 	{
-        "description"   "+1 healing mastery"
-        "tags"          "medic"
-        "weight"        "15"
-        "rarity"        "2"
-        "cost"          "200"
-    }
-    "Kurwabomber"
-    {
-        "description"   "Explosions that deal self damage also deal +300 damage.\n(Applies to self as well)"
-        "tags"          "explosive"
-        "weight"        "8"
-        "rarity"        "4"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Tank Buster"
-    {
-        "description"   "1.5x damage VS tanks"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "3"
-        "cost"          "400"
-    }
-    "Extra Munitions"
-    {
-        "description"   "1.5x max ammo"
-        "tags"          ""
-        "weight"        "50"
-        "rarity"        "0"
-        "cost"          "400"
-    }
-    "Pocket Dispenser"
-    {
-        "description"   "+5% ammo regeneration/5s"
-        "tags"          ""
-        "weight"        "50"
-        "rarity"        "0"
-        "cost"          "100"
-    }
-    "Big Baboon Heart"
-    {
-        "description"   "1.25x max health and +10 max health."
-        "tags"          ""
-        "weight"        "20"
-        "rarity"        "2"
-        "cost"          "300"
-    }
-    "Projectile Speed"
-    {
-        "description"   "+35% projectile speed"
-        "tags"          "projectile"
-        "weight"        "15"
-        "rarity"        "0"
-        "cost"          "50"
-    }
-    "More Bullet per Bullet"
-    {
-        "description"   "+65% bullets per shot (rounds down)"
-        "tags"          "bullet"
-        "weight"        "15"
-        "rarity"        "1"
-        "cost"          "600"
-    }
-    "Canteen"
-    {
-        "description"   "+1 canteen on spawn"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "2"
-        "cost"          "100"
-        "max"           "3"
-    }
-    "Ubercharge Canteen"
-    {
-        "description"   "+6s uber on canteen usage"
-        "tags"          "canteen"
-        "weight"        "8"
-        "rarity"        "4"
-        "cost"          "400"
-        "max"           "2"
-    }
-    "Kritz Canteen"
-    {
-        "description"   "+6s crits on canteen usage"
-        "tags"          "canteen"
-        "weight"        "8"
-        "rarity"        "3"
-        "cost"          "400"
-        "max"           "2"
-    }
-    "Illumination Canteen"
-    {
-        "description"   "+30s reveal on canteen usage"
-        "tags"          "canteen"
-        "weight"        "8"
-        "rarity"        "3"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Warding Canteen"
-    {
-        "description"   "+16s 0.5x dmg taken on canteen usage"
-        "tags"          "canteen"
-        "weight"        "8"
-        "rarity"        "3"
-        "cost"          "250"
-        "max"           "1"
-    }
-    "Collection Canteen"
-    {
-        "description"   "collects money packs on canteen usage"
-        "tags"          "canteen"
-        "weight"        "10"
-        "rarity"        "3"
-        "cost"          "50"
-        "max"           "1"
-    }
-    "Heavy Weapons"
-    {
-        "description"   "converts fire rate bonuses into damage bonus"
-        "tags"          ""
-        "weight"        "7"
-        "rarity"        "4"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Ricochet"
-    {
-        "description"   "+2 targets for bullet damage"
-        "tags"          "bullet"
-        "weight"        "7"
-        "rarity"        "4"
-        "cost"          "600"
-        "max"           "3"
-    }
-    "Chain Explosives"
-    {
-        "description"   "+1 explosion per explosion hit, non-recursively (25% dmg)"
-        "tags"          "explosive"
-        "weight"        "8"
-        "rarity"        "6"
-        "cost"          "1200"
-        "max"           "1"
-    }
-    "Explosive Impact"
-    {
-        "description"   "+1 explosion for non-explosive weapons (50% dmg)"
-        "tags"          ""
-        "weight"        "9"
-        "rarity"        "5"
-        "cost"          "800"
-        "max"           "1"
-    }
-    "The Flying Guillotine"
-    {
-        "description"   "+20% execute under max hp%"
-        "tags"          ""
-        "weight"        "3"
-        "rarity"        "5"
-        "cost"          "1200"
-        "max"           "1"
-    }
-    "The Escape Plan"
-    {
-        "description"   "proc ubercharge automatically if fatal damage\nmust be above 75% ubercharge. +5s speed boost"
-        "tags"          "medic"
-        "weight"        "6"
-        "rarity"        "4"
-        "cost"          "750"
-        "max"           "1"
-    }
-    "Quad Damage"
-    {
-        "description"   "every 10th hit deals 4x damage"
-        "tags"          ""
-        "weight"        "13"
-        "rarity"        "4"
-        "cost"          "500"
-        "max"           "1"
-    }
-    "Australium Alchemist"
-    {
-        "description"   "+15% cash flow, 1.5x collect radius"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "4"
-        "cost"          "600"
-        "max"           "5"
-    }
-    "Compound Interest"
-    {
-        "description"   "+2s bleeding, infinitely stacking."
-        "tags"          ""
-        "weight"        "6"
-        "rarity"        "4"
-        "cost"          "900"
-        "max"           "1"
-    }
-    "Goop Gunner"
-    {
-        "description"   "1.1x dmg per debuff applied to victim"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "5"
-        "cost"          "400"
-        "max"           "3"
-    }
-    "The Weaver"
-    {
-        "description"   "5x sapper recharge rate, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+30 sapper dps. cannot collide with others."
-        "tags"          "spyultimate"
-        "weight"        "7"
-        "rarity"        "3"
-        "cost"          "1600"
-        "max"           "1"
-    }
-    "Biomechanical Bandaging"
-    {
-        "description"   "medigun can heal buildings"
-        "tags"          "medic"
-        "weight"        "5"
-        "rarity"        "2"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Martyr"
-    {
-        "description"   "applies amputator effect to nearby teammates when hit"
-        "tags"          "medic"
-        "weight"        "5"
-        "rarity"        "3"
-        "cost"          "300"
-        "max"           "1"
-    }
-    "Medical Assistance"
-    {
-        "description"   "+1 medigun target"
-        "tags"          "medic"
-        "weight"        "3"
-        "rarity"        "6"
-        "cost"          "700"
-        "max"           "1"
-    }
-    "Fraggy Explosives"
-    {
-        "description"   "+3 syringes on explosion"
-        "tags"          "explosive"
-        "weight"        "6"
-        "rarity"        "3"
-        "cost"          "300"
-        "max"           "1"
-    }
-    "Armor Penetration"
-    {
-        "description"   "-100% resistance effects\n(eg: vaccinator, battallion's, tank minigun res, etc.)"
-        "tags"          ""
-        "weight"        "6"
-        "rarity"        "3"
-        "cost"          "1000"
-        "max"           "1"
-    }
-    "Tren Maxxdoser"
-    {
-        "description"   "+100 hp, 1.5x rage duration."
-        "tags"          ""
-        "weight"        "8"
-        "rarity"        "3"
-        "cost"          "500"
-        "max"           "2"
-    }
-    "Decently Balanced"
-    {
-        "description"   "+10% random crit chance"
-        "tags"          ""
-        "weight"        "12"
-        "rarity"        "3"
-        "cost"          "200"
-        "max"           "10"
-    }
-    "Slower Than a Speeding Bullet"
-    {
-        "description"   "+15% move speed"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "1"
-        "cost"          "150"
-        "max"           "4"
-    }
-    "Merasmus' Canteen"
-    {
-        "description"   "+50 projectiles spawned on canteen use"
-        "tags"          "canteen"
-        "weight"        "3"
-        "rarity"        "6"
-        "cost"          "800"
-        "max"           "1"
-    }
-    "Projectile Penetration"
-    {
-        "description"   "+1 enemies penetrated (bullets count too)"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "2"
-        "cost"          "100"
-        "max"           "3"
-    }
-    "Drunken Bomber"
-    {
-        "description"   "+1 projectile bounce"
-        "tags"          "projectile"
-        "weight"        "10"
-        "rarity"        "2"
-        "cost"          "100"
-        "max"           "3"
-    }
-    "Precision Targeting"
-    {
-        "description"   "1.4x crit damage"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "3"
-        "cost"          "400"
-    }
-    "Giant Slayer"
-    {
-        "description"   "1.5x damage VS giants"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "3"
-        "cost"          "400"
-    }
-    "Autocollect"
-    {
-        "description"   "automatically collects money from killed bots"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "3"
-        "cost"          "400"       
-    }
-    "Cleave"
-    {
-        "description"   "melee hits all enemies within range"
-        "tags"          ""
-        "weight"        "20"
-        "rarity"        "3"
-        "cost"          "600"
-        "max"           "1"       
-    }
-    "Multishot"
-    {
-        "description"   "+1 projectiles per shot"
-        "tags"          "projectile"
-        "weight"        "7"
-        "rarity"        "5"
-        "cost"          "800"
-        "max"           "2"       
-    }
+		"description"   "+1 healing mastery"
+		"tags"          "medic"
+		"weight"        "15"
+		"rarity"        "2"
+		"cost"          "200"
+	}
+	"Kurwabomber"
+	{
+		"description"   "Explosions that deal self damage also deal +300 damage.\n(Applies to self as well)"
+		"tags"          "explosive"
+		"weight"        "8"
+		"rarity"        "4"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Tank Buster"
+	{
+		"description"   "1.5x damage VS tanks"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "3"
+		"cost"          "400"
+	}
+	"Extra Munitions"
+	{
+		"description"   "1.5x max ammo"
+		"tags"          ""
+		"weight"        "50"
+		"rarity"        "0"
+		"cost"          "400"
+	}
+	"Pocket Dispenser"
+	{
+		"description"   "+5% ammo regeneration/5s"
+		"tags"          ""
+		"weight"        "50"
+		"rarity"        "0"
+		"cost"          "100"
+	}
+	"Big Baboon Heart"
+	{
+		"description"   "1.25x max health and +10 max health."
+		"tags"          ""
+		"weight"        "20"
+		"rarity"        "2"
+		"cost"          "300"
+	}
+	"Projectile Speed"
+	{
+		"description"   "+35% projectile speed"
+		"tags"          "projectile"
+		"weight"        "15"
+		"rarity"        "0"
+		"cost"          "50"
+	}
+	"More Bullet per Bullet"
+	{
+		"description"   "+65% bullets per shot (rounds down)"
+		"tags"          "bullet"
+		"weight"        "15"
+		"rarity"        "1"
+		"cost"          "600"
+	}
+	"Canteen"
+	{
+		"description"   "+1 canteen on spawn"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "2"
+		"cost"          "100"
+		"max"           "3"
+	}
+	"Ubercharge Canteen"
+	{
+		"description"   "+6s uber on canteen usage"
+		"tags"          "canteen"
+		"weight"        "8"
+		"rarity"        "4"
+		"cost"          "400"
+		"max"           "2"
+	}
+	"Kritz Canteen"
+	{
+		"description"   "+6s crits on canteen usage"
+		"tags"          "canteen"
+		"weight"        "8"
+		"rarity"        "3"
+		"cost"          "400"
+		"max"           "2"
+	}
+	"Illumination Canteen"
+	{
+		"description"   "+30s reveal on canteen usage"
+		"tags"          "canteen"
+		"weight"        "8"
+		"rarity"        "3"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Warding Canteen"
+	{
+		"description"   "+16s 0.5x dmg taken on canteen usage"
+		"tags"          "canteen"
+		"weight"        "8"
+		"rarity"        "3"
+		"cost"          "250"
+		"max"           "1"
+	}
+	"Collection Canteen"
+	{
+		"description"   "collects money packs on canteen usage"
+		"tags"          "canteen"
+		"weight"        "10"
+		"rarity"        "3"
+		"cost"          "50"
+		"max"           "1"
+	}
+	"Heavy Weapons"
+	{
+		"description"   "converts fire rate bonuses into damage bonus"
+		"tags"          ""
+		"weight"        "7"
+		"rarity"        "4"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Ricochet"
+	{
+		"description"   "+2 targets for bullet damage"
+		"tags"          "bullet"
+		"weight"        "7"
+		"rarity"        "4"
+		"cost"          "600"
+		"max"           "3"
+	}
+	"Chain Explosives"
+	{
+		"description"   "+1 explosion per explosion hit, non-recursively (25% dmg)"
+		"tags"          "explosive"
+		"weight"        "8"
+		"rarity"        "6"
+		"cost"          "1200"
+		"max"           "1"
+	}
+	"Explosive Impact"
+	{
+		"description"   "+1 explosion for non-explosive weapons (50% dmg)"
+		"tags"          ""
+		"weight"        "9"
+		"rarity"        "5"
+		"cost"          "800"
+		"max"           "1"
+	}
+	"The Flying Guillotine"
+	{
+		"description"   "+20% execute under max hp%"
+		"tags"          ""
+		"weight"        "3"
+		"rarity"        "5"
+		"cost"          "1200"
+		"max"           "1"
+	}
+	"The Escape Plan"
+	{
+		"description"   "proc ubercharge automatically if fatal damage\nmust be above 75% ubercharge. +5s speed boost"
+		"tags"          "medic"
+		"weight"        "6"
+		"rarity"        "4"
+		"cost"          "750"
+		"max"           "1"
+	}
+	"Quad Damage"
+	{
+		"description"   "every 10th hit deals 4x damage"
+		"tags"          ""
+		"weight"        "13"
+		"rarity"        "4"
+		"cost"          "500"
+		"max"           "1"
+	}
+	"Australium Alchemist"
+	{
+		"description"   "+15% cash flow, 1.5x collect radius"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "4"
+		"cost"          "600"
+		"max"           "5"
+	}
+	"Compound Interest"
+	{
+		"description"   "+2s bleeding, infinitely stacking."
+		"tags"          ""
+		"weight"        "6"
+		"rarity"        "4"
+		"cost"          "900"
+		"max"           "1"
+	}
+	"Goop Gunner"
+	{
+		"description"   "1.1x dmg per debuff applied to victim"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "5"
+		"cost"          "400"
+		"max"           "3"
+	}
+	"The Weaver"
+	{
+		"description"   "5x sapper recharge rate, sapping pulls victims near each other.\napplies mark for death & permaslow 0.7x (applies to tanks).\n+30 sapper dps. cannot collide with others."
+		"tags"          "spyultimate"
+		"weight"        "7"
+		"rarity"        "3"
+		"cost"          "1600"
+		"max"           "1"
+	}
+	"Biomechanical Bandaging"
+	{
+		"description"   "medigun can heal buildings"
+		"tags"          "medic"
+		"weight"        "5"
+		"rarity"        "2"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Martyr"
+	{
+		"description"   "applies amputator effect to nearby teammates when hit"
+		"tags"          "medic"
+		"weight"        "5"
+		"rarity"        "3"
+		"cost"          "300"
+		"max"           "1"
+	}
+	"Medical Assistance"
+	{
+		"description"   "+1 medigun target"
+		"tags"          "medic"
+		"weight"        "3"
+		"rarity"        "6"
+		"cost"          "700"
+		"max"           "1"
+	}
+	"Fraggy Explosives"
+	{
+		"description"   "+3 syringes on explosion"
+		"tags"          "explosive"
+		"weight"        "6"
+		"rarity"        "3"
+		"cost"          "300"
+		"max"           "1"
+	}
+	"Armor Penetration"
+	{
+		"description"   "-100% resistance effects\n(eg: vaccinator, battallion's, tank minigun res, etc.)"
+		"tags"          ""
+		"weight"        "6"
+		"rarity"        "3"
+		"cost"          "1000"
+		"max"           "1"
+	}
+	"Tren Maxxdoser"
+	{
+		"description"   "+100 hp, 1.5x rage duration."
+		"tags"          ""
+		"weight"        "8"
+		"rarity"        "3"
+		"cost"          "500"
+		"max"           "2"
+	}
+	"Decently Balanced"
+	{
+		"description"   "+10% random crit chance"
+		"tags"          ""
+		"weight"        "12"
+		"rarity"        "3"
+		"cost"          "200"
+		"max"           "10"
+	}
+	"Slower Than a Speeding Bullet"
+	{
+		"description"   "+15% move speed"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "1"
+		"cost"          "150"
+		"max"           "4"
+	}
+	"Merasmus' Canteen"
+	{
+		"description"   "+50 projectiles spawned on canteen use"
+		"tags"          "canteen"
+		"weight"        "3"
+		"rarity"        "6"
+		"cost"          "800"
+		"max"           "1"
+	}
+	"Projectile Penetration"
+	{
+		"description"   "+1 enemies penetrated (bullets count too)"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "2"
+		"cost"          "100"
+		"max"           "3"
+	}
+	"Drunken Bomber"
+	{
+		"description"   "+1 projectile bounce"
+		"tags"          "projectile"
+		"weight"        "10"
+		"rarity"        "2"
+		"cost"          "100"
+		"max"           "3"
+	}
+	"Precision Targeting"
+	{
+		"description"   "1.4x crit damage"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "3"
+		"cost"          "400"
+	}
+	"Giant Slayer"
+	{
+		"description"   "1.5x damage VS giants"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "3"
+		"cost"          "400"
+	}
+	"Autocollect"
+	{
+		"description"   "automatically collects money from killed bots"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "3"
+		"cost"          "400"       
+	}
+	"Cleave"
+	{
+		"description"   "melee hits all enemies within range"
+		"tags"          ""
+		"weight"        "20"
+		"rarity"        "3"
+		"cost"          "600"
+		"max"           "1"       
+	}
+	"Multishot"
+	{
+		"description"   "+1 projectiles per shot"
+		"tags"          "projectile"
+		"weight"        "7"
+		"rarity"        "5"
+		"cost"          "800"
+		"max"           "2"       
+	}
 	"Bigger Caliber"
-    {
-        "description"   "2.1x damage, 1.8x slower fire rate."
-        "tags"          ""
-        "weight"        "18"
-        "rarity"        "1"
-        "cost"          "200"
-        "max"           "3"       
-    }
+	{
+		"description"   "2.1x damage, 1.8x slower fire rate."
+		"tags"          ""
+		"weight"        "18"
+		"rarity"        "1"
+		"cost"          "200"
+		"max"           "3"       
+	}
 	"Longer Melee"
-    {
-        "description"   "2x melee range"
-        "tags"          ""
-        "weight"        "18"
-        "rarity"        "1"
-        "cost"          "100"       
-    }
+	{
+		"description"   "2x melee range"
+		"tags"          ""
+		"weight"        "18"
+		"rarity"        "1"
+		"cost"          "100"       
+	}
 	"Phaselock"
-    {
-        "description"   "On Headshot: +15% chance to summon\nlightning orb to lock movement in enemies."
-        "tags"          "sniper"
-        "weight"        "6"
-        "rarity"        "4"
-        "cost"          "500"
+	{
+		"description"   "On Headshot: +15% chance to summon\nlightning orb to lock movement in enemies."
+		"tags"          "sniper"
+		"weight"        "6"
+		"rarity"        "4"
+		"cost"          "500"
 		"max"			"1"
-    }
+	}
 	"Precision Is Not Accuracy"
-    {
-        "description"   "0.66x bullet spread"
-        "tags"          "bullet"
-        "weight"        "15"
-        "rarity"        "1"
-        "cost"          "200"
+	{
+		"description"   "0.66x bullet spread"
+		"tags"          "bullet"
+		"weight"        "15"
+		"rarity"        "1"
+		"cost"          "200"
 		"max"			"3"
-    }
+	}
 	"Accelerated Degeneration"
-    {
-        "description"   "2x faster afterburn and bleed tick rate"
-        "tags"          ""
-        "weight"        "8"
-        "rarity"        "3"
-        "cost"          "300"
-    }
+	{
+		"description"   "2x faster afterburn and bleed tick rate"
+		"tags"          ""
+		"weight"        "8"
+		"rarity"        "3"
+		"cost"          "300"
+	}
 	"Convenience Store Bargain"
-    {
-        "description"   "1.5x sniper rifle charge rate"
-        "tags"          "sniper"
-        "weight"        "15"
-        "rarity"        "1"
-        "cost"          "200"
-    }
+	{
+		"description"   "1.5x sniper rifle charge rate"
+		"tags"          "sniper"
+		"weight"        "15"
+		"rarity"        "1"
+		"cost"          "200"
+	}
 	"Snare"
-    {
-        "description"   "+2s slow on hit"
-        "tags"          ""
-        "weight"        "15"
-        "rarity"        "1"
-        "cost"          "200"
-    }
-    "Dumpster Diver"
-    {
-        "description"   "gives beggar bonuses to weapons"
-        "tags"          ""
-        "weight"        "7"
-        "rarity"        "4"
-        "cost"          "800"
-        "max"           "1"
-    }
-    "Immunity Penetration"
-    {
-        "description"   "damage pierces through uber and bonk"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "4"
-        "cost"          "700"
-        "max"           "1"
-    }
-    "Meteor Shower"
-    {
-        "description"   "Replaces rocket launcher with Meteor Shower spell\nConverts fire rate into damage\n2x slower fire rate."
-        "tags"          "soldierultimate"
-        "weight"        "10"
-        "rarity"        "7"
-        "cost"          "5000"
-        "max"           "1"
-    }
-    "Camouflage"
-    {
-        "description"   "Passively cloaks over time.\nCan attack while cloaked."
-        "tags"          ""
-        "weight"        "20"
-        "rarity"        "2"
-        "cost"          "500"
-        "max"           "1"
-    }
-    "Headshot"
-    {
-        "description"   "bullets can headshot"
-        "tags"          "bullet"
-        "weight"        "15"
-        "rarity"        "2"
-        "cost"          "600"
-        "max"           "1"
-    }
-    "Projectile Inertia"
-    {
-        "description"   "projectiles cannot be re/deflected"
-        "tags"          "projectile"
-        "weight"        "12"
-        "rarity"        "4"
-        "cost"          "300"
-        "max"           "1"
-    }
-    "Boss Slayer"
-    {
-        "description"   "+1% hp% damage"
-        "tags"          ""
-        "weight"        "9"
-        "rarity"        "5"
-        "cost"          "300"
-        "max"           "2"
-    }
-    "Killstreak"
-    {
-        "description"   "+2s minicrit on kill"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "5"
-        "cost"          "100"
-        "max"           "2"
-    }
-    "Leeches"
-    {
-        "description"   "+10% lifesteal"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "3"
-        "cost"          "200"
-    }
-    "Powerful Swings"
-    {
-        "description"   "Reflects projectiles on melee swing"
-        "tags"          ""
-        "weight"        "8"
-        "rarity"        "2"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Deadlier Decay"
-    {
-        "description"   "2x DOT damage"
-        "tags"          ""
-        "weight"        "10"
-        "rarity"        "3"
-        "cost"          "600"
-        "max"           "4"
-    }
-    "Inferno"
-    {
-        "description"   "All attacks ignite for 4s."
-        "tags"          ""
-        "weight"        "14"
-        "rarity"        "3"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Wounding"
-    {
-        "description"   "All attacks bleed for 4s."
-        "tags"          ""
-        "weight"        "14"
-        "rarity"        "3"
-        "cost"          "400"
-        "max"           "1"
-    }
-    "Health Regeneration"
-    {
-        "description"   "+10 Health Regenerated/s"
-        "tags"          ""
-        "weight"        "20"
-        "rarity"        "2"
-        "cost"          "300"
-    }
+	{
+		"description"   "+2s slow on hit"
+		"tags"          ""
+		"weight"        "15"
+		"rarity"        "1"
+		"cost"          "200"
+	}
+	"Dumpster Diver"
+	{
+		"description"   "gives beggar bonuses to weapons"
+		"tags"          ""
+		"weight"        "7"
+		"rarity"        "4"
+		"cost"          "800"
+		"max"           "1"
+	}
+	"Immunity Penetration"
+	{
+		"description"   "damage pierces through uber and bonk"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "4"
+		"cost"          "700"
+		"max"           "1"
+	}
+	"Meteor Shower"
+	{
+		"description"   "Replaces rocket launcher with Meteor Shower spell\nConverts fire rate into damage\n2x slower fire rate."
+		"tags"          "soldierultimate"
+		"weight"        "10"
+		"rarity"        "7"
+		"cost"          "5000"
+		"max"           "1"
+	}
+	"Camouflage"
+	{
+		"description"   "Passively cloaks over time.\nCan attack while cloaked."
+		"tags"          ""
+		"weight"        "20"
+		"rarity"        "2"
+		"cost"          "500"
+		"max"           "1"
+	}
+	"Headshot"
+	{
+		"description"   "bullets can headshot"
+		"tags"          "bullet"
+		"weight"        "15"
+		"rarity"        "2"
+		"cost"          "600"
+		"max"           "1"
+	}
+	"Projectile Inertia"
+	{
+		"description"   "projectiles cannot be re/deflected"
+		"tags"          "projectile"
+		"weight"        "12"
+		"rarity"        "4"
+		"cost"          "300"
+		"max"           "1"
+	}
+	"Boss Slayer"
+	{
+		"description"   "+0.2% hp% damage"
+		"tags"          ""
+		"weight"        "9"
+		"rarity"        "5"
+		"cost"          "300"
+		"max"           "2"
+	}
+	"Killstreak"
+	{
+		"description"   "+2s minicrit on kill"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "5"
+		"cost"          "100"
+		"max"           "2"
+	}
+	"Leeches"
+	{
+		"description"   "+10% lifesteal"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "3"
+		"cost"          "200"
+	}
+	"Powerful Swings"
+	{
+		"description"   "Reflects projectiles on melee swing"
+		"tags"          ""
+		"weight"        "8"
+		"rarity"        "2"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Deadlier Decay"
+	{
+		"description"   "2x DOT damage"
+		"tags"          ""
+		"weight"        "10"
+		"rarity"        "3"
+		"cost"          "600"
+		"max"           "4"
+	}
+	"Inferno"
+	{
+		"description"   "All attacks ignite for 4s."
+		"tags"          ""
+		"weight"        "14"
+		"rarity"        "3"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Wounding"
+	{
+		"description"   "All attacks bleed for 4s."
+		"tags"          ""
+		"weight"        "14"
+		"rarity"        "3"
+		"cost"          "400"
+		"max"           "1"
+	}
+	"Health Regeneration"
+	{
+		"description"   "+10 Health Regenerated/s"
+		"tags"          ""
+		"weight"        "20"
+		"rarity"        "2"
+		"cost"          "300"
+	}
+	"Absorption"
+	{
+		"description"   "On killing a giant: +20% HP into Absorption"
+		"tags"          ""
+		"weight"        "12"
+		"rarity"        "5"
+		"cost"          "600"
+		"max"			"1"
+	}
 }

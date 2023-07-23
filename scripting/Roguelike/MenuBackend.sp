@@ -9,8 +9,8 @@ public MenuHandler_FrontPage(Handle menu, MenuAction:action, client, param2){
 		currentWaveViewed[client] = param2-2;
 		}
 	}
-    if (action == MenuAction_End)
-        CloseHandle(menu);
+	if (action == MenuAction_End)
+		CloseHandle(menu);
 }
 public MenuHandler_UltimateItem(Handle menu, MenuAction:action, client, param2){
 	if (action == MenuAction_Select){
@@ -37,8 +37,8 @@ public MenuHandler_UltimateItem(Handle menu, MenuAction:action, client, param2){
 	}
 	else if(action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)
 		Menu_FrontPage(client, 0);
-    if (action == MenuAction_End)
-        CloseHandle(menu);
+	if (action == MenuAction_End)
+		CloseHandle(menu);
 }
 
 public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
@@ -66,8 +66,8 @@ public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
 	}
 	else if(action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)
 		Menu_FrontPage(client, 7*((currentWaveViewed[client]+2)/7) );
-    if (action == MenuAction_End)
-        CloseHandle(menu);
+	if (action == MenuAction_End)
+		CloseHandle(menu);
 }
 
 public MenuHandler_PowerupSelection(Handle menu, MenuAction:action, client, param2){
@@ -87,6 +87,6 @@ public MenuHandler_PowerupSelection(Handle menu, MenuAction:action, client, para
 	}
 	else if(action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)
 		Menu_FrontPage(client, 0);
-    if (action == MenuAction_End)
-        CloseHandle(menu);
+	if (action == MenuAction_End)
+		CloseHandle(menu);
 }
