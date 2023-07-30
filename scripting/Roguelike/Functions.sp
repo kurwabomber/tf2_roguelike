@@ -113,7 +113,8 @@ public void ManagePlayerBuffs(int i){
 
 	if(buffChange[i])
 	{
-		TF2Attrib_RemoveAll(i);
+		if(!IsFakeClient(i))
+			TF2Attrib_RemoveAll(i);
 		
 		TF2Attrib_SetByName(i, "ignores other projectiles", 1.0);
 		TF2Attrib_SetByName(i, "penetrate teammates", 1.0);
