@@ -11,6 +11,7 @@ public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 		ChooseUltimateItems(client);
 	}
+	isGameInPlay = false;
 }
 public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
 	for(int client=1;client<MaxClients;++client){
@@ -22,6 +23,7 @@ public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
 		}
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	}
+	isGameInPlay = true;
 }
 public Event_WaveFailed(Handle event, const char[] name, bool dontBroadcast){
 	for(int client=1;client<MaxClients;++client){
@@ -33,6 +35,7 @@ public Event_WaveFailed(Handle event, const char[] name, bool dontBroadcast){
 		}
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	}
+	isGameInPlay = false;
 }
 public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
 	wavesCleared = 0;
@@ -53,6 +56,8 @@ public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
 	int logic = FindEntityByClassname(-1, "tf_objective_resource");
 	if(IsValidEntity(logic))
 		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
+
+	isGameInPlay = false;
 }
 
 public Event_ChangeMission(Handle event, const char[] name, bool dontBroadcast){
@@ -205,6 +210,15 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 	}
 	if(amountOfItem[attacker][ItemID_Absorption] && GetEntProp(victim, Prop_Send, "m_bIsMiniBoss"))
 		addAbsorption(attacker, 0.2*TF2Util_GetEntityMaxHealth(attacker));
+}
+
+public Event_DeployBuff(Handle event, const char[] name, bool dontBroadcast){
+	int client = GetClientOfUserId(GetEventInt(event, "buff_owner"));
+	if(!IsValidClient(client))
+		return;
+
+	if(amountOfItem[client][ItemID_TeamTactics])
+		++teamTacticsStacks[client];
 }
 
 public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool& result){

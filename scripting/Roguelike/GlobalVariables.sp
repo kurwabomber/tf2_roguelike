@@ -121,6 +121,10 @@ enum ItemID{
 	ItemID_CombatMedic,
 	ItemID_DisposableSentries,
 	ItemID_ArmorPlating,
+	ItemID_OverhealBoost,
+	ItemID_HighValueTarget,
+	ItemID_PregamePrep,
+	ItemID_TeamTactics,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -277,3 +281,5 @@ Handle SDKCall_InitGrenade;
 //Item Logic
 bool isKurwabombered[MAXPLAYERS+1][MAXPLAYERS+1];
 bool isExecuted[MAXPLAYERS+1];
+int teamTacticsStacks[MAXPLAYERS+1];
+bool isGameInPlay;

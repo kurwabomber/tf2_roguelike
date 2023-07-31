@@ -61,7 +61,7 @@
 	{
 		"description"   "+1 healing mastery"
 		"tags"          "medic"
-		"weight"        "15"
+		"weight"        "40"
 		"rarity"        "2"
 		"cost"          "200"
 	}
@@ -152,10 +152,10 @@
 	"Illumination Canteen"
 	{
 		"description"   "+30s reveal on canteen usage"
-		"tags"          "canteen"
-		"weight"        "8"
+		"tags"          "pyroultimate"
+		"weight"        "1"
 		"rarity"        "3"
-		"cost"          "400"
+		"cost"          "100"
 		"max"           "1"
 	}
 	"Warding Canteen"
@@ -404,7 +404,7 @@
 		"tags"          ""
 		"weight"        "20"
 		"rarity"        "3"
-		"cost"          "600"
+		"cost"          "200"
 		"max"           "1"       
 	}
 	"Multishot"
@@ -634,5 +634,40 @@
 		"rarity"        "2"
 		"cost"          "200"
 		"max"			"7"
+	}
+	"Overheal Boost"
+	{
+		"description"   "+1 overheal expert"
+		"tags"          "medic"
+		"weight"        "40"
+		"rarity"        "2"
+		"cost"          "200"
+	}
+	"High Value Target"
+	{
+		"description"   "marks for death on hit"
+		"tags"          "sniper"
+		"weight"        "60"
+		"rarity"        "2"
+		"cost"          "100"
+		"max"			"1"
+	}
+	"Pre-Game Prep"
+	{
+		"description"   "100% crits while wave isn't playing"
+		"tags"          "demoultimate"
+		"weight"        "1"
+		"rarity"        "4"
+		"cost"          "400"
+		"max"			"1"
+	}
+	"Team Tactics"
+	{
+		"description"   "+0.3% damage for team forever per rage usage."
+		"tags"          "soldierultimate"
+		"weight"        "1"
+		"rarity"        "6"
+		"cost"          "300"
+		"max"			"1"
 	}
 }

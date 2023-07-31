@@ -116,6 +116,11 @@ public Action Timer_100MS(Handle timer)
 				++healing;
 			}
 		}
+		if(!isGameInPlay){
+			if(amountOfItem[i][ItemID_PregamePrep])
+				TF2_AddCondition(i, TFCond_CritCanteen, 1.0);
+			canteenCount[i] = amountOfItem[i][ItemID_Canteen];
+		}
 	}
 	return Plugin_Continue;
 }

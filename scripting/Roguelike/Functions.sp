@@ -110,6 +110,16 @@ public void ManagePlayerBuffs(int i){
 	if(amountOfItem[i][ItemID_ArmorPlating]){
 		multiplicativeDamageTakenBuff *= Pow(0.85, float(amountOfItem[i][ItemID_ArmorPlating]));
 	}
+	
+	float tacticsBonus = 1.0;
+	for(int teammate=1;teammate<=MaxClients;++teammate){
+		if(!IsValidClient(teammate))
+			continue;
+		if(IsOnDifferentTeams(i, teammate))
+			continue;
+		tacticsBonus += teamTacticsStacks[teammate]*0.003;
+	}
+	multiplicativeDamageBuff *= tacticsBonus;
 
 	if(amountOfItem[i][ItemID_Camouflage]){
 		TF2_AddCondition(i, TFCond_StealthedUserBuffFade, 0.5, i);
@@ -329,6 +339,12 @@ public void ManagePlayerBuffs(int i){
 		}
 		if(amountOfItem[i][ItemID_DisposableSentries]){
 			TF2Attrib_SetByName(i, "engy disposable sentries", float(amountOfItem[i][ItemID_DisposableSentries]));
+		}
+		if(amountOfItem[i][ItemID_OverhealBoost]){
+			TF2Attrib_SetByName(i, "overheal expert", float(amountOfItem[i][ItemID_OverhealBoost]));
+		}
+		if(amountOfItem[i][ItemID_HighValueTarget]){
+			TF2Attrib_SetByName(i, "mark for death", float(amountOfItem[i][ItemID_HighValueTarget]));
 		}
 
 		buffChange[i] = false;

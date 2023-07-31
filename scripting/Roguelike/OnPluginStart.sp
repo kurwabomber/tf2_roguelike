@@ -78,6 +78,7 @@ public void OnPluginStart(){
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("mvm_mission_update", Event_ChangeMission);
 	HookEvent("mvm_wave_failed", Event_WaveFailed);
+	HookEvent("deploy_buff_banner", Event_DeployBuff);
 
 	//Commands
 	RegAdminCmd("sm_roguelike_giveitem", Command_GiveItem, ADMFLAG_ROOT, "Using specified name, gives an item + quantity.");
@@ -118,6 +119,8 @@ public void OnMapStart(){
 	int logic = FindEntityByClassname(-1, "tf_objective_resource");
 	if(IsValidEntity(logic))
 		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
+	
+	isGameInPlay = false;
 }
 
 public OnPluginEnd(){
