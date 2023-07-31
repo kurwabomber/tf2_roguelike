@@ -83,6 +83,7 @@ public MenuHandler_PowerupSelection(Handle menu, MenuAction:action, client, para
 		}
 		TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.01); //Refreshes speed calc
 		SetEntityHealth(client, RoundToNearest(hpRatio*TF2Util_GetEntityMaxHealth(client)));
+		buffChange[client] = true;
 		Menu_PowerupSelection(client, GetMenuPagination(menu)*(param2/GetMenuPagination(menu)));
 	}
 	else if(action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)

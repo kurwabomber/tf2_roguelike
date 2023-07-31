@@ -102,7 +102,7 @@
 	{
 		"description"   "1.25x max health and +10 max health."
 		"tags"          ""
-		"weight"        "20"
+		"weight"        "40"
 		"rarity"        "2"
 		"cost"          "300"
 	}
@@ -607,5 +607,32 @@
 		"rarity"        "5"
 		"cost"          "600"
 		"max"			"1"
+	}
+	"Combat Medic"
+	{
+		"description"   "All lifesteal healing is applied to teammates.\n+40% lifesteal."
+		"tags"          "medicultimate"
+		"weight"        "1"
+		"rarity"        "5"
+		"cost"          "1000"
+		"max"			"1"
+	}
+	"Disposable Sentries"
+	{
+		"description"   "+1 disposable sentry"
+		"tags"          "engineer"
+		"weight"        "15"
+		"rarity"        "2"
+		"cost"          "100"
+		"max"			"3"
+	}
+	"Armor Plating"
+	{
+		"description"   "0.85x damage taken"
+		"tags"          ""
+		"weight"        "40"
+		"rarity"        "2"
+		"cost"          "200"
+		"max"			"7"
 	}
 }

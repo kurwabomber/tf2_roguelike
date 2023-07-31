@@ -77,6 +77,7 @@ public void OnPluginStart(){
 	HookEvent("player_hurt", Event_PlayerHurt);
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("mvm_mission_update", Event_ChangeMission);
+	HookEvent("mvm_wave_failed", Event_WaveFailed);
 
 	//Commands
 	RegAdminCmd("sm_roguelike_giveitem", Command_GiveItem, ADMFLAG_ROOT, "Using specified name, gives an item + quantity.");

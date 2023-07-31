@@ -107,6 +107,10 @@ public void ManagePlayerBuffs(int i){
 		multiplicativeDamageBuff *= Pow(2.1, float(amountOfItem[i][ItemID_BiggerCaliber]));
 	}
 
+	if(amountOfItem[i][ItemID_ArmorPlating]){
+		multiplicativeDamageTakenBuff *= Pow(0.85, float(amountOfItem[i][ItemID_ArmorPlating]));
+	}
+
 	if(amountOfItem[i][ItemID_Camouflage]){
 		TF2_AddCondition(i, TFCond_StealthedUserBuffFade, 0.5, i);
 	}
@@ -140,6 +144,9 @@ public void ManagePlayerBuffs(int i){
 			if(TF2_GetPlayerClass(i) == TFClass_Engineer)
 				TF2Attrib_SetByName(i, "engy sentry fire rate increased", 1.0/(additiveAttackSpeedMultBuff*multiplicativeAttackSpeedMultBuff));
 		}
+
+		if(TF2_IsPlayerInCondition(i, TFCond_RuneAgility))
+			TF2Attrib_SetByName(i, "air dash count", 1.0);
 
 		if(amountOfItem[i][ItemID_RocketSpecialist]){
 			TF2Attrib_SetByName(i, "rocket specialist", 1.0*amountOfItem[i][ItemID_RocketSpecialist]);
@@ -296,9 +303,6 @@ public void ManagePlayerBuffs(int i){
 		if(amountOfItem[i][ItemID_Killstreak]){
 			TF2Attrib_SetByName(i, "minicritboost on kill", 2.0 * amountOfItem[i][ItemID_Killstreak]);
 		}
-		if(amountOfItem[i][ItemID_Leeches]){
-			TF2Attrib_SetByName(i, "damage returns as health", 0.1 * amountOfItem[i][ItemID_Leeches]);
-		}
 		if(amountOfItem[i][ItemID_PowerfulSwings]){
 			int melee = TF2Util_GetPlayerLoadoutEntity(i, 2);
 			if(IsValidWeapon(melee))
@@ -323,6 +327,10 @@ public void ManagePlayerBuffs(int i){
 			TF2Attrib_SetByName(i, "effect bar recharge rate increased", 0.2);
 			TF2Attrib_SetByName(i, "not solid to players", 1.0);
 		}
+		if(amountOfItem[i][ItemID_DisposableSentries]){
+			TF2Attrib_SetByName(i, "engy disposable sentries", float(amountOfItem[i][ItemID_DisposableSentries]));
+		}
+
 		buffChange[i] = false;
 	}
 

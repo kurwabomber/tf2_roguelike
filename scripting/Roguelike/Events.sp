@@ -17,6 +17,20 @@ public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
 		for(int i = 0; i<MAX_HELD_ITEMS;++i){
 			savedPlayerItems[client][i] = playerItems[client][i];
 		}
+		for(int i =0; i<=loadedItems;++i){
+			savedAmountOfItem[client][i] = amountOfItem[client][i];
+		}
+		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
+	}
+}
+public Event_WaveFailed(Handle event, const char[] name, bool dontBroadcast){
+	for(int client=1;client<MaxClients;++client){
+		for(int i = 0; i<MAX_HELD_ITEMS;++i){
+			playerItems[client][i] = savedPlayerItems[client][i];
+		}
+		for(int i =0; i<=loadedItems;++i){
+			amountOfItem[client][i] = savedAmountOfItem[client][i];
+		}
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 	}
 }
@@ -27,6 +41,13 @@ public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
 			playerItems[client][i].clear();
 			savedPlayerItems[client][i].clear();
 		}
+		for(int i = 0; i<=loadedItems;++i){
+			amountOfItem[client][i] = 0;
+			timesItemGenerated[client][i] = 0;
+		}
+		canteenCount[client] = 0;
+		canteenCooldown[client] = 0.0;
+		amountHits[client] = 0;
 	}
 
 	int logic = FindEntityByClassname(-1, "tf_objective_resource");
@@ -80,24 +101,27 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	compoundInterestDamageTime[client] = 0.0;
 	switchMedicalTargetTime[client] = 0.0;
 	absorptionAmount[client] = 0.0;
+	isExecuted[client] = false;
 	for(int i = 1 ; i <= MaxClients; ++i){
 		compoundInterestStacks[client][i] = 0;
 	}
 
 	if(IsFakeClient(client)){
 		powerupSelected[client] = GetRandomInt(Powerup_Strength, Powerup_Plague);
-		TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.5);
 	}
+	TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.5);
 }
 
 public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 	int victim = GetClientOfUserId(GetEventInt(event, "userid"));
-	if(!IsValidClient(victim))
+	if(!IsValidClient(victim) || !IsPlayerAlive(victim))
 		return;
 
 	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
 	if(!IsValidClient(attacker))
 		return;
+
+	int damage = GetEventInt(event, "damageamount");
 
 	if(isKurwabombered[attacker][victim]){
 		isKurwabombered[attacker][victim] = false;
@@ -106,10 +130,12 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 			EmitSoundToAll(LARGE_EXPLOSION_SOUND, attacker, -1, 150, 0, 1.0);
 		}
 	}
-	if(amountOfItem[attacker][ItemID_FlyingGuillotine]){
+	if(amountOfItem[attacker][ItemID_FlyingGuillotine] && !isExecuted[victim]){
 		float pct = float(GetClientHealth(victim))/TF2Util_GetEntityMaxHealth(victim);
-		if(pct <= 0.2*amountOfItem[attacker][ItemID_FlyingGuillotine])
-			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*GetClientHealth(victim), DMG_GENERIC);
+		if(pct > 0.0 && pct <= 0.2*amountOfItem[attacker][ItemID_FlyingGuillotine]){
+			isExecuted[victim] = true;
+			SDKHooks_TakeDamage(victim, attacker, attacker, 10.0*TF2Util_GetEntityMaxHealth(victim), DMG_GENERIC);
+		}
 	}
 	if(amountOfItem[victim][ItemID_Martyr]){
 		for(int i = 1; i <= MaxClients; ++i){
@@ -120,6 +146,28 @@ public Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast){
 			TF2_AddCondition(i, TFCond_RadiusHealOnDamage, 1.5, victim);
 		}
 	}
+	float lifestealPct = 0.0;
+	if(amountOfItem[attacker][ItemID_Leeches])
+		lifestealPct += amountOfItem[attacker][ItemID_Leeches] * 0.1;
+	if(amountOfItem[attacker][ItemID_CombatMedic])
+		lifestealPct += amountOfItem[attacker][ItemID_CombatMedic] * 0.4;
+
+	if(lifestealPct){
+		AddPlayerHealth(attacker, RoundToCeil(damage*lifestealPct), 1.5, true, attacker);
+		if(amountOfItem[attacker][ItemID_CombatMedic]){
+			for(int i = 1;i <= MaxClients; ++i){
+				if(!IsValidClient(i) || i == attacker)
+					continue;
+				if(!IsPlayerAlive(i))
+					continue;
+				if(IsOnDifferentTeams(attacker,i))
+					continue;
+
+				AddPlayerHealth(i, RoundToCeil(damage*lifestealPct), 1.5, true, attacker);
+			}
+		}
+	}
+
 	++amountHits[attacker];
 }
 

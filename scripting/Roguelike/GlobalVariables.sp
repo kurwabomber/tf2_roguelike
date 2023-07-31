@@ -118,6 +118,9 @@ enum ItemID{
 	ItemID_Wounding,
 	ItemID_HealthRegeneration,
 	ItemID_Absorption,
+	ItemID_CombatMedic,
+	ItemID_DisposableSentries,
+	ItemID_ArmorPlating,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -252,6 +255,7 @@ Item generatedPlayerUltimateItems[MAXPLAYERS+1][MAX_ITEMS_PER_WAVE];
 Item availableItems[MAX_ITEMS];
 int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];
+int savedAmountOfItem[MAXPLAYERS+1][MAX_ITEMS];
 int loadedItems = 0;
 int canteenCount[MAXPLAYERS+1];
 float canteenCooldown[MAXPLAYERS+1];
@@ -272,3 +276,4 @@ Handle SDKCall_InitGrenade;
 
 //Item Logic
 bool isKurwabombered[MAXPLAYERS+1][MAXPLAYERS+1];
+bool isExecuted[MAXPLAYERS+1];

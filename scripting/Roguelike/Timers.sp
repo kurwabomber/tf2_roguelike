@@ -166,7 +166,8 @@ public Action Timer_ChooseBeginnerItems(Handle timer, int client){
 		totalWaveCount = GetEntProp(logic, Prop_Send, "m_nMannVsMachineMaxWaveCount");
 	}
 	if(IsValidClient(client)){
-		ChooseGeneratedItems(client, 0, 5+2*(10/totalWaveCount), _, ItemRarity_Strange);
+		ItemRarity highest = view_as<ItemRarity>(3 + 4/totalWaveCount);
+		ChooseGeneratedItems(client, 0, 5+2*(10/totalWaveCount), _, highest);
 		ChooseUltimateItems(client, true);
 	}
 	return Plugin_Stop;
