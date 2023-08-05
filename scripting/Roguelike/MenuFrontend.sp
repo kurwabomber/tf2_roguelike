@@ -7,6 +7,7 @@ public Action Menu_FrontPage(client, item){
 		char displayString[32];
 		AddMenuItem(menu, "", "Powerup Selection");
 		AddMenuItem(menu, "", "Ultimate Items Unlocked");
+		AddMenuItem(menu, "", "Canteen Power Shop");
 		AddMenuItem(menu, "", "Pre-Game Shop");
 
 		for(int i = 1;i <= wavesCleared; ++i){
@@ -14,6 +15,29 @@ public Action Menu_FrontPage(client, item){
 			AddMenuItem(menu, "", displayString);
 		}
 		DisplayMenuAtItem(menu, client, item, MENU_TIME_FOREVER)
+	}
+	return Plugin_Handled;
+}
+
+public Action Menu_CanteenShop(client, item){
+	if(IsValidClient(client) && IsPlayerAlive(client)){
+		Handle menu = CreateMenu(MenuHandler_CanteenShop);
+		char displayString[512];
+		Format(displayString, sizeof(displayString), "Roguelike - Canteen Power Shop");
+		SetMenuTitle(menu, displayString);
+
+		for(int i = 0;i < MAX_ITEMS_PER_WAVE; ++i){
+			if(generatedPlayerCanteenItems[i].id == ItemID_None)
+				continue;
+
+			Format(displayString, sizeof(displayString), "%s%s - $%i | %s\n %s", generatedPlayerCanteenItems[i].isBought ? "[x] " : "",
+					generatedPlayerCanteenItems[i].name, generatedPlayerCanteenItems[i].cost, RarityToString(generatedPlayerCanteenItems[i].rarity),
+					generatedPlayerCanteenItems[i].description);
+			AddMenuItem(menu, "item", displayString);
+		}
+		SetMenuPagination(menu, 5);
+		SetMenuExitBackButton(menu, true);
+		DisplayMenuAtItem(menu, client, item, MENU_TIME_FOREVER);
 	}
 	return Plugin_Handled;
 }

@@ -88,6 +88,7 @@ public void OnPluginStart(){
 
 	//Parse Items
 	ParseAllItems();
+	ChooseCanteenItems();
 
 	//Refresh Players
 	for (int i = 1; i <= MaxClients; ++i)

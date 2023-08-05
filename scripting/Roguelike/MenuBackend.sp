@@ -4,14 +4,46 @@ public MenuHandler_FrontPage(Handle menu, MenuAction:action, client, param2){
 			Menu_PowerupSelection(client, 0);
 		}else if(param2 == 1){
 			Menu_UltimateItems(client, 0);
+		}else if(param2 == 2){
+			Menu_CanteenShop(client, 0);
 		}else{
-		Menu_WaveShop(client, param2-2, 0);
-		currentWaveViewed[client] = param2-2;
+		Menu_WaveShop(client, param2-3, 0);
+		currentWaveViewed[client] = param2-3;
 		}
 	}
 	if (action == MenuAction_End)
 		CloseHandle(menu);
 }
+
+public MenuHandler_CanteenShop(Handle menu, MenuAction:action, client, param2){
+	if (action == MenuAction_Select){
+		int current = GetEntProp(client, Prop_Send, "m_nCurrency");
+		if(generatedPlayerCanteenItems[param2].isBought){
+			PrintToChat(client, "You sold %s for $%i.", generatedPlayerCanteenItems[param2].name, generatedPlayerCanteenItems[param2].cost);
+			generatedPlayerCanteenItems[param2].isBought = false;
+			playerItems[client][getFirstIDItemSlot(client, generatedPlayerCanteenItems[param2].id)].clear();
+			SetEntProp(client, Prop_Send, "m_nCurrency", current+generatedPlayerCanteenItems[param2].cost);
+			--amountOfItem[client][generatedPlayerCanteenItems[param2].id]; 
+			buffChange[client] = true;
+		}
+		else if(current >= generatedPlayerCanteenItems[param2].cost){
+			PrintToChat(client, "You bought %s for $%i.", generatedPlayerCanteenItems[param2].name, generatedPlayerCanteenItems[param2].cost);
+			generatedPlayerCanteenItems[param2].isBought = true;
+			playerItems[client][getFirstEmptyItemSlot(client)] = generatedPlayerCanteenItems[param2];
+			SetEntProp(client, Prop_Send, "m_nCurrency", current-generatedPlayerCanteenItems[param2].cost);
+			++amountOfItem[client][generatedPlayerCanteenItems[param2].id]; 
+			buffChange[client] = true;
+		}else{
+			PrintToChat(client, "You cannot afford %s.", generatedPlayerCanteenItems[param2].name);
+		}
+		Menu_CanteenShop(client, GetMenuPagination(menu)*(param2/GetMenuPagination(menu)));
+	}
+	else if(action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)
+		Menu_FrontPage(client, 0);
+	if (action == MenuAction_End)
+		CloseHandle(menu);
+}
+
 public MenuHandler_UltimateItem(Handle menu, MenuAction:action, client, param2){
 	if (action == MenuAction_Select){
 		int current = GetEntProp(client, Prop_Send, "m_nCurrency");
@@ -65,7 +97,7 @@ public MenuHandler_WaveShop(Handle menu, MenuAction:action, client, param2){
 		Menu_WaveShop(client, currentWaveViewed[client], GetMenuPagination(menu)*(param2/GetMenuPagination(menu)));
 	}
 	else if(action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)
-		Menu_FrontPage(client, 7*((currentWaveViewed[client]+2)/7) );
+		Menu_FrontPage(client, 7*((currentWaveViewed[client]+3)/7) );
 	if (action == MenuAction_End)
 		CloseHandle(menu);
 }

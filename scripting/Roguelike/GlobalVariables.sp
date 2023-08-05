@@ -256,6 +256,7 @@ Item playerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item savedPlayerItems[MAXPLAYERS+1][MAX_HELD_ITEMS];
 Item generatedPlayerItems[MAXPLAYERS+1][MAX_WAVES][MAX_ITEMS_PER_WAVE];
 Item generatedPlayerUltimateItems[MAXPLAYERS+1][MAX_ITEMS_PER_WAVE];
+Item generatedPlayerCanteenItems[MAX_ITEMS_PER_WAVE];
 Item availableItems[MAX_ITEMS];
 int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];

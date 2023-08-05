@@ -721,8 +721,6 @@ void ChooseUltimateItems(int client, bool clear=false){
 			continue;
 		if(availableItems[i].tagInfo.reqBullet && !hasBullet)
 			continue;
-		if(availableItems[i].tagInfo.reqCanteen && !amountOfItem[client][ItemID_Canteen])
-			continue;
 		if(availableItems[i].tagInfo.reqRocket && !hasRocket)
 			continue;
 		if(availableItems[i].tagInfo.allowedWeapons[0]){
@@ -806,7 +804,7 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 			continue;
 		if(availableItems[i].tagInfo.reqBullet && !hasBullet)
 			continue;
-		if(availableItems[i].tagInfo.reqCanteen && !amountOfItem[client][ItemID_Canteen])
+		if(availableItems[i].tagInfo.reqCanteen)
 			continue;
 		if(availableItems[i].tagInfo.reqRocket && !hasRocket)
 			continue;
@@ -821,6 +819,16 @@ void ChooseGeneratedItems(int client, int wave, int amount, ItemRarity minRarity
 		if(availableItems[element].tagInfo.maximum && timesItemGenerated[client][element] >= availableItems[element].tagInfo.maximum){
 			weights[element] = 0;
 		}
+	}
+}
+void ChooseCanteenItems(){
+	int canteenItems = 0;
+	for(int i = 0;i<=loadedItems;++i){
+		if(!availableItems[i].tagInfo.reqCanteen)
+			continue;
+
+		generatedPlayerCanteenItems[canteenItems] = availableItems[i];
+		++canteenItems;
 	}
 }
 void ApplyTankEffects(int ref){
