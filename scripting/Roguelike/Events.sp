@@ -10,6 +10,7 @@ public Event_WaveComplete(Handle event, const char[] name, bool dontBroadcast){
 		ChooseGeneratedItems(client, wavesCleared, itemsToGive, lowest, highest);
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
 		ChooseUltimateItems(client);
+		savedCash[client] = GetEntProp(client, Prop_Send, "m_nCurrency");
 	}
 	isGameInPlay = false;
 }
@@ -22,6 +23,7 @@ public Event_WaveBegin(Handle event, const char[] name, bool dontBroadcast){
 			savedAmountOfItem[client][i] = amountOfItem[client][i];
 		}
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
+		savedCash[client] = GetEntProp(client, Prop_Send, "m_nCurrency");
 	}
 	isGameInPlay = true;
 }
@@ -34,6 +36,8 @@ public Event_WaveFailed(Handle event, const char[] name, bool dontBroadcast){
 			amountOfItem[client][i] = savedAmountOfItem[client][i];
 		}
 		canteenCount[client] = amountOfItem[client][ItemID_Canteen];
+		if(savedCash[client])
+			SetEntProp(client, Prop_Send, "m_nCurrency", savedCash[client]);
 	}
 	isGameInPlay = false;
 }
@@ -51,6 +55,7 @@ public Event_ResetStats(Handle event, const char[] name, bool dontBroadcast){
 		canteenCount[client] = 0;
 		canteenCooldown[client] = 0.0;
 		amountHits[client] = 0;
+		savedCash[client] = 0;
 	}
 
 	int logic = FindEntityByClassname(-1, "tf_objective_resource");
@@ -112,7 +117,12 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	}
 
 	if(IsFakeClient(client)){
-		powerupSelected[client] = GetRandomInt(Powerup_Strength, Powerup_Plague);
+		powerupSelected[client] = -1;
+		float chance = float(wavesCleared+1)/totalWaveCount;
+		if(GetRandomFloat() <= chance)
+			powerupSelected[client] = GetRandomInt(Powerup_Strength, Powerup_Plague);
+	}else{
+		CreateTimer(0.2, Timer_GiveFullHealth, EntIndexToEntRef(client));
 	}
 	TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.5);
 }

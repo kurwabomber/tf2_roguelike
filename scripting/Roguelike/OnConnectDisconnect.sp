@@ -15,6 +15,8 @@ public OnClientPutInServer(int client){
 	canteenCount[client] = 0;
 	canteenCooldown[client] = 0.0;
 	amountHits[client] = 0;
+	savedCash[client] = 0;
+	powerupSelected[client] = -1;
 }
 public OnClientDisconnect(client){
 	if(isHooked[client]){
@@ -22,5 +24,6 @@ public OnClientDisconnect(client){
 		SDKUnhook(client, SDKHook_OnTakeDamage, OnTakeDamage);
 		SDKUnhook(client, SDKHook_OnTakeDamageAlive, OnTakeDamageAlive);
 	}
+	savedCash[client] = 0;
 	powerupSelected[client] = -1
 }

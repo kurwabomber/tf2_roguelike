@@ -101,7 +101,6 @@ public void OnMapStart(){
 	int entity = -1;
 	while( (entity = FindEntityByClassname(entity, "func_upgradestation")) != -1){
 		SDKHook(entity, SDKHook_StartTouch, OnCollideUpgrade);
-		SDKHook(entity, SDKHook_EndTouch, OnStopCollideUpgrade);
 		SDKHook(entity, SDKHook_Touch, FullStopCollision);
 	}
 

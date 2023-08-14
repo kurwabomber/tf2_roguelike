@@ -155,6 +155,12 @@ public Action Timer_10S(Handle timer)
 	}
 	return Plugin_Continue;
 }
+public Action Timer_GiveFullHealth(Handle timer, int client){
+	client = EntRefToEntIndex(client);
+	if(IsValidClient)
+		SetEntityHealth(client, TF2Util_GetEntityMaxHealth(client));
+	return Plugin_Stop;
+}
 public Action ReEnableBuilding(Handle timer, int entity)
 {
 	entity = EntRefToEntIndex(entity);
