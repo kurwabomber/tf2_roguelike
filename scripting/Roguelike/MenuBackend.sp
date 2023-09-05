@@ -18,23 +18,23 @@ public MenuHandler_FrontPage(Handle menu, MenuAction:action, client, param2){
 public MenuHandler_CanteenShop(Handle menu, MenuAction:action, client, param2){
 	if (action == MenuAction_Select){
 		int current = GetEntProp(client, Prop_Send, "m_nCurrency");
-		if(generatedPlayerCanteenItems[param2].isBought){
-			PrintToChat(client, "You sold %s for $%i.", generatedPlayerCanteenItems[param2].name, generatedPlayerCanteenItems[param2].cost);
-			generatedPlayerCanteenItems[param2].isBought = false;
-			playerItems[client][getFirstIDItemSlot(client, generatedPlayerCanteenItems[param2].id)].clear();
-			SetEntProp(client, Prop_Send, "m_nCurrency", current+generatedPlayerCanteenItems[param2].cost);
-			--amountOfItem[client][generatedPlayerCanteenItems[param2].id]; 
+		if(generatedPlayerCanteenItems[client][param2].isBought){
+			PrintToChat(client, "You sold %s for $%i.", generatedPlayerCanteenItems[client][param2].name, generatedPlayerCanteenItems[client][param2].cost);
+			generatedPlayerCanteenItems[client][param2].isBought = false;
+			playerItems[client][getFirstIDItemSlot(client, generatedPlayerCanteenItems[client][param2].id)].clear();
+			SetEntProp(client, Prop_Send, "m_nCurrency", current+generatedPlayerCanteenItems[client][param2].cost);
+			--amountOfItem[client][generatedPlayerCanteenItems[client][param2].id]; 
 			buffChange[client] = true;
 		}
-		else if(current >= generatedPlayerCanteenItems[param2].cost){
-			PrintToChat(client, "You bought %s for $%i.", generatedPlayerCanteenItems[param2].name, generatedPlayerCanteenItems[param2].cost);
-			generatedPlayerCanteenItems[param2].isBought = true;
-			playerItems[client][getFirstEmptyItemSlot(client)] = generatedPlayerCanteenItems[param2];
-			SetEntProp(client, Prop_Send, "m_nCurrency", current-generatedPlayerCanteenItems[param2].cost);
-			++amountOfItem[client][generatedPlayerCanteenItems[param2].id]; 
+		else if(current >= generatedPlayerCanteenItems[client][param2].cost){
+			PrintToChat(client, "You bought %s for $%i.", generatedPlayerCanteenItems[client][param2].name, generatedPlayerCanteenItems[client][param2].cost);
+			generatedPlayerCanteenItems[client][param2].isBought = true;
+			playerItems[client][getFirstEmptyItemSlot(client)] = generatedPlayerCanteenItems[client][param2];
+			SetEntProp(client, Prop_Send, "m_nCurrency", current-generatedPlayerCanteenItems[client][param2].cost);
+			++amountOfItem[client][generatedPlayerCanteenItems[client][param2].id]; 
 			buffChange[client] = true;
 		}else{
-			PrintToChat(client, "You cannot afford %s.", generatedPlayerCanteenItems[param2].name);
+			PrintToChat(client, "You cannot afford %s.", generatedPlayerCanteenItems[client][param2].name);
 		}
 		Menu_CanteenShop(client, GetMenuPagination(menu)*(param2/GetMenuPagination(menu)));
 	}

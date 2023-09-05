@@ -90,9 +90,13 @@ public Event_ChangeClass(Handle event, const char[] name, bool dontBroadcast){
 			generatedPlayerItems[client][i][j].isBought = false;
 		}
 	}
+	for(int j = 0;j<MAX_ITEMS_PER_WAVE;++j){
+		generatedPlayerCanteenItems[client][j].isBought = false;
+	}
 	for(int i = 0;i<7;++i){
 		--timesItemGenerated[client][generatedPlayerItems[client][0][i].id];
 	}
+	CancelClientMenu(client);
 
 	CreateTimer(0.2, Timer_ChooseBeginnerItems, EntIndexToEntRef(client));
 }
@@ -124,6 +128,8 @@ public Event_PlayerRespawn(Handle event, const char[] name, bool dontBroadcast){
 	}else{
 		CreateTimer(0.2, Timer_GiveFullHealth, EntIndexToEntRef(client));
 	}
+	CancelClientMenu(client);
+
 	TF2_AddCondition(client, TFCond_SpeedBuffAlly, 0.5);
 }
 
@@ -220,6 +226,9 @@ public Event_PlayerDeath(Handle event, const char[] name, bool dontBroadcast){
 	}
 	if(amountOfItem[attacker][ItemID_Absorption] && GetEntProp(victim, Prop_Send, "m_bIsMiniBoss"))
 		addAbsorption(attacker, 0.2*TF2Util_GetEntityMaxHealth(attacker));
+
+	if(!IsFakeClient(victim))
+		CancelClientMenu(victim);
 }
 
 public Event_DeployBuff(Handle event, const char[] name, bool dontBroadcast){

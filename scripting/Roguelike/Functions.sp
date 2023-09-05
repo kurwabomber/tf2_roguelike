@@ -827,7 +827,9 @@ void ChooseCanteenItems(){
 		if(!availableItems[i].tagInfo.reqCanteen)
 			continue;
 
-		generatedPlayerCanteenItems[canteenItems] = availableItems[i];
+		for(int j = 1; j<=MaxClients;++j){
+			generatedPlayerCanteenItems[j][canteenItems] = availableItems[i];
+		}
 		++canteenItems;
 	}
 }

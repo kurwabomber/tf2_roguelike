@@ -27,12 +27,12 @@ public Action Menu_CanteenShop(client, item){
 		SetMenuTitle(menu, displayString);
 
 		for(int i = 0;i < MAX_ITEMS_PER_WAVE; ++i){
-			if(generatedPlayerCanteenItems[i].id == ItemID_None)
+			if(generatedPlayerCanteenItems[client][i].id == ItemID_None)
 				continue;
 
-			Format(displayString, sizeof(displayString), "%s%s - $%i | %s\n %s", generatedPlayerCanteenItems[i].isBought ? "[x] " : "",
-					generatedPlayerCanteenItems[i].name, generatedPlayerCanteenItems[i].cost, RarityToString(generatedPlayerCanteenItems[i].rarity),
-					generatedPlayerCanteenItems[i].description);
+			Format(displayString, sizeof(displayString), "%s%s - $%i | %s\n %s", generatedPlayerCanteenItems[client][i].isBought ? "[x] " : "",
+					generatedPlayerCanteenItems[client][i].name, generatedPlayerCanteenItems[client][i].cost, RarityToString(generatedPlayerCanteenItems[client][i].rarity),
+					generatedPlayerCanteenItems[client][i].description);
 			AddMenuItem(menu, "item", displayString);
 		}
 		SetMenuPagination(menu, 5);
