@@ -17,6 +17,7 @@ public OnClientPutInServer(int client){
 	amountHits[client] = 0;
 	savedCash[client] = 0;
 	powerupSelected[client] = -1;
+	lastActivelyFiredTime[client] = 0.0;
 }
 public OnClientDisconnect(client){
 	if(isHooked[client]){

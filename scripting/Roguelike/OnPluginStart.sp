@@ -104,6 +104,7 @@ public void OnMapStart(){
 		SDKHook(entity, SDKHook_Touch, FullStopCollision);
 	}
 
+	PrecacheModel("models/weapons/c_models/c_croc_knife/c_croc_knife.mdl");
 	PrecacheSound("items/powerup_pickup_supernova_activate.wav");
 	PrecacheSound("mvm/mvm_used_powerup.wav");
 	PrecacheSound(LARGE_EXPLOSION_SOUND);

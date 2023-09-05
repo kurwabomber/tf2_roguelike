@@ -125,6 +125,7 @@ enum ItemID{
 	ItemID_HighValueTarget,
 	ItemID_PregamePrep,
 	ItemID_TeamTactics,
+	ItemID_DeathSpiral,
 };
 enum ItemRarity{
 	ItemRarity_Normal=0,
@@ -258,6 +259,7 @@ Item generatedPlayerItems[MAXPLAYERS+1][MAX_WAVES][MAX_ITEMS_PER_WAVE];
 Item generatedPlayerUltimateItems[MAXPLAYERS+1][MAX_ITEMS_PER_WAVE];
 Item generatedPlayerCanteenItems[MAXPLAYERS+1][MAX_ITEMS_PER_WAVE];
 Item availableItems[MAX_ITEMS];
+float itemTimer[MAXPLAYERS+1][MAX_HELD_ITEMS];
 int timesItemGenerated[MAXPLAYERS+1][MAX_ITEMS];
 int savedCash[MAXPLAYERS+1];
 int amountOfItem[MAXPLAYERS+1][MAX_ITEMS];
@@ -274,6 +276,8 @@ float switchMedicalTargetTime[MAXPLAYERS+1];
 int priorityTargeting[MAXPLAYERS+1][MAXPLAYERS+1];
 int totalWaveCount;
 float absorptionAmount[MAXPLAYERS+1];
+int storedButtons[MAXPLAYERS+1];
+float lastActivelyFiredTime[MAXPLAYERS+1];
 //Huds
 Handle itemDisplayHUD;
 //SDKCalls

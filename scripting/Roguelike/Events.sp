@@ -242,6 +242,8 @@ public Event_DeployBuff(Handle event, const char[] name, bool dontBroadcast){
 
 public Action TF2_CalcIsAttackCritical(int client, int weapon, char[] weaponname, bool& result){
 	if(IsValidClient(client)){
+		lastActivelyFiredTime[client] = currentGameTime;
+
 		if(amountOfItem[client][ItemID_DecentlyBalanced])
 			if(0.1 * amountOfItem[client][ItemID_DecentlyBalanced] >= GetRandomFloat(0.0,1.0))
 				result = true;

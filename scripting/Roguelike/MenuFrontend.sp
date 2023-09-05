@@ -44,12 +44,17 @@ public Action Menu_CanteenShop(client, item){
 
 public Action Menu_UltimateItems(client, item){
 	if(IsValidClient(client) && IsPlayerAlive(client)){
+		if(generatedPlayerUltimateItems[client][0].id == ItemID_None){
+			PrintToChat(client, "Looks like there aren't any ultimate items you've discovered.");
+			Menu_FrontPage(client, 0);
+			return Plugin_Handled;
+		}
+		
 		Handle menu = CreateMenu(MenuHandler_UltimateItem);
 		char displayString[512];
 		Format(displayString, sizeof(displayString), "Roguelike - Ultimate Items Shop");
 		SetMenuTitle(menu, displayString);
 
-		int itemsShown = 0;
 		for(int i = 0;i < MAX_ITEMS_PER_WAVE; ++i){
 			if(generatedPlayerUltimateItems[client][i].id == ItemID_None)
 				continue;
@@ -58,12 +63,8 @@ public Action Menu_UltimateItems(client, item){
 					generatedPlayerUltimateItems[client][i].name, generatedPlayerUltimateItems[client][i].cost, RarityToString(generatedPlayerUltimateItems[client][i].rarity),
 					generatedPlayerUltimateItems[client][i].description);
 			AddMenuItem(menu, "item", displayString);
-			++itemsShown;
 		}
 
-		if(!itemsShown){
-			PrintToChat(client, "Looks like there aren't any ultimate items you've discovered.");
-		}
 		SetMenuPagination(menu, 5);
 		SetMenuExitBackButton(menu, true);
 		DisplayMenuAtItem(menu, client, item, MENU_TIME_FOREVER);

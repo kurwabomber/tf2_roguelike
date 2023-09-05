@@ -670,4 +670,13 @@
 		"cost"          "300"
 		"max"			"1"
 	}
+	"Death Spiral"
+	{
+		"description"   "Shoots out 16 critical cleavers every 0.7s."
+		"tags"          "scoutultimate"
+		"weight"        "1"
+		"rarity"        "8"
+		"cost"          "1"
+		"max"			"1"
+	}
 }

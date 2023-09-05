@@ -22,7 +22,55 @@ public OnGameFrame()
 				compoundInterestStacks[client][i] = 0
 			}
 		}
+		//Passive Weapons!
+		if(lastActivelyFiredTime[client]+1.0 >= currentGameTime && storedButtons[client] & IN_ATTACK){
+			if(amountOfItem[client][ItemID_DeathSpiral] && itemTimer[client][ItemID_DeathSpiral] < currentGameTime){
+				float vBuffer[3], fOrigin[3], fAngles[3], fVelocity[3], impulse[3];
+				GetClientEyePosition(client, fOrigin);
+				fAngles[1] = -180.0;
+				GetCleaverAngularImpulse(impulse);
+				int iTeam = GetClientTeam(client);
+				for(int i = 0;i<16;++i){
+					fAngles[2] = 0.0;
+					int iEntity = CreateEntityByName("tf_projectile_cleaver");
+					if (IsValidEdict(iEntity)) 
+					{
+						SetEntProp(iEntity, Prop_Send, "m_iTeamNum", iTeam);
+						GetAngleVectors(fAngles, vBuffer, NULL_VECTOR, NULL_VECTOR);
+						fAngles[2] = 90.0;
+						fVelocity[0] = vBuffer[0]*500.0;
+						fVelocity[1] = vBuffer[1]*500.0;
+						fVelocity[2] = vBuffer[2]*500.0;
+
+						ScaleVector(vBuffer, 30.0);
+						AddVectors(fOrigin, vBuffer, fOrigin);
+
+						SetEntPropEnt(iEntity, Prop_Send, "m_hOriginalLauncher", client);
+						SetEntProp(iEntity, Prop_Data, "m_bIsLive", true);
+						SetEntProp(iEntity, Prop_Send, "m_bCritical", 1);
+
+						TeleportEntity(iEntity, fOrigin, fAngles, NULL_VECTOR);
+						DispatchSpawn(iEntity);
+						SDKCall(SDKCall_InitGrenade, iEntity, fVelocity, impulse, client, 0, 5.0);
+						Phys_SetVelocity(iEntity, fVelocity, impulse, true);
+						Phys_EnableGravity(iEntity, false);
+						Phys_EnableDrag(iEntity, false);
+
+						ScaleVector(vBuffer, -1.0);
+						AddVectors(fOrigin, vBuffer, fOrigin);
+						
+						SetEntityModel(iEntity, "models/weapons/c_models/c_croc_knife/c_croc_knife.mdl");
+					}
+					fAngles[1] += 22.5;
+				}
+				itemTimer[client][ItemID_DeathSpiral] = currentGameTime+0.7;
+			}
+		}
 	}
+}
+public Action OnPlayerRunCmd(int client, int& buttons, int& impulse, float vel[3], float angles[3], int& weapon, int& subtype, int& cmdnum, int& tickcount, int& seed, int mouse[2]){
+	storedButtons[client] = buttons;
+	return Plugin_Continue;
 }
 public Action Timer_100MS(Handle timer)
 {
